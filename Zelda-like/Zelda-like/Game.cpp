@@ -1,11 +1,16 @@
 #include "Game.h"
+#include "Constants.h"
+#include "ResourceManager.h"
 
 Game::Game()
     : window(
-        sf::VideoMode({ 1280, 720 }),
+        sf::VideoMode({ Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT }),
         "Zelda-like RPG"
     )
 {
+    // ResourceManager 싱글톤을 통해 메인 폰트 로드
+    ResourceManager::GetInstance().LoadFont("MainFont", "Assets/Fonts/windows-bold.ttf");   
+
     sceneManager.Start(TITLE);   // 게임 시작 시 첫 Scene을 Title로 설정
 }
 
