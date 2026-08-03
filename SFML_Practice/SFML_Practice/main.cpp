@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <SFML/Audio.hpp>
 
 using namespace std;
 
@@ -13,6 +14,74 @@ using namespace std;
 
 int main()
 {
+	// 사운드 로드 ----------------------------------------------------------------------
+    
+    // 1
+    sf::SoundBuffer buffer("Resources/1up.wav");
+
+    // 2
+    sf::SoundBuffer buffer2;
+    if(buffer2.loadFromFile("Resources/1up.wav"))
+    {
+        cout << "사운드 로드 성공" << endl;
+    }
+    else
+    {
+        cout << "사운드 로드 실패" << endl;
+	}
+
+    // SFX / BGM 
+    sf::Sound sound(buffer);
+	sound.setPlayingOffset(sf::seconds(1.0f));  // 1초부터 재생
+    sound.play();   // 재생
+    //sound.pause();  // 일시정지
+    //sound.stop();   // 정지
+
+    sf::Music bgm("Resources/mario.wav");
+	bgm.setLoopPoints({ sf::microseconds(40000), sf::seconds(4) }); // 루프 구간 설정
+	bgm.play(); // 재생
+
+	// 폰트 로드 ----------------------------------------------------------------------
+
+    sf::Font font;
+    if (!font.openFromFile("Resources/windows-bold.ttf"))
+    {
+        cout << "폰트 로드 실패" << endl;
+    }
+    else
+    {
+        cout << "폰트 로드 성공" << endl;
+    }
+
+    sf::Text text(font);
+
+	text.setString("Hello SFML");
+	text.setCharacterSize(30);
+	text.setFillColor(sf::Color::Blue);
+	text.setStyle(sf::Text::Bold | sf::Text::Italic);
+
+
+
+	// 이미지 로드 ----------------------------------------------------------------------
+
+    sf::Texture texture;
+    if (!texture.loadFromFile("Resources/test.png", false, sf::IntRect({ 10,10 }, { 32,32 })))
+    {
+        // 로드되지 않으면
+		cout << "이미지 로드 실패" << endl;
+    }
+    else
+    {
+		cout << "이미지 로드 성공" << endl;
+    }
+
+	texture.setSmooth(true); // 안티 알리아싱 스무스 : 텍스처마다 확인할 필요 있음
+
+	sf::Sprite sprite(texture);
+	sprite.setColor(sf::Color(0, 255, 0)); // 색상 변경 : R,G,B
+
+	// 윈도우 생성 ----------------------------------------------------------------------
+
     sf::RenderWindow window(sf::VideoMode({ 500, 500 }), "Moon works!");
 
     // 원 그리기 ----------------------------------------------------------------------
@@ -122,16 +191,13 @@ int main()
 		//window.setTitle("SFML");            // 창 제목 설정
 		window.clear();                     // 창 초기화
 		//window.draw(shape);                 // 원 그리기
+        window.draw(sprite);                // 이미지 그리기
+        window.draw(text);                  // 텍스트 그리기
 		window.display();                   // 화면에 표시
 
 		//sf::Time elapsed = clock.restart();
-  //          
-  //      cout << "경과시간 : " << elapsed.asSeconds() << "초" << endl;
-  //      updateGame(elapsed);
+            
+        //cout << "경과시간 : " << elapsed.asSeconds() << "초" << endl;
+        //updateGame(elapsed);
     }
-}
-
-int test()
-{
-	cout << "::test() 함수 호출" << endl;
 }
