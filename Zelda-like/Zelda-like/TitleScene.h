@@ -1,14 +1,12 @@
 #pragma once
 
 #include "Scene.h"
-
-class SceneManager;
+#include "SceneManager.h"
+#include "EntityManager.h"
 
 class TitleScene : public Scene
 {
 private:
-    SceneManager* sceneManager;
-
     sf::Font font;
 
     sf::Text* titleText;                // 게임 제목
@@ -17,10 +15,10 @@ private:
     sf::RectangleShape startButton;     // 게임 시작 버튼
 
 public:
-    TitleScene(SceneManager* manager);
+    TitleScene(SceneManager* manager, Player* player);
     ~TitleScene();
 
-    void HandleEvent(const sf::Event& event) override;
-    void Update(float deltaTime) override;
+    void HandleEvent(const sf::Event& event, sf::RenderWindow& window) override;
+    void Update(float deltaTime, sf::RenderWindow& window) override;
     void Render(sf::RenderWindow& window) override;
 };

@@ -1,14 +1,26 @@
 #pragma once
+
 #include <SFML/Graphics.hpp>
-#include <iostream>
+#include "EntityManager.h"
+
+class Player;
+class SceneManager;
 
 class Scene
 {
+protected:
+    Player* player;
+    SceneManager* sceneManager;
+    EntityManager entityManager;
+
 public:
-	virtual ~Scene() = default;
+    Scene(SceneManager* manager, Player* player);
 
-	virtual void HandleEvent(const sf::Event& event) = 0;	// 사용자 입력 처리 함수
-	virtual void Update(float deltaTime) = 0;				// 게임 로직 계산 함수
-	virtual void Render(sf::RenderWindow& window) = 0;		// 렌더링 함수
+    virtual ~Scene() = default;
+
+    virtual void HandleEvent(const sf::Event& event, sf::RenderWindow& window) = 0;
+
+    virtual void Update(float deltaTime, sf::RenderWindow& window) = 0;
+
+    virtual void Render(sf::RenderWindow& window) = 0;
 };
-

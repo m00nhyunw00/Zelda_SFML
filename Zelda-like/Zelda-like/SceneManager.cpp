@@ -8,7 +8,7 @@
 //#include "GameOverScene.h"
 //#include "EndingScene.h"
 
-SceneManager::SceneManager()
+SceneManager::SceneManager(Player* player) : player(player)
 {
     currentScene = NULL;
     nextSceneType = TITLE;
@@ -33,10 +33,10 @@ Scene* SceneManager::CreateScene(SceneType type)
     switch (type)
     {
     case TITLE:
-        return new TitleScene(this);
+        return new TitleScene(this, player);
 
     case JOB_SELECT:
-        return new JobSelectScene(this);
+        return new JobSelectScene(this, player);
 
     //case HOME:
     //    return new HomeScene(this);
@@ -79,19 +79,19 @@ void SceneManager::ApplySceneChange()
     sceneChangeRequested = false;
 }
 
-void SceneManager::HandleEvent(const sf::Event& event)
+void SceneManager::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
 {
     if (currentScene != NULL)
     {
-        currentScene->HandleEvent(event);
+        currentScene->HandleEvent(event, window);
     }
 }
 
-void SceneManager::Update(float deltaTime)
+void SceneManager::Update(float deltaTime, sf::RenderWindow& window)
 {
     if (currentScene != NULL)
     {
-        currentScene->Update(deltaTime);
+        currentScene->Update(deltaTime, window);
     }
 }
 

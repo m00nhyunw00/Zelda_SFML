@@ -1,21 +1,22 @@
 #include "TitleScene.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "InputManager.h"
 #include "Constants.h"
+
+#include <iostream>
 #include <string>
 
 using namespace std;
 
-TitleScene::TitleScene(SceneManager* manager)
+TitleScene::TitleScene(SceneManager* manager, Player* player) : Scene(manager, player)
 {
-    sceneManager = manager;
-
-    titleText = NULL;
-    startText = NULL;
+    titleText = nullptr;
+    startText = nullptr;
 
     sf::Font* font = ResourceManager::GetInstance().GetFont("MainFont");
 
-    if (font == NULL)
+    if (font == nullptr)
     {
         cerr << "Error : Failed to load font." << endl;
     }
@@ -74,26 +75,43 @@ TitleScene::~TitleScene()
     startText = NULL;
 }
 
-void TitleScene::HandleEvent(const sf::Event& event)
+void TitleScene::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
 {
-    if (event.is<sf::Event::KeyPressed>())
-    {
-        const sf::Event::KeyPressed* keyEvent =
-            event.getIf<sf::Event::KeyPressed>();
+    (void)event;
 
-        if (keyEvent != NULL)
+    InputManager& input = InputManager::GetInstance();
+
+    // Enter 버튼을 눌렀는지 확인
+    if (input.IsEnterPressed())
+    {
+        sceneManager->RequestSceneChange(JOB_SELECT);
+        return;
+    }
+
+    // 버튼을 마우스로 클릭했는지 확인
+    if (input.IsLeftMouseClicked())
+    {
+        sf::Vector2f mousePos = input.GetMouseClickWorldPosition(window);
+
+        if (startButton.getGlobalBounds().contains(mousePos))
         {
-            if (keyEvent->scancode == sf::Keyboard::Scancode::Enter)
-            {
-                sceneManager->RequestSceneChange(JOB_SELECT);
-            }
+            sceneManager->RequestSceneChange(JOB_SELECT);
         }
     }
 }
 
-void TitleScene::Update(float deltaTime)
+void TitleScene::Update(float deltaTime, sf::RenderWindow& window)
 {
-    // TODO: 시작 화면 로직 필요 시 구현
+    startButton.setOutlineColor(sf::Color::White);
+    
+    InputManager& input = InputManager::GetInstance();
+
+    if (startButton.getGlobalBounds().contains(
+        { static_cast<float>(input.GetMouseWorldPosition(window).x),
+          static_cast<float>(input.GetMouseWorldPosition(window).y) }))
+    {
+        startButton.setOutlineColor(sf::Color::Yellow);
+    }
 }
 
 void TitleScene::Render(sf::RenderWindow& window)

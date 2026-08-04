@@ -31,12 +31,6 @@
     <Filter Include="소스 파일\Entity">
       <UniqueIdentifier>{15abd825-fb0a-4227-983e-1aec34cb1912}</UniqueIdentifier>
     </Filter>
-    <Filter Include="소스 파일\Entity\Player">
-      <UniqueIdentifier>{c2c55ad3-b1b7-4696-8ec6-5d254a8bfdd5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Entity\Monster">
-      <UniqueIdentifier>{cd5c500c-6b2c-44ee-b3bb-ea846fe48b09}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Graphics">
       <UniqueIdentifier>{6d117efa-d08d-4180-bb37-92d29e56fac2}</UniqueIdentifier>
     </Filter>
@@ -58,14 +52,32 @@
     <Filter Include="헤더 파일\Graphics">
       <UniqueIdentifier>{0b06889f-6d7a-40a6-b2ac-6a640b5da63d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\Entity\Monster">
-      <UniqueIdentifier>{2ed69565-8e52-438f-9bd5-6c9b7966ec4e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="헤더 파일\Entity\Player">
-      <UniqueIdentifier>{f05410ba-be88-460c-ae20-33391f1b9697}</UniqueIdentifier>
-    </Filter>
     <Filter Include="헤더 파일\Resource">
       <UniqueIdentifier>{6ffdab9e-2b32-4e71-93c5-09c9af984d2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Entity\Creature">
+      <UniqueIdentifier>{90e75692-80c6-4142-9fd0-8093ea637bfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Entity\Creature\Monster">
+      <UniqueIdentifier>{2ed69565-8e52-438f-9bd5-6c9b7966ec4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Entity\Creature\Player">
+      <UniqueIdentifier>{f05410ba-be88-460c-ae20-33391f1b9697}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Entity\Creature">
+      <UniqueIdentifier>{e276992d-4ea7-4b88-a0bd-2a28b458e796}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Entity\Creature\Monster">
+      <UniqueIdentifier>{cd5c500c-6b2c-44ee-b3bb-ea846fe48b09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Collision">
+      <UniqueIdentifier>{4c8d48e2-a977-4e33-a689-a1e3fa0cab9b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Collision">
+      <UniqueIdentifier>{a46d7971-1ba8-4c34-8a2f-5baeb2424fb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Entity\Creature\Monster\Player">
+      <UniqueIdentifier>{c2c55ad3-b1b7-4696-8ec6-5d254a8bfdd5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -100,10 +112,10 @@
       <Filter>소스 파일\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Monster.cpp">
-      <Filter>소스 파일\Entity\Monster</Filter>
+      <Filter>소스 파일\Entity\Creature\Monster</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>소스 파일\Entity\Player</Filter>
+      <Filter>소스 파일\Entity\Creature\Monster\Player</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
       <Filter>소스 파일\Entity</Filter>
@@ -113,6 +125,27 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>소스 파일\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="HomeScene.cpp">
+      <Filter>소스 파일\Scene\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonScene.cpp">
+      <Filter>소스 파일\Scene\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="BossScene.cpp">
+      <Filter>소스 파일\Scene\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingScene.cpp">
+      <Filter>소스 파일\Scene\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverScene.cpp">
+      <Filter>소스 파일\Scene\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Creature.cpp">
+      <Filter>소스 파일\Entity\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>소스 파일\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,23 +179,53 @@
     <ClInclude Include="Camera.h">
       <Filter>헤더 파일\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>헤더 파일\Entity</Filter>
-    </ClInclude>
     <ClInclude Include="EntityManager.h">
       <Filter>헤더 파일\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Monster.h">
-      <Filter>헤더 파일\Entity\Monster</Filter>
+      <Filter>헤더 파일\Entity\Creature\Monster</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>헤더 파일\Entity\Player</Filter>
+      <Filter>헤더 파일\Entity\Creature\Player</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>헤더 파일\Resource</Filter>
     </ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="HomeScene.h">
+      <Filter>헤더 파일\Scene\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerType.h">
+      <Filter>헤더 파일\Entity\Creature\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterType.h">
+      <Filter>헤더 파일\Entity\Creature\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonScene.h">
+      <Filter>헤더 파일\Scene\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="BossScene.h">
+      <Filter>헤더 파일\Scene\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="EndingScene.h">
+      <Filter>헤더 파일\Scene\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>헤더 파일\Scene\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatureType.h">
+      <Filter>헤더 파일\Entity\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>헤더 파일\Entity\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>헤더 파일\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>헤더 파일\Collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

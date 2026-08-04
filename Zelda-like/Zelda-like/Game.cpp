@@ -4,9 +4,14 @@
 
 Game::Game()
     : window(
-        sf::VideoMode({ Constants::WINDOW_WIDTH, Constants::WINDOW_HEIGHT }),
+        sf::VideoMode({
+            Constants::WINDOW_WIDTH,
+            Constants::WINDOW_HEIGHT
+            }),
         "Zelda-like RPG"
-    )
+    ),
+    player(nullptr),
+    sceneManager(&player)
 {
     // ResourceManager 싱글톤을 통해 메인 폰트 로드
     ResourceManager::GetInstance().LoadFont("MainFont", "Assets/Fonts/windows-bold.ttf");   
@@ -16,11 +21,15 @@ Game::Game()
 
 void Game::Run()
 {
-    sf::Clock clock;             
+    sf::Clock clock;     
+
+    InputManager& input = InputManager::GetInstance();
 
     while (window.isOpen())      // 창이 열려있는 동안 게임 실행
     {
         float deltaTime = clock.restart().asSeconds();  // 이전 프레임부터 현재 프레임까지 걸린 시간
+
+        input.BeginFrame();
 
         // 발생한 모든 이벤트 처리
         while (const auto event = window.pollEvent())
@@ -31,12 +40,12 @@ void Game::Run()
                 window.close();
             }
 
-            // 현재 Scene에게 이벤트 전달
-            sceneManager.HandleEvent(*event);
+            input.HandleEvent(*event);
+            sceneManager.HandleEvent(*event, window);
         }
 
         // 현재 Scene의 게임 로직 업데이트
-        sceneManager.Update(deltaTime);
+        sceneManager.Update(deltaTime, window);
 
         // RequestSceneChange()에 의해서 sceneChangeRequested == true일 경우, Scene 변경
         // sceneChangeRequested == false일 경우, 변화 없이 바로 return

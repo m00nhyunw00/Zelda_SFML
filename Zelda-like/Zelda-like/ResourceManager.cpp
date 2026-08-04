@@ -1,8 +1,11 @@
 #include "ResourceManager.h"
 #include <iostream>
 
+using namespace std;
+
 ResourceManager::ResourceManager()
 {
+
 }
 
 ResourceManager::~ResourceManager()
@@ -23,6 +26,20 @@ ResourceManager& ResourceManager::GetInstance()
 
     return instance;
 }
+
+// Texture --------------------------------------------------------------------
+
+bool ResourceManager::LoadTexture(string key, string path)
+{
+    // TODO
+}
+
+sf::Texture* ResourceManager::GetTexture(string key)
+{
+    // TODO
+}
+
+// Font --------------------------------------------------------------------
 
 bool ResourceManager::LoadFont(string key, string path)
 {
@@ -59,4 +76,16 @@ sf::Font* ResourceManager::GetFont(string key)
     }
 
     return fonts[key];
+}
+
+// Sound --------------------------------------------------------------------
+
+bool ResourceManager::LoadSound(string key, string path)
+{
+    // TODO
+}
+
+sf::SoundBuffer* ResourceManager::GetSound(string key)
+{
+    // TODO
 }
