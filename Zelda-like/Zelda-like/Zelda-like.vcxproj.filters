@@ -147,6 +147,15 @@
     <ClCompile Include="Collider.cpp">
       <Filter>소스 파일\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="Mage.cpp">
+      <Filter>소스 파일\Entity\Creature\Monster\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Warrior.cpp">
+      <Filter>소스 파일\Entity\Creature\Monster\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Archer.cpp">
+      <Filter>소스 파일\Entity\Creature\Monster\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -227,5 +236,22 @@
     <ClInclude Include="Collider.h">
       <Filter>헤더 파일\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerData.h">
+      <Filter>헤더 파일\Entity\Creature\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Warrior.h">
+      <Filter>헤더 파일\Entity\Creature\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Mage.h">
+      <Filter>헤더 파일\Entity\Creature\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Archer.h">
+      <Filter>헤더 파일\Entity\Creature\Player</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\PlayerData.json">
+      <Filter>리소스 파일</Filter>
+    </None>
   </ItemGroup>
 </Project>

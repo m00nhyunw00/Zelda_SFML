@@ -2,6 +2,7 @@
 #include <vector>
 #include "Entity.h"
 #include "Player.h"
+#include "PlayerType.h"
 
 class EntityManager
 {
@@ -13,6 +14,12 @@ public:
     EntityManager();
     ~EntityManager();
 
+    void CreatePlayer(
+        const std::string& name,
+        PlayerType job,
+        const sf::Vector2f& position
+    );
+
     void SetPlayer(Player* player) { this->player = player; }
     Player* GetPlayer() const { return player; }
 
@@ -23,5 +30,7 @@ public:
     void Render(sf::RenderWindow& window);
 
     void RemoveInactiveEntities();
+
+    void PrintPlayerInfo();
 };
 

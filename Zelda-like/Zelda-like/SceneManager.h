@@ -9,8 +9,8 @@ class Player;
 
 class SceneManager
 {
-private:
-    Player** player;                         
+private:                       
+    EntityManager* entityManager;
 
     Scene* currentScene;                  // 현재 실행 중인 Scene 객체
 
@@ -21,7 +21,7 @@ private:
     Scene* CreateScene(SceneType type);   // Scene 종류에 맞는 객체 생성
 
 public:
-    SceneManager(Player* player);
+    SceneManager(EntityManager* entityManager);
     ~SceneManager();
 
     void Start(SceneType firstScene);           // 게임 시작 시 첫 Scene 생성

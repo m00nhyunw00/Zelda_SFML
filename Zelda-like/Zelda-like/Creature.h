@@ -3,14 +3,15 @@
 #include "SFML/Graphics.hpp"
 #include "Entity.h"
 #include "CreatureType.h"
+#include "PlayerData.h"
 #include "Animation.h"
 #include "Collider.h"
 
 class Creature : public Entity
 {
 protected:
-    float moveSpeed;             // 초당 이동 속도
     sf::Vector2f position;       // 현재 위치
+    float moveSpeed;             // 초당 이동 속도
 
     Animation animation;         // 현재 애니메이션
     Collider collider;           // 몸체 충돌 영역
@@ -24,7 +25,11 @@ private:
     int evasionRate;             // 회피율 0~100
 
 protected:
-    Creature(CreatureType category, int maxHp, int defence, int damage, int evasionRate);
+    Creature(
+        CreatureType category,
+        const PlayerData& data,
+        const sf::Vector2f& position
+    );
 
     // Player와 Monster의 서로 다른 로직 구현을 위한 순수 가상 함수
     virtual void UpdateLogic(float deltaTime) = 0;

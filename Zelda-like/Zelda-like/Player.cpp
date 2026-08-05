@@ -2,23 +2,18 @@
 #include "CreatureType.h"
 
 Player::Player(
-	std::string name, 
-	PlayerType job, 
-	int maxHp,
-	int defence,
-	int damage,
-	int evasionRate,
-	std::string skillName, 
-	int skillDamage, 
-	float maxSkillCooldown 
-) : Creature(CreatureType::PLAYER, maxHp, defence, damage, evasionRate)
+	const std::string& name,
+	PlayerType job,
+	const PlayerData& data,
+	const sf::Vector2f& position
+) : Creature(CreatureType::PLAYER, data, position)
 {
 	this->userName = name;
 	this->job = job;
 	this->level = 1;
-	this->skillName = skillName;
-	this->skillDamage = skillDamage;
-	this->maxSkillCooldown = maxSkillCooldown;
+	this->skillName = data.skillName;
+	this->skillDamage = data.skillDamage;
+	this->maxSkillCooldown = data.maxSkillCooldown;
 	this->skillCooldown = 0;
 	this->maxExp = 100;
 	this->currentExp = 0;
@@ -54,22 +49,7 @@ void Player::IncreaseStats(int maxHpAmount, int damageAmount, int skillDamageAmo
 
 }
 
-void Player::UseSkill(Creature* target)
-{
-
-}
-
 void Player::Heal(int amount)
-{
-
-}
-
-void Player::Attack(Creature* target)
-{
-
-}
-
-void Player::UpdateLogic(float deltaTime)
 {
 
 }

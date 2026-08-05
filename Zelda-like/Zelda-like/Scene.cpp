@@ -1,7 +1,7 @@
 #include "Scene.h"
 
-Scene::Scene(SceneManager* manager, Player* player)
-    : sceneManager(manager), player(player)
+Scene::Scene(SceneManager* manager, EntityManager* entityManager)
+    : sceneManager(manager), entityManager(entityManager)
 {
-    entityManager.SetPlayer(player);
+
 }

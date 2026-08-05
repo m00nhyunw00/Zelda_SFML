@@ -11,7 +11,7 @@ class Game
 private:
     sf::RenderWindow window;       // 게임 윈도우
 
-    Player* player;
+    EntityManager entityManager;
     SceneManager sceneManager;      
 
 public:

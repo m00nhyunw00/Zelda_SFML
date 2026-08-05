@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Constants.h"
 #include "ResourceManager.h"
+#include "DataManager.h"
 
 Game::Game()
     : window(
@@ -10,13 +11,17 @@ Game::Game()
             }),
         "Zelda-like RPG"
     ),
-    player(nullptr),
-    sceneManager(&player)
+    entityManager(),
+    sceneManager(&entityManager)
 {
-    // ResourceManager 싱글톤을 통해 메인 폰트 로드
-    ResourceManager::GetInstance().LoadFont("MainFont", "Assets/Fonts/windows-bold.ttf");   
+    ResourceManager::GetInstance().LoadFont(
+        "MainFont",
+        "Assets/Fonts/windows-bold.ttf"
+    );
 
-    sceneManager.Start(TITLE);   // 게임 시작 시 첫 Scene을 Title로 설정
+    DataManager::GetInstance().LoadPlayerData("Data/PlayerData.json");
+
+    sceneManager.Start(TITLE);
 }
 
 void Game::Run()

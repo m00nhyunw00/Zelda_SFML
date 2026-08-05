@@ -1,13 +1,20 @@
 #include "Creature.h"
 
-Creature::Creature(CreatureType category, int maxHp, int defence, int damage, int evasionRate)
+Creature::Creature(
+    CreatureType category, 
+    const PlayerData& data,
+    const sf::Vector2f& position
+)
 {
+    this->position = position;
+    this->moveSpeed = data.moveSpeed;
+
     this->category = category;
-    this->maxHp = maxHp;
-    this->hp = maxHp;
-    this->defence = defence;
-    this->damage = damage;
-    this->evasionRate = evasionRate;
+    this->maxHp = data.maxHp;
+    this->hp = data.maxHp;
+    this->defence = data.defence;
+    this->damage = data.damage;
+    this->evasionRate = data.evasionRate;
 }
 
 void Creature::Update(float deltaTime, sf::RenderWindow& window)

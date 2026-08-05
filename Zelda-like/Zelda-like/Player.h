@@ -2,6 +2,7 @@
 
 #include "Creature.h"
 #include "PlayerType.h"
+#include "PlayerData.h"
 #include <string>
 
 class Player : public Creature
@@ -23,18 +24,16 @@ private:
 
 protected:
     Player(
-        std::string name,
+        const std::string& name,
         PlayerType job,
-        int maxHp,
-        int defence,
-        int damage,
-        int evasionRate,
-        std::string skillName,
-        int skillDamage,
-        float maxSkillCooldown
+        const PlayerData& data,
+        const sf::Vector2f& position
     );
 
-    void UpdateLogic(float deltaTime) override;
+    virtual void UpdateLogic(float deltaTime) = 0;
+
+    virtual void Attack(Creature* target) override = 0;
+    virtual void UseSkill(Creature* target) = 0;
 
 public:
     ~Player() override = default;
@@ -69,8 +68,5 @@ public:
     void LevelUp();
     void IncreaseStats(int maxHpAmount, int damageAmount, int skillDamageAmount);
 
-    void UseSkill(Creature* target);
     void Heal(int amount);
-
-    void Attack(Creature* target) override;
 };

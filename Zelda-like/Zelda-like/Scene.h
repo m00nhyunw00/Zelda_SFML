@@ -3,18 +3,17 @@
 #include <SFML/Graphics.hpp>
 #include "EntityManager.h"
 
-class Player;
+class EntityManager;
 class SceneManager;
 
 class Scene
 {
 protected:
-    Player* player;
     SceneManager* sceneManager;
-    EntityManager entityManager;
+    EntityManager* entityManager;
 
 public:
-    Scene(SceneManager* manager, Player* player);
+    Scene(SceneManager* manager, EntityManager* entityManager);
 
     virtual ~Scene() = default;
 

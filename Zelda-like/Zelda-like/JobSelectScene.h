@@ -23,7 +23,7 @@ private:
     sf::Text* guideText;
 
 public:
-    JobSelectScene(SceneManager* manager, Player* player);
+    JobSelectScene(SceneManager* sceneManager, EntityManager* entityManager);
     ~JobSelectScene();
 
     void HandleEvent(const sf::Event& event, sf::RenderWindow& window) override;

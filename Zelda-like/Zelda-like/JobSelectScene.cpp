@@ -4,8 +4,9 @@
 #include "InputManager.h"
 #include "EntityManager.h"
 #include "PlayerType.h"
+#include <iostream>
 
-JobSelectScene::JobSelectScene(SceneManager* manager, Player* player) : Scene(manager, player)
+JobSelectScene::JobSelectScene(SceneManager* sceneManager, EntityManager* entitymanager) : Scene(sceneManager, entitymanager)
 {
     selectedJob = PlayerType::NONE_PLAYER;
 
@@ -90,17 +91,14 @@ void JobSelectScene::HandleEvent(const sf::Event& event, sf::RenderWindow& windo
     // 숫자 키로 직업 선택
     if (input.IsNum1Pressed())
     {
-        sceneManager->RequestSceneChange(HOME);
         selectedJob = PlayerType::WARRIOR;;
     }
     else if (input.IsNum2Pressed())
     {
-        sceneManager->RequestSceneChange(HOME);
         selectedJob = PlayerType::ARCHER;;
     }
     else if (input.IsNum3Pressed())
     {
-        sceneManager->RequestSceneChange(HOME);
         selectedJob = PlayerType::MAGE;;
     }
 
@@ -124,27 +122,18 @@ void JobSelectScene::HandleEvent(const sf::Event& event, sf::RenderWindow& windo
         }
     }
 
-    if (selectedJob != NONE_PLAYER)
+    if (selectedJob != PlayerType::NONE_PLAYER)
     {
-        PlayerType job = PlayerType::NONE_PLAYER;
+        entityManager->CreatePlayer(
+            "Player",
+            selectedJob,
+            { 0.f, 0.f }
+        );
 
-        switch (selectedJob)
-        {
-        case 1:
-            job = PlayerType::WARRIOR;
-            break;
+        entityManager->PrintPlayerInfo();
 
-        case 2:
-            job = PlayerType::ARCHER;
-            break;
-
-        case 3:
-            job = PlayerType::MAGE;
-            break;
-        }
-
-        player->SetJob(job);
         sceneManager->RequestSceneChange(HOME);
+        return;
     }
 }
 

@@ -8,10 +8,11 @@
 //#include "GameOverScene.h"
 //#include "EndingScene.h"
 
-SceneManager::SceneManager(Player* player) : player(player)
+SceneManager::SceneManager(EntityManager* entityManager)
+    : entityManager(entityManager)
 {
-    currentScene = NULL;
-    nextSceneType = TITLE;
+    currentScene = nullptr;
+    nextSceneType = TITLE;      // 시작 화면은 TITLE로 설정
     sceneChangeRequested = false;
 }
 
@@ -33,10 +34,10 @@ Scene* SceneManager::CreateScene(SceneType type)
     switch (type)
     {
     case TITLE:
-        return new TitleScene(this, player);
+        return new TitleScene(this, entityManager);
 
     case JOB_SELECT:
-        return new JobSelectScene(this, player);
+        return new JobSelectScene(this, entityManager);
 
     //case HOME:
     //    return new HomeScene(this);
