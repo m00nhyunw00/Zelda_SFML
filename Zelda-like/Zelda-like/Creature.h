@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include "Entity.h"
 #include "CreatureType.h"
+#include "AnimationState.h"
 #include "PlayerData.h"
 #include "Animation.h"
 #include "Collider.h"
@@ -12,6 +13,9 @@ class Creature : public Entity
 protected:
     sf::Vector2f position;       // 현재 위치
     float moveSpeed;             // 초당 이동 속도
+
+    Direction facingDirection;      // 바라보는 방향 상태값
+    AnimationState animationState;  // 애니메이션 상태값
 
     Animation animation;         // 현재 애니메이션
     Collider collider;           // 몸체 충돌 영역
@@ -63,8 +67,8 @@ public:
     void Update(float deltaTime, sf::RenderWindow& window) override;
     void Render(sf::RenderWindow& window) override;
 
-    // 공통 이동 로직이므로 Creature에서 구현
-    virtual void Move(const sf::Vector2f& direction, float deltaTime);
+    void UpdateFacingDirection(const sf::Vector2f& direction);
+    void Move(const sf::Vector2f& direction, float deltaTime);
 
     // 공격 방식은 Player와 Monster마다 다르므로 순수 가상 함수
     virtual void Attack(Creature* target) = 0;

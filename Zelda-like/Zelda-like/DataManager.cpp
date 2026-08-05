@@ -26,13 +26,37 @@ DataManager& DataManager::GetInstance()
     return instance;
 }
 
-bool DataManager::LoadPlayerData(const string& filePath)
+PlayerType DataManager::StringToPlayerType(const std::string& value) const
 {
-    ifstream file(filePath);
+    if (value == "WARRIOR")
+    {
+        return PlayerType::WARRIOR;
+    }
+
+    if (value == "ARCHER")
+    {
+        return PlayerType::ARCHER;
+    }
+
+    if (value == "MAGE")
+    {
+        return PlayerType::MAGE;
+    }
+
+    return PlayerType::NONE_PLAYER;
+}
+
+bool DataManager::LoadPlayerData(
+    const std::string& filePath)
+{
+    std::ifstream file(filePath);
 
     if (!file.is_open())
     {
-        cerr << "플레이어 데이터 파일을 열 수 없습니다: " << filePath << endl;
+        std::cerr
+            << "플레이어 데이터 파일을 열 수 없습니다: "
+            << filePath
+            << std::endl;
 
         return false;
     }
@@ -44,78 +68,47 @@ bool DataManager::LoadPlayerData(const string& filePath)
 
         playerDataTable.clear();
 
-        PlayerData data;
-        string job;
+        for (const auto& item : root.items())
+        {
+            const std::string& jobName = item.key();
+            const json& value = item.value();
 
-        // Warrior 데이터 로드 -------------------------------------
+            const PlayerType playerType = StringToPlayerType(jobName);
 
-        job = "WARRIOR";
+            if (playerType == PlayerType::NONE_PLAYER)
+            {
+                std::cerr
+                    << "알 수 없는 플레이어 직업 데이터: "
+                    << jobName
+                    << std::endl;
 
-        data.maxHp = root.at(job).at("maxHp").get<int>();
+                continue;
+            }
 
-        data.defence = root.at(job).at("defence").get<int>();
+            PlayerData data;
 
-        data.damage = root.at(job).at("damage").get<int>();
+            data.maxHp = value.at("maxHp").get<int>();
 
-        data.evasionRate = root.at(job).at("evasionRate").get<int>();
+            data.defence = value.at("defence").get<int>();
 
-        data.moveSpeed = root.at(job).at("moveSpeed").get<float>();
+            data.damage = value.at("damage").get<int>();
 
-        data.skillName = root.at(job).at("skillName").get<string>();
+            data.evasionRate = value.at("evasionRate").get<int>();
 
-        data.skillDamage = root.at(job).at("skillDamage").get<int>();
+            data.moveSpeed = value.at("moveSpeed").get<float>();
 
-        data.maxSkillCooldown = root.at(job).at("maxSkillCooldown").get<float>();
+            data.skillName = value.at("skillName").get<std::string>();
 
-        playerDataTable[PlayerType::WARRIOR] = data;
+            data.skillDamage = value.at("skillDamage").get<int>();
 
-        // Archer 데이터 로드 -------------------------------------
+            data.maxSkillCooldown = value.at("maxSkillCooldown").get<float>();
 
-        job = "ARCHER";
-
-        data.maxHp = root.at(job).at("maxHp").get<int>();
-
-        data.defence = root.at(job).at("defence").get<int>();
-
-        data.damage = root.at(job).at("damage").get<int>();
-
-        data.evasionRate = root.at(job).at("evasionRate").get<int>();
-
-        data.moveSpeed = root.at(job).at("moveSpeed").get<float>();
-
-        data.skillName = root.at(job).at("skillName").get<string>();
-
-        data.skillDamage = root.at(job).at("skillDamage").get<int>();
-
-        data.maxSkillCooldown = root.at(job).at("maxSkillCooldown").get<float>();
-
-        playerDataTable[PlayerType::ARCHER] = data;
-
-        // Mage 데이터 로드 -------------------------------------
-
-        job = "MAGE";
-
-        data.maxHp = root.at(job).at("maxHp").get<int>();
-
-        data.defence = root.at(job).at("defence").get<int>();
-
-        data.damage = root.at(job).at("damage").get<int>();
-
-        data.evasionRate = root.at(job).at("evasionRate").get<int>();
-
-        data.moveSpeed = root.at(job).at("moveSpeed").get<float>();
-
-        data.skillName = root.at(job).at("skillName").get<string>();
-
-        data.skillDamage = root.at(job).at("skillDamage").get<int>();
-
-        data.maxSkillCooldown = root.at(job).at("maxSkillCooldown").get<float>();
-
-        playerDataTable[PlayerType::MAGE] = data;
+            playerDataTable[playerType] = data;
+        }
     }
     catch (const json::exception& exception)
     {
-        cerr << "플레이어 JSON 파싱 실패: " << exception.what() << endl;
+        cerr << "플레이어 JSON 파싱 실패: " << exception.what() << std::endl;
 
         playerDataTable.clear();
 
@@ -130,6 +123,65 @@ const PlayerData* DataManager::GetPlayerData(PlayerType type) const
     auto iterator = playerDataTable.find(type);
 
     if (iterator == playerDataTable.end())
+        return nullptr;
+
+    return &iterator->second;
+}
+
+bool DataManager::LoadAnimationData(const std::string& filePath)
+{
+    std::ifstream file(filePath);
+
+    if (!file.is_open())
+    {
+        cerr << "애니메이션 데이터 파일을 열 수 없습니다: " << filePath << endl;
+
+        return false;
+    }
+
+    try
+    {
+        nlohmann::json jsonData;
+
+        file >> jsonData;
+
+        animationDataTable.clear();
+
+        for (const auto& item : jsonData.items())
+        {
+            const string& key = item.key();
+            const nlohmann::json& value = item.value();
+
+            AnimationData data;
+
+            data.textureKey = value.at("textureKey").get<std::string>();
+
+            data.totalRows = value.at("totalRows").get<int>();
+
+            data.totalColumns = value.at("totalColumns").get<int>();
+
+            data.frameCount = value.at("frameCount").get<int>();
+
+            data.frameDuration = value.at("frameDuration").get<float>();
+
+            animationDataTable[key] = data;
+        }
+    }
+    catch (const nlohmann::json::exception& exception)
+    {
+        cerr << "애니메이션 JSON 파싱 실패: " << exception.what() << endl;
+
+        return false;
+    }
+
+    return true;
+}
+
+const AnimationData* DataManager::GetAnimationData(const std::string& key) const
+{
+    auto iterator = animationDataTable.find(key);
+
+    if (iterator == animationDataTable.end())
         return nullptr;
 
     return &iterator->second;

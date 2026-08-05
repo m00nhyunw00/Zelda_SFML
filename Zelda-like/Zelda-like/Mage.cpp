@@ -1,5 +1,10 @@
 #include "Mage.h"
+#include "ResourceManager.h"
 #include "PlayerType.h"
+#include "SpriteUtil.h"
+#include <iostream>
+
+using namespace std;
 
 Mage::Mage(
     const std::string& name,
@@ -7,10 +12,32 @@ Mage::Mage(
     const sf::Vector2f& startPosition
 ) : Player(name, PlayerType::MAGE, data, startPosition)
 {
+    sf::Texture* idleTexture = ResourceManager::GetInstance().GetTexture("Player_Idle");
 
+    animation.SetOwnerType("MAGE");
+
+    if (idleTexture == nullptr)
+    {
+        cerr << "Player_Idle texture not found." << endl;
+        return;
+    }
+
+    sprite = new sf::Sprite(*idleTexture);
+
+    sprite->setTextureRect(
+        SpriteUtil::GetFrameRect(
+            *idleTexture,
+            3,
+            4,
+            0,
+            0
+        )
+    );
+    sprite->setScale({ 3.f,3.f });
+    sprite->setPosition(startPosition);
 }
 
-void Mage::UpdateLogic(float deltaTime)
+void Mage::UpdateJobLogic(float deltaTime)
 {
 
 }

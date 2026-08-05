@@ -5,11 +5,14 @@
 
 #include "PlayerData.h"
 #include "PlayerType.h"
+#include "AnimationState.h"
+#include "AnimationData.h"
 
 class DataManager
 {
 private:
     std::map<PlayerType, PlayerData> playerDataTable;
+    std::map<std::string, AnimationData> animationDataTable;
 
 private:
     DataManager();
@@ -21,8 +24,12 @@ private:
 public:
     static DataManager& GetInstance();
 
-    bool LoadPlayerData(const std::string& filePath);
+    PlayerType StringToPlayerType(const std::string& value) const;
 
+    bool LoadPlayerData(const std::string& filePath);
     const PlayerData* GetPlayerData(PlayerType type) const;
+
+    bool LoadAnimationData(const std::string& filePath);
+    const AnimationData* GetAnimationData(const std::string& key) const;
 };
 

@@ -14,12 +14,18 @@ Game::Game()
     entityManager(),
     sceneManager(&entityManager)
 {
-    ResourceManager::GetInstance().LoadFont(
-        "MainFont",
-        "Assets/Fonts/windows-bold.ttf"
-    );
+    ResourceManager& resourceManager = ResourceManager::GetInstance();
+
+    resourceManager.LoadFont("MainFont", "Assets/Fonts/windows-bold.ttf");                      // 폰트 업로드
+
+    resourceManager.LoadTexture("Player_Idle", "Assets/Characters/Character_Idle.png");         // Idle 텍스쳐 업로드
+    resourceManager.LoadTexture("Player_Run", "Assets/Characters/Character_Run.png");           // Run 텍스쳐 업로드
+    resourceManager.LoadTexture("Warrior", "Assets/Characters/Character_AttackSword1.png");     // 전사 공격 텍스쳐 업로드
+    resourceManager.LoadTexture("Archer", "Assets/Characters/Character_AttackBow1.png");        // 궁수 공격 텍스쳐 업로드
+    resourceManager.LoadTexture("Staff_3", "Assets/Icons/Staff_3.png");                         // 레벨3 지팡이 텍스쳐 업로드
 
     DataManager::GetInstance().LoadPlayerData("Data/PlayerData.json");
+    DataManager::GetInstance().LoadAnimationData("Data/AnimationData.json");
 
     sceneManager.Start(TITLE);
 }

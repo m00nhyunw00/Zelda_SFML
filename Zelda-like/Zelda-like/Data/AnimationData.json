@@ -1,0 +1,41 @@
+{
+  "PLAYER_IDLE": {
+    "textureKey": "Player_Idle",
+    "totalRows": 3,
+    "totalColumns": 4,
+    "frameCount": 4,
+    "frameDuration": 0.2
+  },
+
+  "PLAYER_RUN": {
+    "textureKey": "Player_Run",
+    "totalRows": 3,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.1
+  },
+
+  "WARRIOR_ATTACK": {
+    "textureKey": "Warrior",
+    "totalRows": 3,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.08
+  },
+
+  "ARCHER_ATTACK": {
+    "textureKey": "Archer",
+    "totalRows": 3,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.1
+  },
+
+  "MAGE_ATTACK": {
+    "textureKey": "Mage_Attack",
+    "totalRows": 3,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.1
+  }
+}

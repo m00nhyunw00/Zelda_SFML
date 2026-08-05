@@ -2,7 +2,7 @@
 
 #include "TitleScene.h"
 #include "JobSelectScene.h"
-//#include "HomeScene.h"
+#include "HomeScene.h"
 //#include "DungeonScene.h"
 //#include "BossScene.h"
 //#include "GameOverScene.h"
@@ -39,8 +39,8 @@ Scene* SceneManager::CreateScene(SceneType type)
     case JOB_SELECT:
         return new JobSelectScene(this, entityManager);
 
-    //case HOME:
-    //    return new HomeScene(this);
+    case HOME:
+        return new HomeScene(this, entityManager);
 
     //case DUNGEON:
     //    return new DungeonScene(this);

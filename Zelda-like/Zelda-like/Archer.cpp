@@ -1,6 +1,10 @@
 #include "Archer.h"
-
+#include "ResourceManager.h"
 #include "PlayerType.h"
+#include "SpriteUtil.h"
+#include <iostream>
+
+using namespace std;
 
 Archer::Archer(
     const std::string& name,
@@ -8,10 +12,32 @@ Archer::Archer(
     const sf::Vector2f& startPosition
 ) : Player(name, PlayerType::MAGE, data, startPosition)
 {
+    sf::Texture* idleTexture = ResourceManager::GetInstance().GetTexture("Player_Idle");
 
+    animation.SetOwnerType("ARCHER");
+
+    if (idleTexture == nullptr)
+    {
+        cerr << "Player_Idle texture not found." << endl;
+        return;
+    }
+
+    sprite = new sf::Sprite(*idleTexture);
+
+    sprite->setTextureRect(
+        SpriteUtil::GetFrameRect(
+            *idleTexture,
+            3, 
+            4, 
+            0, 
+            0  
+        )
+    );
+    sprite->setScale({ 3.f,3.f });
+    sprite->setPosition(startPosition);
 }
 
-void Archer::UpdateLogic(float deltaTime)
+void Archer::UpdateJobLogic(float deltaTime)
 {
 
 }

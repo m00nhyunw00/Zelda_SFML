@@ -22,6 +22,11 @@ private:
     int maxExp;
     int currentExp;
 
+private:
+    void HandleMovement(const sf::Vector2f& direction, float deltaTime);
+    void HandleAnimation(const sf::Vector2f& direction, float deltaTime);
+
+
 protected:
     Player(
         const std::string& name,
@@ -30,7 +35,8 @@ protected:
         const sf::Vector2f& position
     );
 
-    virtual void UpdateLogic(float deltaTime) = 0;
+    void UpdateLogic(float deltaTime) override final;
+    virtual void UpdateJobLogic(float deltaTime) = 0;
 
     virtual void Attack(Creature* target) override = 0;
     virtual void UseSkill(Creature* target) = 0;

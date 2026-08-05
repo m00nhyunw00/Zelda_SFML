@@ -10,6 +10,15 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager()
 {
+    for (auto iterator = textures.begin();
+        iterator != textures.end();
+        iterator++)
+    {
+        delete iterator->second;
+    }
+
+    textures.clear();
+
     for (auto iterator = fonts.begin();
         iterator != fonts.end();
         iterator++)
@@ -18,6 +27,15 @@ ResourceManager::~ResourceManager()
     }
 
     fonts.clear();
+
+    for (auto iterator = sounds.begin();
+        iterator != sounds.end();
+        iterator++)
+    {
+        delete iterator->second;
+    }
+
+    sounds.clear();
 }
 
 ResourceManager& ResourceManager::GetInstance()
@@ -29,19 +47,46 @@ ResourceManager& ResourceManager::GetInstance()
 
 // Texture --------------------------------------------------------------------
 
-bool ResourceManager::LoadTexture(string key, string path)
+bool ResourceManager::LoadTexture(const string& key, const string& path)
 {
-    // TODO
+    if (textures.find(key) != textures.end())
+    {
+        return true;
+    }
+
+    sf::Texture* texture = new sf::Texture();
+
+    if (!texture->loadFromFile(path))
+    {
+        cerr << "Failed to texture font: " << path << endl;
+
+        delete texture;
+
+        return false;
+    }
+
+    textures[key] = texture;
+
+    return true;
 }
 
-sf::Texture* ResourceManager::GetTexture(string key)
+sf::Texture* ResourceManager::GetTexture(const string& key)
 {
-    // TODO
+    if (textures.find(key) == textures.end())
+    {
+        cerr << "Texture not found: "
+            << key
+            << endl;
+
+        return NULL;
+    }
+
+    return textures[key];
 }
 
 // Font --------------------------------------------------------------------
 
-bool ResourceManager::LoadFont(string key, string path)
+bool ResourceManager::LoadFont(const string& key, const string& path)
 {
     if (fonts.find(key) != fonts.end())
     {
@@ -64,7 +109,7 @@ bool ResourceManager::LoadFont(string key, string path)
     return true;
 }
 
-sf::Font* ResourceManager::GetFont(string key)
+sf::Font* ResourceManager::GetFont(const string& key)
 {
     if (fonts.find(key) == fonts.end())
     {
@@ -80,12 +125,12 @@ sf::Font* ResourceManager::GetFont(string key)
 
 // Sound --------------------------------------------------------------------
 
-bool ResourceManager::LoadSound(string key, string path)
+bool ResourceManager::LoadSound(const string& key, const string& path)
 {
     // TODO
 }
 
-sf::SoundBuffer* ResourceManager::GetSound(string key)
+sf::SoundBuffer* ResourceManager::GetSound(const string& key)
 {
     // TODO
 }

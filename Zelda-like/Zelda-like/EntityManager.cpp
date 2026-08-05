@@ -52,6 +52,8 @@ void EntityManager::CreatePlayer(
     default:
         return;
     }
+
+    AddEntity(player);
 }
 
 void EntityManager::AddEntity(Entity* entity)
@@ -85,17 +87,10 @@ void EntityManager::RemoveInactiveEntities()
 
 void EntityManager::Update(float deltaTime, sf::RenderWindow& window)
 {
-    if (player != nullptr && player->IsActive())
-    {
-        // player update()
-        player->Update(deltaTime, window);
-    }
-
     for (Entity* entity : entities)
     {
         if (entity != nullptr && entity->IsActive())
         {
-            // ±âÅ¸ entity update()
             entity->Update(deltaTime, window);
         }
     }

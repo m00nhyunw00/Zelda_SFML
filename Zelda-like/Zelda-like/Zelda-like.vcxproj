@@ -132,11 +132,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="AnimationData.h" />
     <ClCompile Include="Archer.cpp" />
     <ClCompile Include="BossScene.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Creature.cpp" />
+    <ClCompile Include="AnimationState.h" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="DungeonScene.cpp" />
     <ClCompile Include="EndingScene.cpp" />
@@ -154,6 +156,7 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SpriteUtil.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Warrior.cpp" />
   </ItemGroup>
@@ -186,11 +189,13 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneType.h" />
+    <ClInclude Include="SpriteUtil.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Warrior.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\PlayerData.json" />
+    <None Include="Data\AnimationData.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

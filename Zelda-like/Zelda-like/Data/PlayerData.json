@@ -11,24 +11,24 @@
   },
 
   "ARCHER": {
-    "maxHp": 140,
-    "defence": 7,
-    "damage": 25,
-    "evasionRate": 12,
+    "maxHp": 120,
+    "defence": 6,
+    "damage": 45,
+    "evasionRate": 25,
     "moveSpeed": 220.0,
     "skillName": "관통 사격",
-    "skillDamage": 65,
-    "maxSkillCooldown": 2.5
+    "skillDamage": 120,
+    "maxSkillCooldown": 4
   },
 
   "MAGE": {
     "maxHp": 100,
-    "defence": 4,
-    "damage": 20,
-    "evasionRate": 8,
+    "defence": 3,
+    "damage": 60,
+    "evasionRate": 10,
     "moveSpeed": 170.0,
     "skillName": "파이어볼",
-    "skillDamage": 100,
-    "maxSkillCooldown": 4.0
+    "skillDamage": 150,
+    "maxSkillCooldown": 5.0
   }
 }

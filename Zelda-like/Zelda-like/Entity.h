@@ -12,10 +12,7 @@ public:
     Entity();
     virtual ~Entity();
 
-    virtual void Update(
-        float deltaTime,
-        sf::RenderWindow& window
-    ) = 0;
+    virtual void Update(float deltaTime, sf::RenderWindow& window) = 0;
 
     virtual void Render(sf::RenderWindow& window) = 0;
 

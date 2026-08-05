@@ -14,6 +14,14 @@ private:
     sf::RectangleShape archerPanel;
     sf::RectangleShape magePanel;
 
+    // 직업 대표 이미지
+    sf::Sprite* warriorSprite;
+    sf::Sprite* archerSprite;
+
+    // 마법사는 몸체와 지팡이를 따로 그림
+    sf::Sprite* mageSprite;
+    sf::Sprite* mageStaffSprite;
+
     sf::Text* titleText;
 
     sf::Text* warriorText;
@@ -25,6 +33,8 @@ private:
 public:
     JobSelectScene(SceneManager* sceneManager, EntityManager* entityManager);
     ~JobSelectScene();
+
+    void InitializeJobSprites();
 
     void HandleEvent(const sf::Event& event, sf::RenderWindow& window) override;
     void Update(float deltaTime, sf::RenderWindow& window) override;
