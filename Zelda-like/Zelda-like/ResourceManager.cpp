@@ -170,9 +170,11 @@ sf::Font* ResourceManager::GetFont(const string& key)
 bool ResourceManager::LoadSound(const string& key, const string& path)
 {
     // TODO
+    return false;
 }
 
 sf::SoundBuffer* ResourceManager::GetSound(const string& key)
 {
     // TODO
+    return nullptr;
 }

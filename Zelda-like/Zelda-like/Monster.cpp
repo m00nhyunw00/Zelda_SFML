@@ -13,12 +13,12 @@ Monster::Monster(
 
 sf::Vector2f Monster::AIMovement(float deltaTime)
 {
-
+    return { 0,0 };
 }
 
 void Monster::HandleAnimation(const sf::Vector2f& direction, float deltaTime)
 {
-
+    
 }
 
 void Monster::UpdateLogic(float deltaTime)

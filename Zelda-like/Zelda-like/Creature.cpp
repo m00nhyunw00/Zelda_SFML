@@ -114,10 +114,10 @@ void Creature::Move(const sf::Vector2f& direction, float deltaTime)
 
 int Creature::TakeDamage(int incomingDamage)
 {
-
+    return 0;
 }
 
 bool Creature::IsDead()
 {
-
+    return false;
 }
