@@ -5,6 +5,7 @@
 #include "CreatureType.h"
 #include "AnimationState.h"
 #include "PlayerData.h"
+#include "MonsterData.h"
 #include "Animation.h"
 #include "Collider.h"
 
@@ -32,6 +33,12 @@ protected:
     Creature(
         CreatureType category,
         const PlayerData& data,
+        const sf::Vector2f& position
+    );
+
+    Creature(
+        CreatureType category,
+        const MonsterData& data,
         const sf::Vector2f& position
     );
 

@@ -46,6 +46,16 @@ PlayerType DataManager::StringToPlayerType(const std::string& value) const
     return PlayerType::NONE_PLAYER;
 }
 
+MonsterType DataManager::StringToMonsterType(const std::string& value) const
+{
+    if (value == "SLIME")
+    {
+        return MonsterType::SLIME;
+    }
+
+    return MonsterType::NONE_MONSTER;
+}
+
 bool DataManager::LoadPlayerData(
     const std::string& filePath)
 {
@@ -123,6 +133,84 @@ const PlayerData* DataManager::GetPlayerData(PlayerType type) const
     auto iterator = playerDataTable.find(type);
 
     if (iterator == playerDataTable.end())
+        return nullptr;
+
+    return &iterator->second;
+}
+
+bool DataManager::LoadMonsterData(
+    const std::string& filePath)
+{
+    std::ifstream file(filePath);
+
+    if (!file.is_open())
+    {
+        std::cerr
+            << "몬스터 데이터 파일을 열 수 없습니다: "
+            << filePath
+            << std::endl;
+
+        return false;
+    }
+
+    try
+    {
+        json root;
+        file >> root;
+
+        monsterDataTable.clear();
+
+        for (const auto& item : root.items())
+        {
+            const std::string& typeName = item.key();
+            const json& value = item.value();
+
+            const MonsterType monsterType = StringToMonsterType(typeName);
+
+            if (monsterType == MonsterType::NONE_MONSTER)
+            {
+                std::cerr
+                    << "알 수 없는 몬스터 데이터: "
+                    << typeName
+                    << std::endl;
+
+                continue;
+            }
+
+            MonsterData data;
+
+            data.maxHp = value.at("maxHp").get<int>();
+
+            data.defence = value.at("defence").get<int>();
+
+            data.damage = value.at("damage").get<int>();
+
+            data.evasionRate = value.at("evasionRate").get<int>();
+
+            data.moveSpeed = value.at("moveSpeed").get<float>();
+
+            data.color = MonsterColor::NONE_COLOR;
+
+            monsterDataTable[monsterType] = data;
+        }
+    }
+    catch (const json::exception& exception)
+    {
+        cerr << "몬스터 JSON 파싱 실패: " << exception.what() << std::endl;
+
+        monsterDataTable.clear();
+
+        return false;
+    }
+
+    return true;
+}
+
+const MonsterData* DataManager::GetMonsterData(MonsterType type) const
+{
+    auto iterator = monsterDataTable.find(type);
+
+    if (iterator == monsterDataTable.end())
         return nullptr;
 
     return &iterator->second;

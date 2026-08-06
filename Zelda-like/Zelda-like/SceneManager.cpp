@@ -3,7 +3,7 @@
 #include "TitleScene.h"
 #include "JobSelectScene.h"
 #include "HomeScene.h"
-//#include "DungeonScene.h"
+#include "DungeonScene.h"
 //#include "BossScene.h"
 //#include "GameOverScene.h"
 //#include "EndingScene.h"
@@ -42,8 +42,8 @@ Scene* SceneManager::CreateScene(SceneType type)
     case HOME:
         return new HomeScene(this, entityManager);
 
-    //case DUNGEON:
-    //    return new DungeonScene(this);
+    case DUNGEON:
+        return new DungeonScene(this, entityManager);
 
     //case BOSS:
     //    return new BossScene(this);

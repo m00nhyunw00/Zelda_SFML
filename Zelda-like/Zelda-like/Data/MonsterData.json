@@ -1,0 +1,9 @@
+{
+  "SLIME": {
+    "maxHp": 50,
+    "defence": 10,
+    "damage": 20,
+    "evasionRate": 10,
+    "moveSpeed" : 60.0,
+  }
+}

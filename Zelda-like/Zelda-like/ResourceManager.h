@@ -9,7 +9,8 @@
 class ResourceManager
 {
 private:
-    std::map<std::string, sf::Texture*> textures;
+    std::map<std::string, sf::Texture*> textures; 
+    //std::map<std::string, sf::Sprite*> sprites;
     std::map<std::string, sf::Font*> fonts;
     std::map<std::string, sf::SoundBuffer*> sounds;
 
@@ -25,6 +26,9 @@ public:
 
     bool LoadTexture(const std::string& key, const std::string& path);
     sf::Texture* GetTexture(const std::string& key);
+
+    //bool LoadSprite(const std::string& key, const std::string& textureKey, const sf::IntRect& textureRect);
+    //sf::Sprite* GetSprite(const std::string& key);
 
     bool LoadFont(const std::string& key, const std::string& path);
     sf::Font* GetFont(const std::string& key);

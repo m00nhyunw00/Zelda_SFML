@@ -152,10 +152,13 @@
     <ClCompile Include="Mage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Monster.cpp" />
+    <ClCompile Include="MonsterColor.h" />
+    <ClCompile Include="MonsterData.h" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Slime.cpp" />
     <ClCompile Include="SpriteUtil.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Warrior.cpp" />
@@ -189,11 +192,13 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneType.h" />
+    <ClInclude Include="Slime.h" />
     <ClInclude Include="SpriteUtil.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Warrior.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Data\MonsterData.json" />
     <None Include="Data\PlayerData.json" />
     <None Include="Data\AnimationData.json" />
   </ItemGroup>

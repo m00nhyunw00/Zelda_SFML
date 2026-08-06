@@ -2,6 +2,7 @@
 #include "Constants.h"
 #include "ResourceManager.h"
 #include "DataManager.h"
+#include "SFML/Graphics.hpp"
 
 Game::Game()
     : window(
@@ -14,17 +15,26 @@ Game::Game()
     entityManager(),
     sceneManager(&entityManager)
 {
+    window.setKeyRepeatEnabled(false);  // KeyPressed 이벤트의 자동 반복 방지
+
     ResourceManager& resourceManager = ResourceManager::GetInstance();
 
     resourceManager.LoadFont("MainFont", "Assets/Fonts/windows-bold.ttf");                      // 폰트 업로드
 
-    resourceManager.LoadTexture("Player_Idle", "Assets/Characters/Character_Idle.png");         // Idle 텍스쳐 업로드
-    resourceManager.LoadTexture("Player_Run", "Assets/Characters/Character_Run.png");           // Run 텍스쳐 업로드
+    resourceManager.LoadTexture("Player_Idle", "Assets/Characters/Character_Idle.png");         // 플레이어 Idle 텍스쳐 업로드
+    resourceManager.LoadTexture("Player_Run", "Assets/Characters/Character_Run.png");           // 플레이어 Run 텍스쳐 업로드
     resourceManager.LoadTexture("Warrior", "Assets/Characters/Character_AttackSword1.png");     // 전사 공격 텍스쳐 업로드
     resourceManager.LoadTexture("Archer", "Assets/Characters/Character_AttackBow1.png");        // 궁수 공격 텍스쳐 업로드
     resourceManager.LoadTexture("Staff_3", "Assets/Icons/Staff_3.png");                         // 레벨3 지팡이 텍스쳐 업로드
 
+    resourceManager.LoadTexture("Slime_Idle", "Assets/Characters/Enemy_Slime/Enemy_Slime_Idle.png");    // 슬라임 Idle 텍스쳐 업로드
+
+        
+    resourceManager.LoadTexture("House", "Assets/Tileset_Housing1.png");                         // 집 타일셋 텍스쳐 업로드
+    resourceManager.LoadTexture("Indoor", "Assets/Objects/Tileset_Objects_Indoors1.png");        // 실내 바닥 타일셋 텍스쳐 업로드
+
     DataManager::GetInstance().LoadPlayerData("Data/PlayerData.json");
+    DataManager::GetInstance().LoadMonsterData("Data/MonsterData.json");
     DataManager::GetInstance().LoadAnimationData("Data/AnimationData.json");
 
     sceneManager.Start(TITLE);

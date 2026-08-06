@@ -114,7 +114,7 @@ void Player::LevelUp()
 
 }
 
-void Player::IncreaseStats(int maxHpAmount, int damageAmount, int skillDamageAmount)
+void Player::IncreaseStats(int maxHpAmount, int defenceAmount, int damageAmount, int skillDamageAmount)
 {
 
 }

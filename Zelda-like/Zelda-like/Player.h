@@ -72,7 +72,7 @@ public:
 
     void AddExp(int exp);
     void LevelUp();
-    void IncreaseStats(int maxHpAmount, int damageAmount, int skillDamageAmount);
+    void IncreaseStats(int maxHpAmount, int defenceAmount, int damageAmount, int skillDamageAmount);
 
     void Heal(int amount);
 };

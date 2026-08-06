@@ -84,6 +84,48 @@ sf::Texture* ResourceManager::GetTexture(const string& key)
     return textures[key];
 }
 
+// Sprite --------------------------------------------------------------------
+
+//bool ResourceManager::LoadSprite(const std::string& key, const std::string& textureKey, const sf::IntRect& textureRect)
+//{
+//    if (sprites.find(key) != sprites.end())
+//    {
+//        return true;
+//    }
+//
+//    sf::Texture* texture = GetTexture(textureKey);
+//
+//    if (texture == nullptr)
+//    {
+//        cerr << "Failed to find texture: " << textureKey << endl;
+//
+//        return false;
+//    }
+//
+//    sf::Sprite* sprite = new sf::Sprite(*texture);
+//
+//    sprite->setTextureRect(textureRect);
+//
+//    sprites[key] = sprite;
+//
+//    return true;
+//}
+//
+//sf::Sprite* ResourceManager::GetSprite(const std::string& key)
+//{
+//    if (sprites.find(key) == sprites.end())
+//    {
+//        cerr << "Sprite not found: "
+//            << key
+//            << endl;
+//
+//        return NULL;
+//    }
+//
+//    return sprites[key];
+//}
+
+
 // Font --------------------------------------------------------------------
 
 bool ResourceManager::LoadFont(const string& key, const string& path)

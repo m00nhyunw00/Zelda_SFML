@@ -2,11 +2,8 @@
 
 using namespace std;
 
-Creature::Creature(
-    CreatureType category, 
-    const PlayerData& data,
-    const sf::Vector2f& position
-)
+Creature::Creature(CreatureType category, const PlayerData& data, const sf::Vector2f& position)
+    : collider({ 32.f, 24.f }, { 0.f, 12.f })
 {
     this->position = position;
     this->moveSpeed = data.moveSpeed;
@@ -20,6 +17,27 @@ Creature::Creature(
     this->defence = data.defence;
     this->damage = data.damage;
     this->evasionRate = data.evasionRate;
+
+    collider.UpdatePosition(position);
+}
+
+Creature::Creature(CreatureType category, const MonsterData& data, const sf::Vector2f& position)
+    : collider({ 32.f, 24.f }, { 0.f, 12.f })
+{
+    this->position = position;
+    this->moveSpeed = data.moveSpeed;
+
+    facingDirection = Direction::DOWN;
+    animationState = AnimationState::IDLE;
+
+    this->category = category;
+    this->maxHp = data.maxHp;
+    this->hp = data.maxHp;
+    this->defence = data.defence;
+    this->damage = data.damage;
+    this->evasionRate = data.evasionRate;
+
+    collider.UpdatePosition(position);
 }
 
 void Creature::Update(float deltaTime, sf::RenderWindow& window)
@@ -91,7 +109,7 @@ void Creature::Move(const sf::Vector2f& direction, float deltaTime)
         sprite->setPosition(position);
     }
 
-    //collider.SetPosition(position);
+    collider.UpdatePosition(position);
 }
 
 int Creature::TakeDamage(int incomingDamage)

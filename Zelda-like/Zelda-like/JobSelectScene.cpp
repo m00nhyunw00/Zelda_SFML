@@ -5,6 +5,7 @@
 #include "EntityManager.h"
 #include "PlayerType.h"
 #include "SpriteUtil.h"
+#include "Constants.h"
 
 #include <iostream>
 
@@ -159,7 +160,7 @@ void JobSelectScene::HandleEvent(const sf::Event& event, sf::RenderWindow& windo
         entityManager->CreatePlayer(
             "Player",
             selectedJob,
-            { 0.f, 0.f }
+            { Constants::CENTER_X, Constants::CENTER_Y }
         );
 
         entityManager->PrintPlayerInfo();
@@ -171,8 +172,7 @@ void JobSelectScene::HandleEvent(const sf::Event& event, sf::RenderWindow& windo
 
 void JobSelectScene::InitializeJobSprites()
 {
-    ResourceManager& resourceManager =
-        ResourceManager::GetInstance();
+    ResourceManager& resourceManager = ResourceManager::GetInstance();
 
     // 전사 대표 이미지 -------------------------------------------------------
 
@@ -180,21 +180,11 @@ void JobSelectScene::InitializeJobSprites()
 
     if (warriorTexture != nullptr)
     {
-        warriorSprite = new sf::Sprite(*warriorTexture);
-
-        warriorSprite->setTextureRect(
-            SpriteUtil::GetFrameRect(*warriorTexture, 3, 6, 0, 0)
+        warriorSprite = new sf::Sprite(
+            SpriteUtil::CreateSprite(*warriorTexture, SpriteUtil::GetFrameRect(*warriorTexture, 3, 6, 0, 0), { 4.f, 4.f })
         );
 
-        warriorSprite->setScale({ 4.f, 4.f });
-
-        sf::FloatRect bounds =
-            warriorSprite->getLocalBounds();
-
-        warriorSprite->setOrigin({
-            bounds.position.x + bounds.size.x / 2.f,
-            bounds.position.y + bounds.size.y / 2.f
-            });
+        SpriteUtil::SetSpriteOriginToCenter(warriorSprite);
 
         warriorSprite->setPosition(
             {
@@ -210,21 +200,11 @@ void JobSelectScene::InitializeJobSprites()
 
     if (archerTexture != nullptr)
     {
-        archerSprite = new sf::Sprite(*archerTexture);
-
-        archerSprite->setTextureRect(
-            SpriteUtil::GetFrameRect(*archerTexture, 3, 6, 1, 0)
+        archerSprite = new sf::Sprite(
+            SpriteUtil::CreateSprite(*archerTexture, SpriteUtil::GetFrameRect(*archerTexture, 3, 6, 1, 0), { 4.f, 4.f })
         );
 
-        archerSprite->setScale({ 4.f, 4.f });
-
-        sf::FloatRect bounds =
-            archerSprite->getLocalBounds();
-
-        archerSprite->setOrigin({
-            bounds.position.x + bounds.size.x / 2.f,
-            bounds.position.y + bounds.size.y / 2.f
-            });
+        SpriteUtil::SetSpriteOriginToCenter(archerSprite);
 
         archerSprite->setPosition(
             {
@@ -240,21 +220,11 @@ void JobSelectScene::InitializeJobSprites()
 
     if (idleTexture != nullptr)
     {
-        mageSprite = new sf::Sprite(*idleTexture);
-
-        mageSprite->setTextureRect(
-            SpriteUtil::GetFrameRect(*idleTexture, 3, 4, 0, 0)
+        mageSprite = new sf::Sprite(
+            SpriteUtil::CreateSprite(*idleTexture, SpriteUtil::GetFrameRect(*idleTexture, 3, 4, 0, 0), { 4.f, 4.f })
         );
 
-        mageSprite->setScale({ 4.f, 4.f });
-
-        sf::FloatRect bounds =
-            mageSprite->getLocalBounds();
-
-        mageSprite->setOrigin({
-            bounds.position.x + bounds.size.x / 2.f,
-            bounds.position.y + bounds.size.y / 2.f
-            });
+        SpriteUtil::SetSpriteOriginToCenter(mageSprite);
 
         mageSprite->setPosition(
             {
@@ -266,17 +236,15 @@ void JobSelectScene::InitializeJobSprites()
 
     // 마법사 지팡이 -------------------------------------------------------
 
-    sf::Texture* staffTexture =
-        resourceManager.GetTexture("Staff_3");
+    sf::Texture* staffTexture = resourceManager.GetTexture("Staff_3");
 
     if (staffTexture != nullptr && mageSprite != nullptr)
     {
-        mageStaffSprite = new sf::Sprite(*staffTexture);
+        mageStaffSprite = new sf::Sprite(
+            SpriteUtil::CreateSprite(*staffTexture, SpriteUtil::GetFrameRect(*staffTexture, 1, 1, 0, 0), { 4.f, 4.f })
+        );
 
-        mageStaffSprite->setScale({ 4.f, 4.f });
-
-        sf::FloatRect bounds =
-            mageStaffSprite->getLocalBounds();
+        sf::FloatRect bounds = mageStaffSprite->getLocalBounds();
 
         // 지팡이의 아래쪽 중앙을 기준점으로 잡음
         mageStaffSprite->setOrigin({
@@ -289,6 +257,7 @@ void JobSelectScene::InitializeJobSprites()
             mageSprite->getPosition().y + 30.f
             });
 
+        // 지팡이 회전
         mageStaffSprite->setRotation(sf::degrees(-20.f));
     }
 }

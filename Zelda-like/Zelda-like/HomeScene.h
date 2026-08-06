@@ -9,6 +9,29 @@
 class HomeScene : public Scene
 {
 private:
+    std::vector<sf::Sprite> floorSprites;
+    std::vector<sf::Sprite> upperWallSprites;
+    std::vector<sf::Sprite> lowerWallSprites;
+
+    std::vector<Collider> roomColliders;
+
+private:
+    void AddFloorArea(
+        const sf::Sprite& floorTileTemplate,
+        const sf::Vector2f& centerPosition,
+        int columns,
+        int rows
+    );
+
+    void AddRoomWalls(
+        const sf::Sprite& floorTileTemplate,
+        const sf::Sprite& upperWallTemplate,
+        const sf::Sprite& lowerWallTemplate,
+        const sf::Vector2f& centerPosition,
+        int columns,
+        int rows,
+        float colliderThickness
+    );
 
 public:
     HomeScene(SceneManager* sceneManager, EntityManager* entityManager);

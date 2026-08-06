@@ -33,7 +33,7 @@ Archer::Archer(
             0  
         )
     );
-    sprite->setScale({ 3.f,3.f });
+    sprite->setScale({ 4.f,4.f });
     sprite->setPosition(startPosition);
 }
 

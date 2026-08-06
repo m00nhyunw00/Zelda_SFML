@@ -79,6 +79,18 @@
     <Filter Include="소스 파일\Entity\Creature\Player">
       <UniqueIdentifier>{c2c55ad3-b1b7-4696-8ec6-5d254a8bfdd5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\Entity\Creature\Player\Job">
+      <UniqueIdentifier>{2f5b75b1-a356-491d-aca5-47a66e1ae57d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Entity\Creature\Monster\Type">
+      <UniqueIdentifier>{e2c3fe1b-ad81-4fa4-b530-b469be27ac64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Entity\Creature\Player\Job">
+      <UniqueIdentifier>{e1857e67-796a-4e64-865f-74af6cc6270a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Entity\Creature\Monster\Type">
+      <UniqueIdentifier>{fb0c5d9a-1c39-4069-bf06-1731b6fcf2df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -147,15 +159,6 @@
     <ClCompile Include="Collider.cpp">
       <Filter>소스 파일\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Mage.cpp">
-      <Filter>소스 파일\Entity\Creature\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Warrior.cpp">
-      <Filter>소스 파일\Entity\Creature\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Archer.cpp">
-      <Filter>소스 파일\Entity\Creature\Player</Filter>
-    </ClCompile>
     <ClCompile Include="SpriteUtil.cpp">
       <Filter>소스 파일\Graphics</Filter>
     </ClCompile>
@@ -164,6 +167,24 @@
     </ClCompile>
     <ClCompile Include="AnimationData.h">
       <Filter>헤더 파일\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterColor.h">
+      <Filter>헤더 파일\Entity\Creature\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterData.h">
+      <Filter>헤더 파일\Entity\Creature\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Archer.cpp">
+      <Filter>소스 파일\Entity\Creature\Player\Job</Filter>
+    </ClCompile>
+    <ClCompile Include="Mage.cpp">
+      <Filter>소스 파일\Entity\Creature\Player\Job</Filter>
+    </ClCompile>
+    <ClCompile Include="Warrior.cpp">
+      <Filter>소스 파일\Entity\Creature\Player\Job</Filter>
+    </ClCompile>
+    <ClCompile Include="Slime.cpp">
+      <Filter>소스 파일\Entity\Creature\Monster\Type</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -248,17 +269,20 @@
     <ClInclude Include="PlayerData.h">
       <Filter>헤더 파일\Entity\Creature\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Warrior.h">
-      <Filter>헤더 파일\Entity\Creature\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Mage.h">
-      <Filter>헤더 파일\Entity\Creature\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Archer.h">
-      <Filter>헤더 파일\Entity\Creature\Player</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteUtil.h">
       <Filter>헤더 파일\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mage.h">
+      <Filter>헤더 파일\Entity\Creature\Player\Job</Filter>
+    </ClInclude>
+    <ClInclude Include="Archer.h">
+      <Filter>헤더 파일\Entity\Creature\Player\Job</Filter>
+    </ClInclude>
+    <ClInclude Include="Warrior.h">
+      <Filter>헤더 파일\Entity\Creature\Player\Job</Filter>
+    </ClInclude>
+    <ClInclude Include="Slime.h">
+      <Filter>헤더 파일\Entity\Creature\Monster\Type</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -266,6 +290,9 @@
       <Filter>리소스 파일</Filter>
     </None>
     <None Include="Data\AnimationData.json">
+      <Filter>리소스 파일</Filter>
+    </None>
+    <None Include="Data\MonsterData.json">
       <Filter>리소스 파일</Filter>
     </None>
   </ItemGroup>

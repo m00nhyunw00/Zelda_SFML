@@ -3,6 +3,7 @@
 #include "Warrior.h"
 #include "Archer.h"
 #include "Mage.h"
+#include "Slime.h"
 
 #include <iostream>
 
@@ -56,12 +57,73 @@ void EntityManager::CreatePlayer(
     AddEntity(player);
 }
 
+void EntityManager::SpawnMonster(
+    MonsterType type,
+    MonsterColor color,
+    const sf::Vector2f& position)
+{
+    const MonsterData* data =
+        DataManager::GetInstance().GetMonsterData(type);
+
+    if (data == nullptr)
+    {
+        std::cout << "MonsterData dosen't exist" << std::endl;
+        return;
+    }
+
+    Monster* monster = nullptr;
+
+    switch (type)
+    {
+    case MonsterType::SLIME:
+        monster = new Slime(color, *data, position);
+        break;
+
+    default:
+        std::cout << "Not Valid MonsterType" << std::endl;
+        return;
+    }
+
+    AddEntity(monster);
+
+    std::cout
+        << "Slime Spawned: "
+        << position.x << ", "
+        << position.y << std::endl;
+}
+
 void EntityManager::AddEntity(Entity* entity)
 {
     if (entity == nullptr)
         return;
 
     entities.push_back(entity);
+}
+
+void EntityManager::CheckCollisions()
+{
+    if (player == nullptr)
+    {
+        return;
+    }
+
+    for (Entity* entity : entities)
+    {
+        Creature* creature =
+            dynamic_cast<Creature*>(entity);
+
+        if (creature == nullptr ||
+            creature == player)
+        {
+            continue;
+        }
+
+        if (player->GetCollider().Collision(
+            creature->GetCollider()))
+        {
+            std::cout << "Collision Ocurred!" << std::endl;
+        }
+    }
 }
 
 void EntityManager::RemoveInactiveEntities()
@@ -94,6 +156,8 @@ void EntityManager::Update(float deltaTime, sf::RenderWindow& window)
             entity->Update(deltaTime, window);
         }
     }
+
+    CheckCollisions();
 
     RemoveInactiveEntities();
 }
