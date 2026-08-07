@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-HomeScene::HomeScene(SceneManager* sceneManager, EntityManager* entitymanager) : Scene(sceneManager, entitymanager)
+HomeScene::HomeScene(SceneManager* sceneManager, EntityManager* entitymanager) : Scene(sceneManager, entitymanager, true)
 {
     sf::Font* font = ResourceManager::GetInstance().GetFont("MainFont");
 

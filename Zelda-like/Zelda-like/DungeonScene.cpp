@@ -10,7 +10,7 @@
 #include <iostream>
 
 DungeonScene::DungeonScene(SceneManager* sceneManager, EntityManager* entitymanager) 
-    : Scene(sceneManager, entitymanager), 
+    : Scene(sceneManager, entitymanager, true), 
     camera({ Constants::CENTER_X, Constants::CENTER_Y },
           {
               (float)Constants::WINDOW_WIDTH,
@@ -123,6 +123,13 @@ void DungeonScene::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
 {
     (void)event;
 
+    if (isGameOver)
+    {
+        HandleGameOverEvent(event, window);
+
+        return;
+    }
+
     InputManager& input = InputManager::GetInstance();
 
     // ¼ýÀÚ Å°
@@ -156,11 +163,12 @@ void DungeonScene::Update(
     float deltaTime,
     sf::RenderWindow& window)
 {
-    Player* player =
-        entityManager->GetPlayer();
+    Player* player = entityManager->GetPlayer();
 
-    if (player == nullptr)
+    CheckGameOver();
+    if (player == nullptr || isGameOver)
     {
+        UpdateGameOver(deltaTime, window);
         return;
     }
 
@@ -230,6 +238,11 @@ void DungeonScene::Render(sf::RenderWindow& window)
     }
 
     window.setView(window.getDefaultView());
+
+    if (isGameOver)
+    {
+        RenderGameOver(window);
+    }
 }
 
 void DungeonScene::AddFloorArea(

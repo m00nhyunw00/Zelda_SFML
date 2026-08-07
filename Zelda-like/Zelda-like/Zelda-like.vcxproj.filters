@@ -91,6 +91,12 @@
     <Filter Include="소스 파일\Entity\Creature\Monster\Type">
       <UniqueIdentifier>{fb0c5d9a-1c39-4069-bf06-1731b6fcf2df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\UI">
+      <UniqueIdentifier>{5f12d82f-a03c-4d51-9034-9619f4a20d5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\UI">
+      <UniqueIdentifier>{43679646-0b9f-4a9a-8743-1eb964416559}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -150,9 +156,6 @@
     <ClCompile Include="EndingScene.cpp">
       <Filter>소스 파일\Scene\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="GameOverScene.cpp">
-      <Filter>소스 파일\Scene\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Creature.cpp">
       <Filter>소스 파일\Entity\Creature</Filter>
     </ClCompile>
@@ -185,6 +188,15 @@
     </ClCompile>
     <ClCompile Include="Slime.cpp">
       <Filter>소스 파일\Entity\Creature\Monster\Type</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>소스 파일\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>소스 파일\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GaugeBar.cpp">
+      <Filter>소스 파일\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -251,9 +263,6 @@
     <ClInclude Include="EndingScene.h">
       <Filter>헤더 파일\Scene\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="GameOverScene.h">
-      <Filter>헤더 파일\Scene\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="CreatureType.h">
       <Filter>헤더 파일\Entity\Creature</Filter>
     </ClInclude>
@@ -283,6 +292,15 @@
     </ClInclude>
     <ClInclude Include="Slime.h">
       <Filter>헤더 파일\Entity\Creature\Monster\Type</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>헤더 파일\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>헤더 파일\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GaugeBar.h">
+      <Filter>헤더 파일\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
