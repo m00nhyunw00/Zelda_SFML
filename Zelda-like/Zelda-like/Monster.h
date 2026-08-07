@@ -1,10 +1,15 @@
 #pragma once
 
 #include "Creature.h"
+#include "Player.h"
+#include "Monster.h"
 #include "MonsterType.h"
 #include "MonsterColor.h"
 #include "MonsterData.h"
+#include "AnimationState.h"
 #include <string>
+
+class Player;
 
 class Monster : public Creature
 {
@@ -13,6 +18,13 @@ private:
     MonsterColor color;
 
     int exp;
+
+    MonsterState monsterState;
+
+    Player* target;
+
+    float detectionRange;           // 플레이어 감지 범위
+    float attackRange;              // 공격 시작 범위
 
 private:
     sf::Vector2f AIMovement(float deltaTime);
@@ -28,8 +40,6 @@ protected:
     void UpdateLogic(float deltaTime) override final;
     virtual void UpdateTypeLogic(float deltaTime) = 0;
 
-    virtual void Attack(Creature* target) override = 0;
-
 public:
     ~Monster() override = default;
 
@@ -38,11 +48,11 @@ public:
     MonsterType GetType() const { return type; }
     MonsterColor GetColor() const { return color; }
     int GetExp() const { return exp; }
-
-    // ---------------------------------------------------------
+    Player* GetTarget() { return target; }
 
     // Setter -------------------------------------------------
 
     void SetType(MonsterType type) { this->type = type; }
     void SetColor() { this->color = color; }
+    void SetTarget(Player* target) { this->target = target; }
 };

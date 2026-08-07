@@ -3,6 +3,7 @@
 #include "MonsterType.h"
 #include "MonsterColor.h"
 #include "SpriteUtil.h"
+#include "Constants.h"
 #include <iostream>
 
 using namespace std;
@@ -34,8 +35,12 @@ Slime::Slime(
             0
         )
     );
-    sprite->setScale({ 4.f,4.f });
+
+    sprite->setScale({ Constants::DEFAULT_SCALE, Constants::DEFAULT_SCALE });
     sprite->setPosition(startPosition);
+
+    attackCollider.SetSize({ Constants::DEFAULT_COLLIDER_SIZE, data.attackRange });
+    attackCollider.SetOrigin({ Constants::DEFAULT_COLLIDER_SIZE / 2, data.attackRange });
 }
 
 void Slime::UpdateTypeLogic(float deltaTime)
@@ -45,5 +50,21 @@ void Slime::UpdateTypeLogic(float deltaTime)
 
 void Slime::Attack(Creature* target)
 {
+    int random = rand() % 100;
 
+    if (target->GetEvasionRate() < random)	// 회피율에 따른 공격 성공
+    {
+        int randomDamageBoundary = (int)((float)GetDamage() * 0.2);
+        int randomDamage = (rand() % randomDamageBoundary) - ((int)((float)randomDamageBoundary / 2));	// 기본 공격력의 +- 10%를 공격력으로 랜덤하게 설정
+
+        int finalDamage = GetDamage() + randomDamage - target->GetDefence();		// 방어력과 공격력을 감안한 takeDamage()에 넘겨줄 최종 데미지
+
+        int realDamage = target->TakeDamage(finalDamage);
+
+        cout << "Slime Attack" << endl;
+    }
+    else
+    {
+        cout << "Slime Attack Failed" << endl;
+    }
 }

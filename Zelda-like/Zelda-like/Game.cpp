@@ -23,12 +23,13 @@ Game::Game()
 
     resourceManager.LoadTexture("Player_Idle", "Assets/Characters/Character_Idle.png");         // 플레이어 Idle 텍스쳐 업로드
     resourceManager.LoadTexture("Player_Run", "Assets/Characters/Character_Run.png");           // 플레이어 Run 텍스쳐 업로드
-    resourceManager.LoadTexture("Warrior", "Assets/Characters/Character_AttackSword1.png");     // 전사 공격 텍스쳐 업로드
-    resourceManager.LoadTexture("Archer", "Assets/Characters/Character_AttackBow1.png");        // 궁수 공격 텍스쳐 업로드
+    resourceManager.LoadTexture("Warrior", "Assets/Characters/Character_AttackSword1.png");     // 전사 Attack 텍스쳐 업로드
+    resourceManager.LoadTexture("Archer", "Assets/Characters/Character_AttackBow1.png");        // 궁수 Attack 텍스쳐 업로드
     resourceManager.LoadTexture("Staff_3", "Assets/Icons/Staff_3.png");                         // 레벨3 지팡이 텍스쳐 업로드
 
-    resourceManager.LoadTexture("Slime_Idle", "Assets/Characters/Enemy_Slime/Enemy_Slime_Idle.png");    // 슬라임 Idle 텍스쳐 업로드
-
+    resourceManager.LoadTexture("Slime_Idle", "Assets/Characters/Enemy_Slime/Enemy_Slime_Idle.png");        // 슬라임 Idle 텍스쳐 업로드
+    resourceManager.LoadTexture("Slime_Run", "Assets/Characters/Enemy_Slime/Enemy_Slime_Walk.png");         // 슬라임 Run 텍스쳐 업로드
+    resourceManager.LoadTexture("Slime_Attack", "Assets/Characters/Enemy_Slime/Enemy_Slime_Attack.png");    // 슬라임 Attack 텍스쳐 업로드
         
     resourceManager.LoadTexture("House", "Assets/Tileset_Housing1.png");                         // 집 타일셋 텍스쳐 업로드
     resourceManager.LoadTexture("Indoor", "Assets/Objects/Tileset_Objects_Indoors1.png");        // 실내 바닥 타일셋 텍스쳐 업로드

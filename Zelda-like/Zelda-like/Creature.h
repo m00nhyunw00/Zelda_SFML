@@ -12,22 +12,26 @@
 class Creature : public Entity
 {
 protected:
-    sf::Vector2f position;       // 현재 위치
-    float moveSpeed;             // 초당 이동 속도
+    sf::Vector2f position;          // 현재 위치
+    sf::Vector2f previousPosition;  // 이전 프레임에서의 위치
+    float moveSpeed;                // 초당 이동 속도
 
     Direction facingDirection;      // 바라보는 방향 상태값
-    AnimationState animationState;  // 애니메이션 상태값
+    CreatureState animationState;   // 애니메이션 상태값
 
-    Animation animation;         // 현재 애니메이션
-    Collider collider;           // 몸체 충돌 영역
+    Animation animation;            // 현재 애니메이션
+    Collider bodyCollider;          // 몸체 충돌 콜라이더
+    Collider attackCollider;        // 공격 범위 콜라이더
+
+    bool attackTriggered;           // 공격 플래그
 
 private:
-    CreatureType category;       // 플레이어인지 몬스터인지 구분
-    int maxHp;                   // 최대 체력
-    int hp;                      // 현재 체력
-    int defence;                 // 방어력
-    int damage;                  // 공격력
-    int evasionRate;             // 회피율 0~100
+    CreatureType category;          // 플레이어인지 몬스터인지 구분
+    int maxHp;                      // 최대 체력
+    int hp;                         // 현재 체력
+    int defence;                    // 방어력
+    int damage;                     // 공격력
+    int evasionRate;                // 회피율 0~100
 
 protected:
     Creature(
@@ -56,10 +60,13 @@ public:
     int GetDefence() { return defence; }
     int GetDamage() { return damage; }
     int GetEvasionRate() { return evasionRate; }
-    float GetMoveSpeed() const { return moveSpeed; }
+    float GetMoveSpeed() { return moveSpeed; }
     sf::Vector2f GetPosition() { return position; }
-    Collider& GetCollider() { return collider; }
+    sf::Vector2f GetPreviousPosition() { return previousPosition; }
+    Collider& GetBodyCollider() { return bodyCollider; }
+    Collider& GetAttackCollider() { return attackCollider; }
     Animation& GetAnimation() { return animation; }
+    bool IsAttackTriggered() const { return attackTriggered; }
 
     // ---------------------------------------------------------
 
@@ -82,5 +89,7 @@ public:
 
     int TakeDamage(int incomingDamage); // 피격 함수
     bool IsDead();                // 사망 판정 함수
+
+    void MoveForce(const sf::Vector2f& position);
 };
 

@@ -38,7 +38,6 @@ protected:
     void UpdateLogic(float deltaTime) override final;
     virtual void UpdateJobLogic(float deltaTime) = 0;
 
-    virtual void Attack(Creature* target) override = 0;
     virtual void UseSkill(Creature* target) = 0;
 
 public:

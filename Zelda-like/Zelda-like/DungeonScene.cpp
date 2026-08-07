@@ -108,7 +108,7 @@ DungeonScene::DungeonScene(SceneManager* sceneManager, EntityManager* entitymana
     }
 
     // 몬스터 스폰 테스트를 위한 코드
-    entityManager->SpawnMonster(SLIME, NONE_COLOR, { Constants::CENTER_X, Constants::CENTER_Y });
+    entityManager->SpawnMonster(SLIME, NONE_COLOR, { Constants::CENTER_X + 100.f, Constants::CENTER_Y + 100.f });
 }
 
 DungeonScene::~DungeonScene()
@@ -129,12 +129,14 @@ void DungeonScene::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
     if (input.IsNum1Pressed())
     {
         sceneManager->RequestSceneChange(HOME);
+        entityManager->ClearMonsters();
         return;
     }
 
     if (input.IsNum2Pressed())
     {
         sceneManager->RequestSceneChange(DUNGEON);
+        entityManager->ClearMonsters();
         return;
     }
 
@@ -178,10 +180,11 @@ void DungeonScene::Update(
     // 방 외벽과 충돌 검사
     for (const Collider& roomCollider : roomColliders)
     {
-        if (player->GetCollider().Collision(roomCollider))
+        if (player->GetBodyCollider().Collision(roomCollider))
         {
             // 충돌했다면 이동 전 위치로 복구
-            player->SetPosition(previousPosition);
+            //player->SetPosition(previousPosition);
+            player->MoveForce(previousPosition);
 
             break;
         }
@@ -209,23 +212,16 @@ void DungeonScene::Render(sf::RenderWindow& window)
         player->Render(window);
     }
 
-    const std::vector<Entity*>& entities =
-        entityManager->GetEntities();
+    const std::vector<Monster*>& monsters = entityManager->GetMonsters();
 
-    for (Entity* entity : entities)
+    for (Monster* monster : monsters)
     {
-        if (entity == nullptr || !entity->IsActive())
+        if (monster == nullptr || !monster->IsActive())
         {
             continue;
         }
 
-        // 현재 Entity가 플레이어라면 건너뜀
-        if (entity == player)
-        {
-            continue;
-        }
-
-        entity->Render(window);
+        monster->Render(window);
     }
 
     for (const sf::Sprite& wallSprite : lowerWallSprites)

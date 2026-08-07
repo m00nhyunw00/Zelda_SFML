@@ -16,13 +16,14 @@ EntityManager::EntityManager()
 
 EntityManager::~EntityManager()
 {
-    for (Entity* entity : entities)
+    for (Monster* monster : monsters)
     {
-        delete entity;
+        delete monster;
     }
 
-    entities.clear();
+    monsters.clear();
 
+    delete player;
     player = nullptr;
 }
 
@@ -53,8 +54,6 @@ void EntityManager::CreatePlayer(
     default:
         return;
     }
-
-    AddEntity(player);
 }
 
 void EntityManager::SpawnMonster(
@@ -84,89 +83,204 @@ void EntityManager::SpawnMonster(
         return;
     }
 
-    AddEntity(monster);
+    monster->SetTarget(player);
 
-    std::cout
-        << "Slime Spawned: "
-        << position.x << ", "
-        << position.y << std::endl;
+    AddMonster(monster);
+
+    cout << "Slime Spawned: " << position.x << ", " << position.y << endl;
 }
 
-void EntityManager::AddEntity(Entity* entity)
+void EntityManager::AddMonster(Monster* monster)
 {
-    if (entity == nullptr)
+    if (monster == nullptr)
         return;
 
-    entities.push_back(entity);
+    monsters.push_back(monster);
+}
+
+void EntityManager::ClearMonsters()
+{
+    monsters.clear();
+}
+
+void EntityManager::DeletePlayer()
+{
+    delete player;
 }
 
 void EntityManager::CheckCollisions()
 {
-    if (player == nullptr)
+    // Player ↔ Monster 몸체 충돌
+    CheckPlayerMonsterCollisions();
+
+    // Player의 공격
+    CheckPlayerAttackCollisions();
+
+    // Monster의 공격
+    CheckMonsterAttackCollisions();
+
+    // Projectile ↔ Monster / Player 공격 충돌
+    CheckProjectileCollisions();
+}
+
+void EntityManager::CheckPlayerMonsterCollisions()
+{
+    if (player == nullptr ||
+        !player->IsActive())
     {
         return;
     }
 
-    for (Entity* entity : entities)
+    for (Monster* monster : monsters)
     {
-        Creature* creature =
-            dynamic_cast<Creature*>(entity);
-
-        if (creature == nullptr ||
-            creature == player)
+        if (monster == nullptr ||
+            !monster->IsActive())
         {
             continue;
         }
 
-        if (player->GetCollider().Collision(
-            creature->GetCollider()))
+        if (player->GetBodyCollider().Collision(
+            monster->GetBodyCollider()))
         {
-            std::cout << "Collision Ocurred!" << std::endl;
+            cout << "Player Monster Body Collision!" << endl;
+
+            player->MoveForce(
+                player->GetPreviousPosition()
+            );
+
+            monster->MoveForce(
+                monster->GetPreviousPosition()
+            );
         }
     }
+}
+
+void EntityManager::CheckPlayerAttackCollisions()
+{
+    if (player == nullptr ||
+        !player->IsActive())
+    {
+        return;
+    }
+
+    // 이번 프레임에 공격을 시작한 게 아니면 검사하지 않음
+    if (!player->IsAttackTriggered())
+    {
+        return;
+    }
+
+    for (Monster* monster : monsters)
+    {
+        if (monster == nullptr ||
+            !monster->IsActive())
+        {
+            continue;
+        }
+
+        if (player->GetAttackCollider().Collision(
+            monster->GetBodyCollider()))
+        {
+            player->Attack(monster);
+        }
+    }
+}
+
+void EntityManager::CheckMonsterAttackCollisions()
+{
+    for (Monster* monster : monsters)
+    {
+        if (!monster->IsAttackTriggered())
+            continue;
+
+        if (monster->GetAttackCollider().Collision(player->GetBodyCollider()))
+        {
+            monster->Attack(player);
+        }
+    }
+}
+
+
+// 투사체 충돌 함수
+void EntityManager::CheckProjectileCollisions()
+{
+    // TODO
 }
 
 void EntityManager::RemoveInactiveEntities()
 {
-    for (auto iterator = entities.begin(); iterator != entities.end();)
+    for (auto iterator = monsters.begin();
+        iterator != monsters.end();)
     {
-        Entity* entity = *iterator;
+        Monster* monster = *iterator;
 
-        if (entity == nullptr || !entity->IsActive())
+        if (monster == nullptr ||
+            !monster->IsActive())
         {
-            if (entity == player)
-                player = nullptr;
+            delete monster;
 
-            delete entity;
-            iterator = entities.erase(iterator);
+            iterator =
+                monsters.erase(iterator);
         }
         else
         {
-            iterator++;
+            ++iterator;
         }
     }
 }
 
-void EntityManager::Update(float deltaTime, sf::RenderWindow& window)
+void EntityManager::Update(
+    float deltaTime,
+    sf::RenderWindow& window)
 {
-    for (Entity* entity : entities)
+    int beforeHp = player->GetHp();
+
+    if (player != nullptr &&
+        player->IsActive())
     {
-        if (entity != nullptr && entity->IsActive())
+        player->Update(
+            deltaTime,
+            window
+        );
+    }
+
+    for (Monster* monster : monsters)
+    {
+        if (monster != nullptr &&
+            monster->IsActive())
         {
-            entity->Update(deltaTime, window);
+            monster->Update(
+                deltaTime,
+                window
+            );
         }
     }
 
     CheckCollisions();
 
+    int afterHp = player->GetHp();
+
+    if (beforeHp != afterHp)
+        PrintPlayerHp();
+
     RemoveInactiveEntities();
 }
 
-void EntityManager::Render(sf::RenderWindow& window)
+void EntityManager::Render(
+    sf::RenderWindow& window)
 {
-    for (Entity* entity : entities)
-        if (entity != nullptr && entity->IsActive())
-            entity->Render(window);
+    if (player != nullptr && player->IsActive())
+    {
+        player->Render(window);
+    }
+
+    for (Monster* monster : monsters)
+    {
+        if (monster != nullptr &&
+            monster->IsActive())
+        {
+            monster->Render(window);
+        }
+    }
 }
 
 void EntityManager::PrintPlayerInfo()
@@ -213,6 +327,22 @@ void EntityManager::PrintPlayerInfo()
         << ", "
         << player->GetPosition().y
         << ")" << endl;
+
+    cout << "=============================================" << endl;
+}
+
+void EntityManager::PrintPlayerHp()
+{
+    if (player == nullptr)
+    {
+        cout << "Player가 생성되지 않았습니다." << endl;
+        return;
+    }
+
+    cout << "=============================================" << endl;
+
+
+    cout << "HP : "<< player->GetHp() << " / "<< player->GetMaxHp() << endl;
 
     cout << "=============================================" << endl;
 }

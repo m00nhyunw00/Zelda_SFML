@@ -12,5 +12,8 @@ struct MonsterData
 
     float moveSpeed;
 
+    float detectionRange;         
+    float attackRange;              
+
     MonsterColor color;
 };

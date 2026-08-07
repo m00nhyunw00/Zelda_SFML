@@ -35,6 +35,9 @@ Archer::Archer(
     );
     sprite->setScale({ 4.f,4.f });
     sprite->setPosition(startPosition);
+
+    bodyCollider.SetSize({ 32.f, 24.f });
+    bodyCollider.SetOffset({ 0.f, 12.f });
 }
 
 void Archer::UpdateJobLogic(float deltaTime)

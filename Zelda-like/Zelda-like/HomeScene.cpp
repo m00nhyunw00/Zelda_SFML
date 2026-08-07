@@ -118,12 +118,14 @@ void HomeScene::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
     // 숫자 키
     if (input.IsNum1Pressed())
     {
+        entityManager->ClearMonsters();
         sceneManager->RequestSceneChange(TITLE);
         return;
     }
 
     if (input.IsNum2Pressed())
     {
+        entityManager->ClearMonsters();
         sceneManager->RequestSceneChange(DUNGEON);
         return;
     }
@@ -165,10 +167,10 @@ void HomeScene::Update(
     // 방 외벽과 충돌 검사
     for (const Collider& roomCollider : roomColliders)
     {
-        if (player->GetCollider().Collision(roomCollider))
+        if (player->GetBodyCollider().Collision(roomCollider))
         {
             // 충돌했다면 이동 전 위치로 복구
-            player->SetPosition(previousPosition);
+            player->MoveForce(previousPosition);
 
             break;
         }

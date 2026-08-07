@@ -24,7 +24,7 @@ Collider::Collider(
 
     body.setFillColor(sf::Color::Transparent);
     body.setOutlineColor(sf::Color::Red);
-    body.setOutlineThickness(1.f);
+    body.setOutlineThickness(2.f);
 }
 
 void Collider::SetSize(
@@ -47,6 +47,16 @@ void Collider::SetPosition(
     const sf::Vector2f& position)
 {
     body.setPosition(position);
+}
+
+void Collider::SetOrigin(const sf::Vector2f& origin)
+{
+    body.setOrigin(origin);
+}
+
+void Collider::SetRotation(float degree)
+{
+    body.setRotation(sf::degrees(degree));
 }
 
 void Collider::UpdatePosition(const sf::Vector2f& ownerPosition)

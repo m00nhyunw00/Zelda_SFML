@@ -21,20 +21,54 @@ Player::Player(
 	this->currentExp = 0;
 }
 
+//void Player::UpdateLogic(float deltaTime)
+//{
+//    const sf::Vector2f direction = InputManager::GetInstance().GetMoveDirection();
+//
+//    if (InputManager::GetInstance().IsSpacePressed())
+//    {
+//        animationState = CreatureState::ATTACK;
+//    }
+//
+//    HandleMovement(direction, deltaTime);   // 모든 직업의 공통 이동 입력 처리
+//    HandleAnimation(direction, deltaTime);  // 모든 직업의 공통 애니메이션 처리
+//
+//    // 모든 직업의 공통 쿨타임 처리
+//    if (skillCooldown > 0.f)
+//    {
+//        skillCooldown -= deltaTime;
+//
+//        if (skillCooldown < 0.f)
+//        {
+//            skillCooldown = 0.f;
+//        }
+//    }
+//
+//    // 직업마다 다른 업데이트 실행
+//    UpdateJobLogic(deltaTime);
+//}
+
 void Player::UpdateLogic(float deltaTime)
 {
-    const sf::Vector2f direction = InputManager::GetInstance().GetMoveDirection();
+    // 기본적으로 이번 프레임에는 새 공격 없음
+    attackTriggered = false;
 
-    if (InputManager::GetInstance().IsSpacePressed())
+    const sf::Vector2f direction =
+        InputManager::GetInstance().GetMoveDirection();
+
+    // 공격 중이 아닐 때만 새로운 공격 시작 가능
+    if (InputManager::GetInstance().IsSpacePressed() &&
+        animationState != CreatureState::ATTACK)
     {
-        animationState = AnimationState::ATTACK;
-        // Attack();
+        animationState = CreatureState::ATTACK;
+
+        // 딱 이번 프레임에만 true
+        attackTriggered = true;
     }
 
-    HandleMovement(direction, deltaTime);   // 모든 직업의 공통 이동 입력 처리
-    HandleAnimation(direction, deltaTime);  // 모든 직업의 공통 애니메이션 처리
+    HandleMovement(direction, deltaTime);
+    HandleAnimation(direction, deltaTime);
 
-    // 모든 직업의 공통 쿨타임 처리
     if (skillCooldown > 0.f)
     {
         skillCooldown -= deltaTime;
@@ -45,7 +79,6 @@ void Player::UpdateLogic(float deltaTime)
         }
     }
 
-    // 직업마다 다른 업데이트 실행
     UpdateJobLogic(deltaTime);
 }
 
@@ -58,16 +91,16 @@ void Player::HandleMovement(const sf::Vector2f& direction, float deltaTime)
 void Player::HandleAnimation(const sf::Vector2f& direction, float deltaTime)
 {
     // 공격 중이 아닐 때만 이동 여부로 상태 변경
-    if (animationState != AnimationState::ATTACK)
+    if (animationState != CreatureState::ATTACK)
     {
         if (direction.x != 0.f ||
             direction.y != 0.f)
         {
-            animationState = AnimationState::RUN;
+            animationState = CreatureState::RUN;
         }
         else
         {
-            animationState = AnimationState::IDLE;
+            animationState = CreatureState::IDLE;
         }
     }
 
@@ -76,15 +109,15 @@ void Player::HandleAnimation(const sf::Vector2f& direction, float deltaTime)
     const bool animationFinished = animation.Update(*sprite, deltaTime);
 
     // 공격 애니메이션 한 사이클이 종료됨
-    if (animationState == AnimationState::ATTACK && animationFinished)
+    if (animationState == CreatureState::ATTACK && animationFinished)
     {
         if (direction.x != 0.f || direction.y != 0.f)
         {
-            animationState = AnimationState::RUN;
+            animationState = CreatureState::RUN;
         }
         else
         {
-            animationState = AnimationState::IDLE;
+            animationState = CreatureState::IDLE;
         }
     }
 }

@@ -2,6 +2,7 @@
 #include <vector>
 #include "Entity.h"
 #include "Player.h"
+#include "Monster.h"
 #include "PlayerType.h"
 #include "MonsterType.h"
 #include "MonsterColor.h"
@@ -10,7 +11,7 @@ class EntityManager
 {
 private:
     Player* player;
-    std::vector<Entity*> entities;
+    std::vector<Monster*> monsters;
 
 public:
     EntityManager();
@@ -31,11 +32,19 @@ public:
     void SetPlayer(Player* player) { this->player = player; }
     Player* GetPlayer() const { return player; }
 
-    const std::vector<Entity*>& GetEntities() const { return entities; }
+    const std::vector<Monster*>& GetMonsters() const { return monsters; }
 
-    void AddEntity(Entity* entity);
+    void AddMonster(Monster* monster);
+
+    void ClearMonsters();
+
+    void DeletePlayer();
 
     void CheckCollisions();
+    void CheckPlayerMonsterCollisions();
+    void CheckPlayerAttackCollisions();
+    void CheckMonsterAttackCollisions();
+    void CheckProjectileCollisions();
 
     void Update(float deltaTime, sf::RenderWindow& window);
 
@@ -44,5 +53,6 @@ public:
     void RemoveInactiveEntities();
 
     void PrintPlayerInfo();
+    void PrintPlayerHp();
 };
 

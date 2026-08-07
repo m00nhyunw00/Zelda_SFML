@@ -25,8 +25,14 @@ public:
     // 소유 객체 위치로부터의 상대 위치 설정
     void SetOffset(const sf::Vector2f& offset);
 
+    // Collider의 Origin 변경 
+    void SetOrigin(const sf::Vector2f& origin);
+
     // Collider의 실제 위치 갱신
     void SetPosition(const sf::Vector2f& position);
+
+    // Collider 회전
+    void SetRotation(float degree);
 
     // Creature 등의 중심 위치를 기준으로 Collider 위치 갱신
     void UpdatePosition(const sf::Vector2f& ownerPosition);

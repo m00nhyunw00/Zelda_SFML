@@ -37,5 +37,29 @@
     "totalColumns": 6,
     "frameCount": 6,
     "frameDuration": 0.1
+  },
+
+  "SLIME_IDLE": {
+    "textureKey": "Slime_Idle",
+    "totalRows": 1,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.2
+  },
+
+  "SLIME_RUN": {
+    "textureKey": "Slime_Run",
+    "totalRows": 1,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.1
+  },
+
+  "SLIME_ATTACK": {
+    "textureKey": "Slime_Attack",
+    "totalRows": 3,
+    "totalColumns": 5,
+    "frameCount": 5,
+    "frameDuration": 0.08
   }
 }

@@ -12,7 +12,7 @@ std::string Animation::GetAnimationKey()
 {
     switch (currentState)
     {
-    case AnimationState::IDLE:
+    case CreatureState::IDLE:
         if (ownerType == "WARRIOR" ||
             ownerType == "ARCHER" ||
             ownerType == "MAGE")
@@ -22,7 +22,7 @@ std::string Animation::GetAnimationKey()
 
         return ownerType + "_IDLE";
 
-    case AnimationState::RUN:
+    case CreatureState::RUN:
         if (ownerType == "WARRIOR" ||
             ownerType == "ARCHER" ||
             ownerType == "MAGE")
@@ -32,7 +32,7 @@ std::string Animation::GetAnimationKey()
 
         return ownerType + "_RUN";
 
-    case AnimationState::ATTACK:
+    case CreatureState::ATTACK:
         return ownerType + "_ATTACK";
 
     default:
@@ -40,7 +40,7 @@ std::string Animation::GetAnimationKey()
     }
 }
 
-void Animation::Play(AnimationState state, Direction direction)
+void Animation::Play(CreatureState state, Direction direction)
 {
     // 이미 같은 애니메이션을 재생 중이면 초기화하지 않음
     if (currentState == state &&
@@ -99,7 +99,7 @@ bool Animation::Update(sf::Sprite& sprite, float deltaTime)
             currentFrame = 0;
 
             // IDLE의 경우, 무한 반복되지만 ATTACK의 경우는 한 사이클이 끝나면 종료한 후 IDLE로 돌아가야 함
-            if (currentState == AnimationState::ATTACK)
+            if (currentState == CreatureState::ATTACK)
             {
                 animationFinished = true;
             }
@@ -108,20 +108,24 @@ bool Animation::Update(sf::Sprite& sprite, float deltaTime)
 
     int directionRow = 0;
 
-    switch (currentDirection)
+
+    if (data->totalRows > 1)
     {
-    case Direction::DOWN:
-        directionRow = 0;
-        break;
+        switch (currentDirection)
+        {
+        case Direction::DOWN:
+            directionRow = 0;
+            break;
 
-    case Direction::LEFT:
-    case Direction::RIGHT:
-        directionRow = 1;
-        break;
+        case Direction::LEFT:
+        case Direction::RIGHT:
+            directionRow = 1;
+            break;
 
-    case Direction::UP:
-        directionRow = 2;
-        break;
+        case Direction::UP:
+            directionRow = 2;
+            break;
+        }
     }
 
     sprite.setTexture(*texture);
