@@ -1,7 +1,7 @@
 #pragma once
 
 #include "UI.h"
-#include "SFML/Graphics.hpp"
+#include <string>
 
 class Button : public UI
 {
@@ -13,13 +13,34 @@ private:
     bool clicked;
 
 public:
-    void Update(float deltaTime) override;
+    Button(
+        const sf::Font& font,
+        const std::string& text,
+        const sf::Vector2f& size,
+        const sf::Vector2f& position
+    );
+
+    void HandleEvent(const sf::Event& event,sf::RenderWindow& window) override;
+
+    void Update(float deltaTime, sf::RenderWindow& window) override; 
+
     void Render(sf::RenderWindow& window) override;
 
-    bool IsHovered() const;
-    bool IsClicked() const;
+    // Getter
+    bool IsHovered() const { return hovered; }
 
-    void SetText(...);
-    void SetSize(...);
-    void SetPosition(...);
+    bool IsClicked() const { return clicked; }
+
+    // Setter
+    void SetText(const std::string& text);
+
+    void SetSize(const sf::Vector2f& size);
+
+    void SetPosition(const sf::Vector2f& position);
+
+    void SetFillColor(const sf::Color& color);
+
+    void SetOutlineColor(const sf::Color& color);
+
+    void SetOutlineThickness(float thickness);
 };

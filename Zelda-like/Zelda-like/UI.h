@@ -10,10 +10,13 @@ protected:
 public:
     virtual ~UI() = default;
 
-    virtual void Update(float deltaTime) = 0;
+    virtual void HandleEvent(const sf::Event& event, sf::RenderWindow& window) = 0;
+
+    virtual void Update(float deltaTime, sf::RenderWindow& window) = 0;
+
     virtual void Render(sf::RenderWindow& window) = 0;
 
     bool IsActive() const { return active; }
+
     void SetActive(bool active) { this->active = active; }
 };
-

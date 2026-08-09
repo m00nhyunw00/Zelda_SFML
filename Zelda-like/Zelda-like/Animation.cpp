@@ -17,7 +17,8 @@ std::string Animation::GetAnimationKey()
             ownerType == "ARCHER" ||
             ownerType == "MAGE")
         {
-            return "PLAYER_IDLE";
+            currentAnimationKey = "PLAYER_IDLE";
+            return currentAnimationKey;
         }
 
         return ownerType + "_IDLE";
@@ -30,13 +31,14 @@ std::string Animation::GetAnimationKey()
             return "PLAYER_RUN";
         }
 
-        return ownerType + "_RUN";
+        currentAnimationKey = ownerType + "_RUN";
+        return currentAnimationKey;
 
     case CreatureState::ATTACK:
         return ownerType + "_ATTACK";
 
     default:
-        return "";
+        return "NONE";
     }
 }
 
@@ -52,14 +54,38 @@ void Animation::Play(CreatureState state, Direction direction)
     currentState = state;
     currentDirection = direction;
 
+    currentAnimationKey = "";
+
     // 다른 애니메이션으로 바뀌었으므로 처음부터 재생
+    currentFrame = 0;
+    elapsedTime = 0.f;
+}
+
+void Animation::Play(const std::string& animationKey)
+{
+    if (currentAnimationKey == animationKey)
+    {
+        return;
+    }
+
+    currentAnimationKey = animationKey;
+
     currentFrame = 0;
     elapsedTime = 0.f;
 }
 
 bool Animation::Update(sf::Sprite& sprite, float deltaTime)
 {
-    const string animationKey = GetAnimationKey();
+    std::string animationKey;
+
+    if (!currentAnimationKey.empty())
+    {
+        animationKey = currentAnimationKey;
+    }
+    else
+    {
+        animationKey = GetAnimationKey();
+    }
 
     if (animationKey.empty())
     {
@@ -111,20 +137,46 @@ bool Animation::Update(sf::Sprite& sprite, float deltaTime)
 
     if (data->totalRows > 1)
     {
-        switch (currentDirection)
+        if (currentState != ATTACK)
         {
-        case Direction::DOWN:
-            directionRow = 0;
-            break;
+            switch (currentDirection)
+            {
+            case Direction::DOWN:
+                directionRow = 0;
+                break;
 
-        case Direction::LEFT:
-        case Direction::RIGHT:
-            directionRow = 1;
-            break;
+            case Direction::LEFT:
+            case Direction::RIGHT:
+                directionRow = 1;
+                break;
+            case Direction::UP:
+                directionRow = 2;
+                break;
+            }
+        }
+        else
+        {
+            switch (currentDirection)
+            {
+            case Direction::DOWN:
+                if (ownerType == "WARRIOR")
+                    directionRow = 0;
+                else if (ownerType == "ARCHER")
+                    directionRow = 1;
+                break;
 
-        case Direction::UP:
-            directionRow = 2;
-            break;
+            case Direction::LEFT:
+            case Direction::RIGHT:
+                if (ownerType == "WARRIOR")
+                    directionRow = 1;
+                else if (ownerType == "ARCHER")
+                    directionRow = 0;
+                break;
+
+            case Direction::UP:
+                directionRow = 2;
+                break;
+            }
         }
     }
 

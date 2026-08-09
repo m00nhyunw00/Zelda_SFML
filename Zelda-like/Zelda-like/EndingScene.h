@@ -1,5 +1,8 @@
 #pragma once
-class EndingScene
+
+#include "InGameScene.h"
+
+class EndingScene : public InGameScene
 {
 };
 

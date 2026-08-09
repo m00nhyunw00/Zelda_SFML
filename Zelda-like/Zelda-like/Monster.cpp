@@ -10,13 +10,26 @@ Monster::Monster(
     this->color = data.color;
 	this->exp = 0;
 
-    // 테스트 ---------------------------
+    hpBar = new GaugeBar(
+        { 50.f, 6.f },
+        { position.x, position.y - 45.f },
+        GetMaxHp()
+    );
+
     monsterState = MonsterState::NONE_CHASE;
 
     target = nullptr;
 
     this->detectionRange = data.detectionRange;
     this->attackRange = data.attackRange;
+}
+
+Monster::~Monster()
+{
+    target = nullptr;
+
+    delete hpBar;
+    hpBar = nullptr;
 }
 
 sf::Vector2f Monster::AIMovement(float deltaTime)
@@ -139,4 +152,23 @@ void Monster::UpdateLogic(float deltaTime)
     HandleAnimation(direction, deltaTime);
 
     UpdateTypeLogic(deltaTime);
+
+    hpBar->SetValue(GetHp());
+
+    hpBar->SetPosition({
+        position.x,
+        position.y - 45.f
+        });
+}
+
+void Monster::Render(sf::RenderWindow& window)
+{
+    // 먼저 Creature의 Sprite 렌더링
+    Creature::Render(window);
+
+    // 그 다음 몬스터 HP Bar 렌더링
+    if (hpBar != nullptr)
+    {
+        hpBar->Render(window);
+    }
 }

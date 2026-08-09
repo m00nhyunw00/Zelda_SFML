@@ -31,6 +31,14 @@
     "frameDuration": 0.1
   },
 
+  "ARCHER_TRIPLE_SHOT": {
+    "textureKey": "Archer",
+    "totalRows": 3,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.035
+  },
+
   "MAGE_ATTACK": {
     "textureKey": "Mage_Attack",
     "totalRows": 3,
@@ -60,6 +68,14 @@
     "totalRows": 3,
     "totalColumns": 5,
     "frameCount": 5,
+    "frameDuration": 0.08
+  },
+
+  "ARROW": {
+    "textureKey": "Arrow",
+    "totalRows": 1,
+    "totalColumns": 4,
+    "frameCount": 4,
     "frameDuration": 0.08
   }
 }

@@ -26,6 +26,7 @@ Game::Game()
     resourceManager.LoadTexture("Warrior", "Assets/Characters/Character_AttackSword1.png");     // 전사 Attack 텍스쳐 업로드
     resourceManager.LoadTexture("Archer", "Assets/Characters/Character_AttackBow1.png");        // 궁수 Attack 텍스쳐 업로드
     resourceManager.LoadTexture("Staff_3", "Assets/Icons/Staff_3.png");                         // 레벨3 지팡이 텍스쳐 업로드
+    resourceManager.LoadTexture("Arrow", "Assets/Effects/Effect_Arrow.png");                    // 화살 텍스쳐 업로드
 
     resourceManager.LoadTexture("Slime_Idle", "Assets/Characters/Enemy_Slime/Enemy_Slime_Idle.png");        // 슬라임 Idle 텍스쳐 업로드
     resourceManager.LoadTexture("Slime_Run", "Assets/Characters/Enemy_Slime/Enemy_Slime_Walk.png");         // 슬라임 Run 텍스쳐 업로드

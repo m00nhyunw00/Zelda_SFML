@@ -19,8 +19,20 @@ private:
     float maxSkillCooldown;
     float skillCooldown;
 
+    std::string ultimateName;
+    int ultimateDamage;
+
+    float maxUltimateGauge;
+    float ultimateGauge;
+
     int maxExp;
     int currentExp;
+
+protected:
+    std::vector<Projectile*> pendingProjectiles;
+
+    bool skillTriggered = false;
+    bool ultimateTriggered = false;
 
 private:
     void HandleMovement(const sf::Vector2f& direction, float deltaTime);
@@ -35,13 +47,29 @@ protected:
         const sf::Vector2f& position
     );
 
+    virtual bool HandleJobAnimation(float deltaTime) { return false; }
+
     void UpdateLogic(float deltaTime) override final;
     virtual void UpdateJobLogic(float deltaTime) = 0;
 
-    virtual void UseSkill(Creature* target) = 0;
+    void AddPendingProjectile(Projectile* projectile);
 
 public:
     ~Player() override = default;
+
+    virtual void UseSkill(Creature* target) = 0;
+
+    std::vector<Projectile*> TakePendingProjectiles();
+
+    void IncreaseMaxHp(int amount);
+    void IncreaseDamage(int amount);
+    void IncreaseSkillDamage(int amount);
+
+    void AddExp(int exp);
+    void LevelUp();
+    void IncreaseStats(int maxHpAmount, int defenceAmount, int damageAmount, int skillDamageAmount);
+
+    void Heal(int amount);
 
     // Getter -------------------------------------------------
 
@@ -54,8 +82,12 @@ public:
     float GetSkillCooldown() const { return skillCooldown; }
     int GetMaxExp() const { return maxExp; }
     int GetCurrentExp() const { return currentExp; }
-
-    // ---------------------------------------------------------
+    const std::string& GetUltimateName() const { return ultimateName; }
+    int GetUltimateDamage() const { return ultimateDamage; }
+    float GetMaxUltimateGauge() const { return maxUltimateGauge; }
+    float GetUltimateGauge() const { return ultimateGauge; }
+    bool IsSkillTriggered() const { return skillTriggered; }
+    bool IsUltimateTriggered() const { return ultimateTriggered; }
 
     // Setter -------------------------------------------------
 
@@ -63,15 +95,4 @@ public:
     void SetSkillCooldown(float cooldown) { this->skillCooldown = cooldown; }
     void SetCurrentExp(int exp) { this->currentExp = currentExp; }
 
-    // ---------------------------------------------------------
-
-    void IncreaseMaxHp(int amount);
-    void IncreaseDamage(int amount);
-    void IncreaseSkillDamage(int amount);
-
-    void AddExp(int exp);
-    void LevelUp();
-    void IncreaseStats(int maxHpAmount, int defenceAmount, int damageAmount, int skillDamageAmount);
-
-    void Heal(int amount);
 };

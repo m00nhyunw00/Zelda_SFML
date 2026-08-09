@@ -6,12 +6,15 @@
 #include "PlayerType.h"
 #include "MonsterType.h"
 #include "MonsterColor.h"
+#include "Projectile.h"
+#include "ProjectileType.h"
 
 class EntityManager
 {
 private:
     Player* player;
     std::vector<Monster*> monsters;
+    std::vector<Projectile*> projectiles;
 
 public:
     EntityManager();
@@ -35,15 +38,18 @@ public:
     const std::vector<Monster*>& GetMonsters() const { return monsters; }
 
     void AddMonster(Monster* monster);
+    void AddProjectile(Projectile* projectile);
 
     void ClearMonsters();
-
+    void ClearProjectiles();
     void DeletePlayer();
+    void ResetGame();
 
     void CheckCollisions();
     void CheckPlayerMonsterCollisions();
-    void CheckPlayerAttackCollisions();
+    void CheckPlayerMeleeAttackCollisions();
     void CheckMonsterAttackCollisions();
+    void HandlePlayerRangedAttack();
     void CheckProjectileCollisions();
 
     void Update(float deltaTime, sf::RenderWindow& window);

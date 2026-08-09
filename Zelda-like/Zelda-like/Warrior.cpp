@@ -72,5 +72,5 @@ void Warrior::Attack(Creature* target)
 
 void Warrior::UseSkill(Creature* target)
 {
-
+    return;
 }

@@ -113,6 +113,12 @@ bool DataManager::LoadPlayerData(
 
             data.maxSkillCooldown = value.at("maxSkillCooldown").get<float>();
 
+            data.ultimateName = value.at("ultimateName").get<std::string>();
+
+            data.ultimateDamage = value.at("ultimateDamage").get<int>();
+
+            data.maxUltimateGauge = value.at("maxUltimateGauge").get<float>();
+
             playerDataTable[playerType] = data;
         }
     }

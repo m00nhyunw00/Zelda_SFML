@@ -14,4 +14,8 @@ struct PlayerData
     std::string skillName;
     int skillDamage;
     float maxSkillCooldown;
+
+    std::string ultimateName;
+    int ultimateDamage;
+    float maxUltimateGauge;
 };

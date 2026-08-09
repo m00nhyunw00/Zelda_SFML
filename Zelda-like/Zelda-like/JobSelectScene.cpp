@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-JobSelectScene::JobSelectScene(SceneManager* sceneManager, EntityManager* entitymanager) : Scene(sceneManager, entitymanager, false)
+JobSelectScene::JobSelectScene(SceneManager* sceneManager, EntityManager* entitymanager) : Scene(sceneManager, entitymanager)
 {
     selectedJob = PlayerType::NONE_PLAYER;
 

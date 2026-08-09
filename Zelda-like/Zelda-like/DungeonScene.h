@@ -6,8 +6,9 @@
 #include "EntityManager.h"
 #include "PlayerType.h"
 #include "Camera.h"
+#include "InGameScene.h"
 
-class DungeonScene : public Scene
+class DungeonScene : public InGameScene
 {
 private:
     std::vector<sf::Sprite> floorSprites;

@@ -8,6 +8,9 @@
 #include "MonsterData.h"
 #include "Animation.h"
 #include "Collider.h"
+#include "ProjectileType.h"
+
+class Projectile;
 
 class Creature : public Entity
 {
@@ -66,9 +69,8 @@ public:
     Collider& GetBodyCollider() { return bodyCollider; }
     Collider& GetAttackCollider() { return attackCollider; }
     Animation& GetAnimation() { return animation; }
+    Direction GetFacingDirection() { return facingDirection; };
     bool IsAttackTriggered() const { return attackTriggered; }
-
-    // ---------------------------------------------------------
 
     // Setter --------------------------------------------------
 

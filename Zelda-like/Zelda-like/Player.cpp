@@ -2,6 +2,10 @@
 #include "InputManager.h"
 #include "CreatureType.h"
 #include "AnimationState.h"
+#include <iostream>
+#include <utility>
+
+using namespace std;
 
 Player::Player(
 	const std::string& name,
@@ -17,58 +21,57 @@ Player::Player(
 	this->skillDamage = data.skillDamage;
 	this->maxSkillCooldown = data.maxSkillCooldown;
 	this->skillCooldown = 0;
+    this->ultimateName = data.ultimateName;
+    this->ultimateDamage = data.ultimateDamage;
+    this->maxUltimateGauge = data.maxUltimateGauge;
+    this->ultimateGauge = 0;
 	this->maxExp = 100;
 	this->currentExp = 0;
 }
 
-//void Player::UpdateLogic(float deltaTime)
-//{
-//    const sf::Vector2f direction = InputManager::GetInstance().GetMoveDirection();
-//
-//    if (InputManager::GetInstance().IsSpacePressed())
-//    {
-//        animationState = CreatureState::ATTACK;
-//    }
-//
-//    HandleMovement(direction, deltaTime);   // 모든 직업의 공통 이동 입력 처리
-//    HandleAnimation(direction, deltaTime);  // 모든 직업의 공통 애니메이션 처리
-//
-//    // 모든 직업의 공통 쿨타임 처리
-//    if (skillCooldown > 0.f)
-//    {
-//        skillCooldown -= deltaTime;
-//
-//        if (skillCooldown < 0.f)
-//        {
-//            skillCooldown = 0.f;
-//        }
-//    }
-//
-//    // 직업마다 다른 업데이트 실행
-//    UpdateJobLogic(deltaTime);
-//}
-
 void Player::UpdateLogic(float deltaTime)
 {
-    // 기본적으로 이번 프레임에는 새 공격 없음
+    // 이번 프레임 Trigger 초기화
     attackTriggered = false;
+    skillTriggered = false;
+    ultimateTriggered = false;
 
-    const sf::Vector2f direction =
-        InputManager::GetInstance().GetMoveDirection();
+    InputManager& input = InputManager::GetInstance();
 
-    // 공격 중이 아닐 때만 새로운 공격 시작 가능
-    if (InputManager::GetInstance().IsSpacePressed() &&
-        animationState != CreatureState::ATTACK)
+    const sf::Vector2f direction = input.GetMoveDirection();
+
+    // 공격 애니메이션 중이 아닐 때만
+    // 새로운 공격 행동 시작 가능
+    if (animationState != CreatureState::ATTACK)
     {
-        animationState = CreatureState::ATTACK;
+        // 평타
+        if (input.IsSpacePressed())
+        {
+            animationState = CreatureState::ATTACK;
 
-        // 딱 이번 프레임에만 true
-        attackTriggered = true;
+            attackTriggered = true;
+        }
+
+        // 스킬
+        else if (input.IsEPressed() && skillCooldown <= 0.f)
+        {
+            animationState = CreatureState::ATTACK;
+
+            skillTriggered = true;
+
+            skillCooldown = maxSkillCooldown;
+        }
+
+        // 궁극기
+        else if (input.IsQPressed()/* && 궁극기 게이지 FULL */)
+        {
+            animationState = CreatureState::ATTACK;
+
+            ultimateTriggered = true;
+        }
     }
 
-    HandleMovement(direction, deltaTime);
-    HandleAnimation(direction, deltaTime);
-
+    // 스킬 쿨타임
     if (skillCooldown > 0.f)
     {
         skillCooldown -= deltaTime;
@@ -79,6 +82,10 @@ void Player::UpdateLogic(float deltaTime)
         }
     }
 
+    HandleMovement(direction, deltaTime);
+
+    HandleAnimation(direction, deltaTime);
+
     UpdateJobLogic(deltaTime);
 }
 
@@ -86,10 +93,16 @@ void Player::HandleMovement(const sf::Vector2f& direction, float deltaTime)
 {
     UpdateFacingDirection(direction);
     Move(direction, deltaTime);
+
 }
 
 void Player::HandleAnimation(const sf::Vector2f& direction, float deltaTime)
 {
+    if (HandleJobAnimation(deltaTime))
+    {
+        return;
+    }
+
     // 공격 중이 아닐 때만 이동 여부로 상태 변경
     if (animationState != CreatureState::ATTACK)
     {
@@ -120,6 +133,25 @@ void Player::HandleAnimation(const sf::Vector2f& direction, float deltaTime)
             animationState = CreatureState::IDLE;
         }
     }
+}
+
+void Player::AddPendingProjectile(Projectile* projectile)
+{
+    if (projectile == nullptr)
+    {
+        return;
+    }
+
+    pendingProjectiles.push_back(projectile);
+}
+
+std::vector<Projectile*> Player::TakePendingProjectiles()
+{
+    std::vector<Projectile*> result = std::move(pendingProjectiles);
+
+    pendingProjectiles.clear();
+
+    return result;
 }
 
 void Player::IncreaseMaxHp(int amount)

@@ -8,6 +8,8 @@ class Animation
 private:
     std::string ownerType;  // WARRIOR, ARCHER, SLIME 등
 
+    std::string currentAnimationKey;    // 직접 재생용 애니메이션 Key
+
     CreatureState currentState;
     Direction currentDirection;
 
@@ -19,7 +21,12 @@ public:
 
     std::string GetAnimationKey();
 
+    // State와 Direction을 활용하여 애니메이션 재생 (주로 Creature에서 사용)
     void Play(CreatureState state, Direction direction);
+
+    // animationKey를 활용하여 애니메이션 재생 (주로 Projectile에서 사용)
+    void Play(const std::string& animationKey);
+
     bool Update(sf::Sprite& sprite, float deltaTime);
 };
 

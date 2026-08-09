@@ -47,10 +47,10 @@ void Mage::UpdateJobLogic(float deltaTime)
 
 void Mage::Attack(Creature* target)
 {
-
+    return;
 }
 
 void Mage::UseSkill(Creature* target)
 {
-
+    return;
 }

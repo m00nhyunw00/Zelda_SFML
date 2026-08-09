@@ -9,7 +9,7 @@
 
 using namespace std;
 
-TitleScene::TitleScene(SceneManager* sceneManager, EntityManager* entityManager) : Scene(sceneManager, entityManager, false)
+TitleScene::TitleScene(SceneManager* sceneManager, EntityManager* entityManager) : Scene(sceneManager, entityManager)
 {
     titleText = nullptr;
     startText = nullptr;

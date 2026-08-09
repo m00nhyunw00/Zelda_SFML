@@ -5,8 +5,9 @@
 #include "SceneManager.h"
 #include "EntityManager.h"
 #include "PlayerType.h"
+#include "InGameScene.h"
 
-class HomeScene : public Scene
+class HomeScene : public InGameScene
 {
 private:
     std::vector<sf::Sprite> floorSprites;

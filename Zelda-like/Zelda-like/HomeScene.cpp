@@ -9,7 +9,7 @@
 
 #include <iostream>
 
-HomeScene::HomeScene(SceneManager* sceneManager, EntityManager* entitymanager) : Scene(sceneManager, entitymanager, true)
+HomeScene::HomeScene(SceneManager* sceneManager, EntityManager* entitymanager) : InGameScene(sceneManager, entitymanager)
 {
     sf::Font* font = ResourceManager::GetInstance().GetFont("MainFont");
 
@@ -199,6 +199,15 @@ void HomeScene::Render(sf::RenderWindow& window)
     for (const sf::Sprite& wallSprite : lowerWallSprites)
     {
         window.draw(wallSprite);
+    }
+
+    if (isGameOver)
+    {
+        RenderGameOver(window);
+    }
+    else
+    {
+        RenderPlayerBar(window);
     }
 }
 

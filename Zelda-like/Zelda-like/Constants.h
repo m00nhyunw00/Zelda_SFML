@@ -14,6 +14,7 @@ namespace Constants
     const float DEFAULT_ATTACK_RANGE = 48.f;
 
     const float WARRIOR_ATTACK_RANGE = 64.f;
-    const float ARCHER_ATTACK_RANGE = 32.f;
+    const float ARCHER_ATTACK_RANGE = 250.f;
+    const float ARCHER_ANGLE = 90.f;
     const float MAGE_ATTACK_RANGE = 32.f;
 }

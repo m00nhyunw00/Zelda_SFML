@@ -10,7 +10,7 @@
 #include <iostream>
 
 DungeonScene::DungeonScene(SceneManager* sceneManager, EntityManager* entitymanager) 
-    : Scene(sceneManager, entitymanager, true), 
+    : InGameScene(sceneManager, entitymanager),
     camera({ Constants::CENTER_X, Constants::CENTER_Y },
           {
               (float)Constants::WINDOW_WIDTH,
@@ -159,9 +159,7 @@ void DungeonScene::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
     }
 }
 
-void DungeonScene::Update(
-    float deltaTime,
-    sf::RenderWindow& window)
+void DungeonScene::Update(float deltaTime, sf::RenderWindow& window)
 {
     Player* player = entityManager->GetPlayer();
 
@@ -174,10 +172,8 @@ void DungeonScene::Update(
 
     camera.Follow(player->GetPosition());
 
-
     // 이동 전 위치 저장
-    const sf::Vector2f previousPosition =
-        player->GetPosition();
+    const sf::Vector2f previousPosition = player->GetPosition();
 
     // Player를 포함한 Entity 업데이트
     entityManager->Update(
@@ -197,6 +193,8 @@ void DungeonScene::Update(
             break;
         }
     }
+
+    UpdatePlayerHpBar(deltaTime, window);
 }
 
 void DungeonScene::Render(sf::RenderWindow& window)
@@ -213,24 +211,26 @@ void DungeonScene::Render(sf::RenderWindow& window)
         window.draw(wallSprite);
     }
 
-    Player* player = entityManager->GetPlayer();
+    //Player* player = entityManager->GetPlayer();
 
-    if (player != nullptr)
-    {
-        player->Render(window);
-    }
+    //if (player != nullptr)
+    //{
+    //    player->Render(window);
+    //}
 
-    const std::vector<Monster*>& monsters = entityManager->GetMonsters();
+    //const std::vector<Monster*>& monsters = entityManager->GetMonsters();
 
-    for (Monster* monster : monsters)
-    {
-        if (monster == nullptr || !monster->IsActive())
-        {
-            continue;
-        }
+    //for (Monster* monster : monsters)
+    //{
+    //    if (monster == nullptr || !monster->IsActive())
+    //    {
+    //        continue;
+    //    }
 
-        monster->Render(window);
-    }
+    //    monster->Render(window);
+    //}
+
+    entityManager->Render(window);
 
     for (const sf::Sprite& wallSprite : lowerWallSprites)
     {
@@ -242,6 +242,10 @@ void DungeonScene::Render(sf::RenderWindow& window)
     if (isGameOver)
     {
         RenderGameOver(window);
+    }
+    else
+    {
+        RenderPlayerBar(window);
     }
 }
 

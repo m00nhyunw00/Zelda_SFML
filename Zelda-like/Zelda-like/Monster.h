@@ -7,6 +7,7 @@
 #include "MonsterColor.h"
 #include "MonsterData.h"
 #include "AnimationState.h"
+#include "GaugeBar.h"
 #include <string>
 
 class Player;
@@ -26,6 +27,9 @@ private:
     float detectionRange;           // 플레이어 감지 범위
     float attackRange;              // 공격 시작 범위
 
+protected:
+    GaugeBar* hpBar;
+
 private:
     sf::Vector2f AIMovement(float deltaTime);
     void HandleAnimation(const sf::Vector2f& direction, float deltaTime);
@@ -41,7 +45,9 @@ protected:
     virtual void UpdateTypeLogic(float deltaTime) = 0;
 
 public:
-    ~Monster() override = default;
+    ~Monster() override;
+
+    void Render(sf::RenderWindow& window);
 
     // Getter -------------------------------------------------
 

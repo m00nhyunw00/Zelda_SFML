@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "AnimationState.h"
 
 class InputManager
 {
@@ -16,7 +17,8 @@ private:
     bool num3Pressed;
 
     bool leftMouseClicked;
-    sf::Vector2i mouseClickPosition;
+    sf::Vector2i mouseClickPosition;    // 마우스를 클릭한 위치
+    Direction lastPressedDirection;     // 마지막으로 보고 있던 방향
 
 private:
     InputManager();
@@ -40,9 +42,10 @@ public:
     bool IsNum2Pressed() { return num2Pressed; }
     bool IsNum3Pressed() { return num3Pressed; }
     bool IsLeftMouseClicked() { return leftMouseClicked; }
-
+    Direction GetLastPressedDirection() const { return lastPressedDirection; }
     sf::Vector2i GetMouseClickPosition();
     sf::Vector2f GetMouseClickWorldPosition(const sf::RenderWindow& window);
     sf::Vector2i GetMousePosition(sf::RenderWindow& window);
     sf::Vector2f GetMouseWorldPosition(const sf::RenderWindow& window);
+    sf::Vector2f GetMouseUIPosition(const sf::RenderWindow& window);
 };

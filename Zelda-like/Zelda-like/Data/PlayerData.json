@@ -1,34 +1,49 @@
 {
   "WARRIOR": {
-    "maxHp": 200,
+    "maxHp": 300,
     "defence": 12,
     "damage": 30,
     "evasionRate": 5,
-    "moveSpeed" : 180.0,
-    "skillName": "강타",
-    "skillDamage": 80,
-    "maxSkillCooldown": 3.0
+    "moveSpeed": 180.0,
+
+    "skillName": "Power Strike",
+    "skillDamage": 75,
+    "maxSkillCooldown": 3.0,
+
+    "ultimateName": "Blade Sweep",
+    "ultimateDamage": 120,
+    "maxUltimateGauge": 3.0
   },
 
   "ARCHER": {
-    "maxHp": 120,
+    "maxHp": 200,
     "defence": 6,
-    "damage": 45,
-    "evasionRate": 25,
+    "damage": 40,
+    "evasionRate": 20,
     "moveSpeed": 220.0,
-    "skillName": "관통 사격",
-    "skillDamage": 120,
-    "maxSkillCooldown": 4
+
+    "skillName": "Triple Shot",
+    "skillDamage": 36,
+    "maxSkillCooldown": 4.0,
+
+    "ultimateName": "Titan Arrow",
+    "ultimateDamage": 220,
+    "maxUltimateGauge": 3.0
   },
 
   "MAGE": {
-    "maxHp": 100,
+    "maxHp": 150,
     "defence": 3,
-    "damage": 60,
+    "damage": 50,
     "evasionRate": 10,
     "moveSpeed": 170.0,
-    "skillName": "파이어볼",
-    "skillDamage": 150,
-    "maxSkillCooldown": 5.0
+
+    "skillName": "Fireball",
+    "skillDamage": 120,
+    "maxSkillCooldown": 5.0,
+
+    "ultimateName": "Flame Nova",
+    "ultimateDamage": 140,
+    "maxUltimateGauge": 3.0
   }
 }

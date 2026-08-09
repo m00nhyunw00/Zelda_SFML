@@ -82,20 +82,32 @@
     <Filter Include="헤더 파일\Entity\Creature\Player\Job">
       <UniqueIdentifier>{2f5b75b1-a356-491d-aca5-47a66e1ae57d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="헤더 파일\Entity\Creature\Monster\Type">
-      <UniqueIdentifier>{e2c3fe1b-ad81-4fa4-b530-b469be27ac64}</UniqueIdentifier>
-    </Filter>
     <Filter Include="소스 파일\Entity\Creature\Player\Job">
       <UniqueIdentifier>{e1857e67-796a-4e64-865f-74af6cc6270a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일\Entity\Creature\Monster\Type">
-      <UniqueIdentifier>{fb0c5d9a-1c39-4069-bf06-1731b6fcf2df}</UniqueIdentifier>
     </Filter>
     <Filter Include="소스 파일\UI">
       <UniqueIdentifier>{5f12d82f-a03c-4d51-9034-9619f4a20d5f}</UniqueIdentifier>
     </Filter>
     <Filter Include="헤더 파일\UI">
       <UniqueIdentifier>{43679646-0b9f-4a9a-8743-1eb964416559}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Entity\Projectile">
+      <UniqueIdentifier>{9f22fc1e-b6a7-47dd-93c7-b34e01121d35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Entity\Projectile">
+      <UniqueIdentifier>{04843750-6401-4b0f-9bd0-9eba3846333f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Entity\Creature\Monster\MonsterType">
+      <UniqueIdentifier>{fb0c5d9a-1c39-4069-bf06-1731b6fcf2df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Entity\Projectile\ProjectileType">
+      <UniqueIdentifier>{d229a287-db2f-46a3-91ed-79bbafda8408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Entity\Projectile\ProjectileType">
+      <UniqueIdentifier>{36c4c961-75af-402a-ab82-5fa894f1fcc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Entity\Creature\Monster\MonsterType">
+      <UniqueIdentifier>{e2c3fe1b-ad81-4fa4-b530-b469be27ac64}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -187,7 +199,7 @@
       <Filter>소스 파일\Entity\Creature\Player\Job</Filter>
     </ClCompile>
     <ClCompile Include="Slime.cpp">
-      <Filter>소스 파일\Entity\Creature\Monster\Type</Filter>
+      <Filter>소스 파일\Entity\Creature\Monster\MonsterType</Filter>
     </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>소스 파일\UI</Filter>
@@ -197,6 +209,15 @@
     </ClCompile>
     <ClCompile Include="GaugeBar.cpp">
       <Filter>소스 파일\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameScene.cpp">
+      <Filter>소스 파일\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>소스 파일\Entity\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="Arrow.cpp">
+      <Filter>소스 파일\Entity\Projectile\ProjectileType</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -291,7 +312,7 @@
       <Filter>헤더 파일\Entity\Creature\Player\Job</Filter>
     </ClInclude>
     <ClInclude Include="Slime.h">
-      <Filter>헤더 파일\Entity\Creature\Monster\Type</Filter>
+      <Filter>헤더 파일\Entity\Creature\Monster\MonsterType</Filter>
     </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>헤더 파일\UI</Filter>
@@ -301,6 +322,18 @@
     </ClInclude>
     <ClInclude Include="GaugeBar.h">
       <Filter>헤더 파일\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameScene.h">
+      <Filter>헤더 파일\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileType.h">
+      <Filter>헤더 파일\Entity\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>헤더 파일\Entity\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="Arrow.h">
+      <Filter>헤더 파일\Entity\Projectile\ProjectileType</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

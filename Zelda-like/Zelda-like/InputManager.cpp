@@ -13,6 +13,7 @@ InputManager::InputManager()
     num3Pressed = false;
 
     leftMouseClicked = false;
+    lastPressedDirection = Direction::DOWN;
     mouseClickPosition = { 0, 0 };
 }
 
@@ -70,6 +71,8 @@ void InputManager::HandleEvent(const sf::Event& event)
         }
         else if (keyPressed->scancode == sf::Keyboard::Scancode::Enter)
         {
+            
+
             enterPressed = true;
         }
         else if (keyPressed->scancode == sf::Keyboard::Scancode::Num1)
@@ -83,6 +86,28 @@ void InputManager::HandleEvent(const sf::Event& event)
         else if (keyPressed->scancode == sf::Keyboard::Scancode::Num3)
         {
             num3Pressed = true;
+        }
+
+        // 가장 최근에 누른 이동 방향 저장
+        else if (keyPressed->scancode == sf::Keyboard::Scancode::W ||
+            keyPressed->scancode == sf::Keyboard::Scancode::Up)
+        {
+            lastPressedDirection = Direction::UP;
+        }
+        else if (keyPressed->scancode == sf::Keyboard::Scancode::S ||
+            keyPressed->scancode == sf::Keyboard::Scancode::Down)
+        {
+            lastPressedDirection = Direction::DOWN;
+        }
+        else if (keyPressed->scancode == sf::Keyboard::Scancode::A ||
+            keyPressed->scancode == sf::Keyboard::Scancode::Left)
+        {
+            lastPressedDirection = Direction::LEFT;
+        }
+        else if (keyPressed->scancode == sf::Keyboard::Scancode::D ||
+            keyPressed->scancode == sf::Keyboard::Scancode::Right)
+        {
+            lastPressedDirection = Direction::RIGHT;
         }
     }
     if (const auto* mousePressed = event.getIf<sf::Event::MouseButtonPressed>())
@@ -165,4 +190,13 @@ sf::Vector2f InputManager::GetMouseWorldPosition(
         sf::Mouse::getPosition(window);
 
     return window.mapPixelToCoords(pixelPosition);
+}
+
+sf::Vector2f InputManager::GetMouseUIPosition(
+    const sf::RenderWindow& window)
+{
+    sf::Vector2i pixelPosition =
+        sf::Mouse::getPosition(window);
+
+    return window.mapPixelToCoords(pixelPosition, window.getDefaultView());
 }

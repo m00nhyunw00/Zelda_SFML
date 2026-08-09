@@ -53,6 +53,8 @@ void Creature::Update(float deltaTime, sf::RenderWindow& window)
 {
     (void)window;
 
+    attackTriggered = false;
+
     if (!IsActive())
     {
         return;
@@ -73,6 +75,7 @@ void Creature::Render(sf::RenderWindow& window)
         window.draw(*sprite);
     }
 
+    // 디버깅용
     bodyCollider.Draw(window);
     attackCollider.Draw(window);
 }
@@ -165,7 +168,7 @@ int Creature::TakeDamage(int incomingDamage)
 
     hp -= incomingDamage;
 
-    if (hp < 0)	// 체력이 0 미만으로 떨어질 경우에 대한 처리
+    if (hp <= 0)	// 체력이 0 이하일 경우에 대한 처리
     {
         hp = 0;
         SetActive(false);
