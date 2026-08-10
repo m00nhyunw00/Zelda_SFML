@@ -59,6 +59,6 @@ public:
     // Setter -------------------------------------------------
 
     void SetType(MonsterType type) { this->type = type; }
-    void SetColor() { this->color = color; }
+    void SetColor(MonsterColor color) { this->color = color; }
     void SetTarget(Player* target) { this->target = target; }
 };

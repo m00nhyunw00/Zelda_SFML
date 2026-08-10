@@ -12,11 +12,16 @@ Projectile::Projectile(
     this->type = type;
     this->owner = owner;
     this->position = position;
+    this->previousPosition = position;
     this->direction = direction;
     this->moveSpeed = moveSpeed;
     this->maxLifeTime = maxLifeTime;
     this->elapsedLifeTime = 0.f;
     this->damage = damage;
+    this->animationPaused = false;
+    this->piercing = false;
+    this->skillProjectile = false;
+    this->ultimateProjectile = false;
 
     collider.UpdatePosition(position);
 }
@@ -40,18 +45,24 @@ void Projectile::Update(float deltaTime, sf::RenderWindow& window)
     }
 
     // 이동
+    previousPosition = position;
     position += direction * moveSpeed * deltaTime;
-
 
     if (sprite != nullptr)
     {
         sprite->setPosition(position);
 
-        animation.Update(*sprite,deltaTime);
+        if (!animationPaused)
+        {
+            animation.Update(
+                *sprite,
+                deltaTime
+            );
+        }
     }
 
     // Collider 위치 갱신
-    collider.UpdatePosition(position);
+    collider.UpdatePosition(position + colliderOffset);
 }
 
 void Projectile::Render(sf::RenderWindow& window)
@@ -68,4 +79,12 @@ void Projectile::Render(sf::RenderWindow& window)
 
     // 디버깅용
     collider.Draw(window);
+}
+
+void Projectile::SetColor(const sf::Color& color)
+{
+    if (sprite != nullptr)
+    {
+        sprite->setColor(color);
+    }
 }

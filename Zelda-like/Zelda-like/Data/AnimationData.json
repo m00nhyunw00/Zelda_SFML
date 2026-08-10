@@ -23,6 +23,22 @@
     "frameDuration": 0.08
   },
 
+  "WARRIOR_POWER_STRIKE": {
+    "textureKey": "Warrior",
+    "totalRows": 3,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.16
+  },
+
+  "WARRIOR_BLADE_SWEEP": {
+    "textureKey": "Warrior",
+    "totalRows": 3,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.04
+  },
+
   "ARCHER_ATTACK": {
     "textureKey": "Archer",
     "totalRows": 3,
@@ -37,6 +53,14 @@
     "totalColumns": 6,
     "frameCount": 6,
     "frameDuration": 0.035
+  },
+
+  "ARCHER_TITAN_ARROW": {
+    "textureKey": "Archer",
+    "totalRows": 3,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.16
   },
 
   "MAGE_ATTACK": {
@@ -76,6 +100,22 @@
     "totalRows": 1,
     "totalColumns": 4,
     "frameCount": 4,
+    "frameDuration": 0.08
+  },
+
+  "TITAN_ARROW": {
+    "textureKey": "Arrow",
+    "totalRows": 1,
+    "totalColumns": 4,
+    "frameCount": 4,
+    "frameDuration": 0.02
+  },
+
+  "BLADE_WAVE": {
+    "textureKey": "Fireball",
+    "totalRows": 1,
+    "totalColumns": 3,
+    "frameCount": 3,
     "frameDuration": 0.08
   }
 }

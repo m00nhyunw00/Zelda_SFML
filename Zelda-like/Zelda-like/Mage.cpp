@@ -54,3 +54,8 @@ void Mage::UseSkill(Creature* target)
 {
     return;
 }
+
+void Mage::UseUltimate(Creature* target)
+{
+    return;
+}

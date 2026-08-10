@@ -199,6 +199,8 @@ bool DataManager::LoadMonsterData(
 
             data.attackRange = value.at("attackRange").get<float>();
 
+            data.exp = value.at("exp").get<int>();
+
             data.color = MonsterColor::NONE_COLOR;
 
             monsterDataTable[monsterType] = data;

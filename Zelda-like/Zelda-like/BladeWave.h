@@ -2,20 +2,19 @@
 
 #include "Projectile.h"
 
-class Arrow : public Projectile
+class BladeWave : public Projectile
 {
 private:
-    bool stuckInWall;
+    float deceleration;
 
 public:
-    Arrow(
+    BladeWave(
         Creature* owner,
         const sf::Vector2f& position,
         const sf::Vector2f& direction,
         int damage,
-        float scale,
-        ProjectileAttackType type
+        float scale
     );
 
-    void OnWallCollision() override;
+    void Update(float deltaTime, sf::RenderWindow& window) override;
 };

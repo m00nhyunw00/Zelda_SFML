@@ -138,8 +138,7 @@ void JobSelectScene::HandleEvent(const sf::Event& event, sf::RenderWindow& windo
     // 마우스로 직업 선택
     if (input.IsLeftMouseClicked())
     {
-        sf::Vector2f mousePosition =
-            input.GetMouseClickWorldPosition(window);
+        sf::Vector2f mousePosition = input.GetMouseClickWorldPosition(window);
 
         if (warriorPanel.getGlobalBounds().contains(mousePosition))
         {

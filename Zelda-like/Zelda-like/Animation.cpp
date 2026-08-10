@@ -8,6 +8,18 @@
 
 using namespace std;
 
+Animation::Animation()
+{
+    currentState = CreatureState::IDLE;
+    currentDirection = Direction::DOWN;
+
+    currentAnimationKey = "";
+    ownerType = "";
+
+    currentFrame = 0;
+    elapsedTime = 0.f;
+}
+
 std::string Animation::GetAnimationKey()
 {
     switch (currentState)
@@ -159,18 +171,26 @@ bool Animation::Update(sf::Sprite& sprite, float deltaTime)
             switch (currentDirection)
             {
             case Direction::DOWN:
-                if (ownerType == "WARRIOR")
+                if (ownerType == "WARRIOR" || ownerType == "SLIME")
+                {
                     directionRow = 0;
+                }
                 else if (ownerType == "ARCHER")
+                {
                     directionRow = 1;
+                }
                 break;
 
             case Direction::LEFT:
             case Direction::RIGHT:
-                if (ownerType == "WARRIOR")
+                if (ownerType == "WARRIOR" || ownerType == "SLIME")
+                {
                     directionRow = 1;
+                }
                 else if (ownerType == "ARCHER")
+                {
                     directionRow = 0;
+                }
                 break;
 
             case Direction::UP:

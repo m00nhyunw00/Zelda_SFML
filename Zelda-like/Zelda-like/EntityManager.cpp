@@ -166,6 +166,28 @@ void EntityManager::CheckCollisions()
     CheckProjectileCollisions();
 }
 
+void EntityManager::CheckProjectileWallCollisions(const std::vector<Collider>& wallColliders)
+{
+    for (Projectile* projectile : projectiles)
+    {
+        if (projectile == nullptr ||
+            !projectile->IsActive())
+        {
+            continue;
+        }
+
+        for (const Collider& wallCollider : wallColliders)
+        {
+            if (projectile->GetCollider().Collision(wallCollider))
+            {
+                projectile->OnWallCollision();
+
+                break;
+            }
+        }
+    }
+}
+
 void EntityManager::CheckPlayerMonsterCollisions()
 {
     if (player == nullptr ||
@@ -185,15 +207,15 @@ void EntityManager::CheckPlayerMonsterCollisions()
         if (player->GetBodyCollider().Collision(
             monster->GetBodyCollider()))
         {
-            cout << "Player Monster Body Collision!" << endl;
+            //cout << "Player Monster Body Collision!" << endl;
 
-            player->MoveForce(
-                player->GetPreviousPosition()
-            );
+            //player->MoveForce(
+            //    player->GetPreviousPosition()
+            //);
 
-            monster->MoveForce(
-                monster->GetPreviousPosition()
-            );
+            //monster->MoveForce(
+            //    monster->GetPreviousPosition()
+            //);
         }
     }
 }
@@ -206,29 +228,67 @@ void EntityManager::CheckPlayerMeleeAttackCollisions()
         return;
     }
 
-    // 이번 프레임에 공격을 시작한 게 아니면 검사하지 않음
-    if (!player->IsAttackTriggered())
-    {
-        return;
-    }
-
     if (player->GetJob() != PlayerType::WARRIOR)
     {
         return;
     }
 
-    for (Monster* monster : monsters)
-    {
-        if (monster == nullptr ||
-            !monster->IsActive())
-        {
-            continue;
-        }
+    Warrior* warrior =
+        static_cast<Warrior*>(player);
 
-        if (player->GetAttackCollider().Collision(
-            monster->GetBodyCollider()))
+    // ==================================================
+    // 평타
+    // ==================================================
+
+    if (player->IsAttackTriggered())
+    {
+        for (Monster* monster : monsters)
         {
-            player->Attack(monster);
+            if (monster == nullptr ||
+                !monster->IsActive())
+            {
+                continue;
+            }
+
+            if (player->GetAttackCollider().Collision(
+                monster->GetBodyCollider()))
+            {
+                player->Attack(monster);
+
+                break;
+            }
+        }
+    }
+
+    // ==================================================
+    // Power Strike 시작
+    // ==================================================
+
+    if (player->IsSkillTriggered())
+    {
+        // 몬스터와 충돌하지 않아도 스킬 자체는 발동
+        player->UseSkill(nullptr);
+    }
+
+    // ==================================================
+    // Power Strike 진행 중 충돌 판정
+    // ==================================================
+
+    if (warrior->IsPowerStrike())
+    {
+        for (Monster* monster : monsters)
+        {
+            if (monster == nullptr ||
+                !monster->IsActive())
+            {
+                continue;
+            }
+
+            if (player->GetAttackCollider().Collision(
+                monster->GetBodyCollider()))
+            {
+                warrior->HitPowerStrike(monster);
+            }
         }
     }
 }
@@ -247,22 +307,13 @@ void EntityManager::CheckMonsterAttackCollisions()
     }
 }
 
-void EntityManager::HandlePlayerRangedAttack()
+void EntityManager::HandlePlayerProjectileAttack()
 {
-    if (player == nullptr ||
-        !player->IsActive())
+    if (player == nullptr || !player->IsActive())
     {
         return;
     }
 
-    // 원거리 직업만 처리
-    if (player->GetJob() != PlayerType::ARCHER &&
-        player->GetJob() != PlayerType::MAGE)
-    {
-        return;
-    }
-
-    // 이번 프레임에 아무 공격도 시작하지 않았다면 종료
     if (!player->IsAttackTriggered() &&
         !player->IsSkillTriggered() &&
         !player->IsUltimateTriggered())
@@ -272,104 +323,118 @@ void EntityManager::HandlePlayerRangedAttack()
 
     Creature* target = nullptr;
 
-    float attackRange;
-    float aimAngle;
+    // Archer -----------------------------------------
 
-    switch (player->GetJob())
+    if (player->GetJob() == PlayerType::ARCHER)
     {
-    case PlayerType::ARCHER:
-        attackRange = Constants::ARCHER_ATTACK_RANGE;
-        aimAngle = Constants::ARCHER_ANGLE;
-        break;
+        const float attackRange = Constants::ARCHER_ATTACK_RANGE;
 
-    //case PlayerType::MAGE:
-    //    attackRange = Constants::MAGE_ATTACK_RANGE;
-    //    aimAngle = Constants::MAGE_ANGLE;
-    //    break;
+        const float aimAngle = Constants::ARCHER_ANGLE;
 
-    default:
+        sf::Vector2f facing;
+
+        switch (player->GetFacingDirection())
+        {
+        case Direction::UP:
+            facing = { 0.f, -1.f };
+            break;
+
+        case Direction::DOWN:
+            facing = { 0.f, 1.f };
+            break;
+
+        case Direction::LEFT:
+            facing = { -1.f, 0.f };
+            break;
+
+        case Direction::RIGHT:
+            facing = { 1.f, 0.f };
+            break;
+        }
+
+        const float threshold =
+            std::cos(
+                aimAngle * 3.141592f / 180.f
+            );
+
+        float bestDot = threshold;
+
+        for (Monster* monster : monsters)
+        {
+            if (monster == nullptr ||
+                !monster->IsActive())
+            {
+                continue;
+            }
+
+            sf::Vector2f toMonster =
+                monster->GetPosition() -
+                player->GetPosition();
+
+            const float distance =
+                std::sqrt(
+                    toMonster.x * toMonster.x +
+                    toMonster.y * toMonster.y
+                );
+
+            if (distance <= 0.f ||
+                distance > attackRange)
+            {
+                continue;
+            }
+
+            toMonster.x /= distance;
+            toMonster.y /= distance;
+
+            const float dot =
+                facing.x * toMonster.x +
+                facing.y * toMonster.y;
+
+            if (dot >= bestDot)
+            {
+                bestDot = dot;
+                target = monster;
+            }
+        }
+
+        if (player->IsAttackTriggered())
+        {
+            player->Attack(target);
+        }
+        else if (player->IsSkillTriggered())
+        {
+            player->UseSkill(target);
+        }
+        else if (player->IsUltimateTriggered())
+        {
+            player->UseUltimate(target);
+        }
+
         return;
     }
 
-    sf::Vector2f facing;
+    // Warrior -----------------------------------------
 
-    switch (player->GetFacingDirection())
+    if (player->GetJob() == PlayerType::WARRIOR)
     {
-    case Direction::UP:
-        facing = { 0.f, -1.f };
-        break;
+        // Warrior 평타/Power Strike는
+        // 기존 근접 충돌 함수에서 처리
 
-    case Direction::DOWN:
-        facing = { 0.f, 1.f };
-        break;
-
-    case Direction::LEFT:
-        facing = { -1.f, 0.f };
-        break;
-
-    case Direction::RIGHT:
-        facing = { 1.f, 0.f };
-        break;
-    }
-
-    const float threshold =
-        std::cos(
-            aimAngle * 3.141592f / 180.f
-        );
-
-    float bestDot = threshold;
-
-    for (Monster* monster : monsters)
-    {
-        if (monster == nullptr ||
-            !monster->IsActive())
+        // Blade Sweep만 Projectile 공격
+        if (player->IsUltimateTriggered())
         {
-            continue;
+            player->UseUltimate(nullptr);
         }
 
-        sf::Vector2f toMonster =
-            monster->GetPosition() -
-            player->GetPosition();
-
-        const float distance =
-            std::sqrt(
-                toMonster.x * toMonster.x +
-                toMonster.y * toMonster.y
-            );
-
-        if (distance <= 0.f ||
-            distance > attackRange)
-        {
-            continue;
-        }
-
-        toMonster.x /= distance;
-        toMonster.y /= distance;
-
-        const float dot =
-            facing.x * toMonster.x +
-            facing.y * toMonster.y;
-
-        if (dot >= bestDot)
-        {
-            bestDot = dot;
-            target = monster;
-        }
+        return;
     }
 
-    // 이번 프레임에 시작된 행동들만 실행
-    if (player->IsAttackTriggered())
+    // Mage -----------------------------------------
+
+    if (player->GetJob() == PlayerType::MAGE)
     {
-        player->Attack(target);
+        // 나중에 Fireball / 궁극기 처리
     }
-    else if (player->IsSkillTriggered())
-    {
-        player->UseSkill(target);
-    }
-    //else if (player->IsUltimateTriggered())
-    //{
-    //    player->UseUltimate(target);
-    //}
 }
 
 // 투사체 충돌 함수
@@ -395,22 +460,38 @@ void EntityManager::CheckProjectileCollisions()
         {
             for (Monster* monster : monsters)
             {
-                if (monster == nullptr ||
-                    !monster->IsActive())
+                if (projectile == nullptr ||
+                    !projectile->IsActive() ||
+                    !projectile->IsCollisionEnabled())
                 {
                     continue;
                 }
 
-                if (projectile->GetCollider().Collision(
-                    monster->GetBodyCollider()))
+                if (projectile->GetCollider().Collision(monster->GetBodyCollider()))
                 {
-                    monster->TakeDamage(
-                        projectile->GetDamage()
-                    );
+                    int realDamage = monster->TakeDamage(projectile->GetDamage());
 
-                    projectile->SetActive(false);
+                    Player* ownerPlayer = dynamic_cast<Player*>(projectile->GetOwner());
 
-                    break;
+                    if (ownerPlayer != nullptr && !projectile->IsUltimateProjectile())  // 궁극기로 입힌 피해량은 궁극기 게이지를 충전해주지 않음
+                    {
+                        if (projectile->IsSkillProjectile())
+                        {
+                            ownerPlayer->AddUltimateGauge(realDamage * 2);
+                            std::cout << realDamage * 2 << " Guage Charged (X2 Buff)" << endl;
+                        }
+                        else
+                        {
+                            ownerPlayer->AddUltimateGauge(realDamage);
+                            std::cout << realDamage << " Guage Charged" << endl;
+                        }
+                    }
+
+                    if (!projectile->IsPiercing())
+                    {
+                        projectile->SetActive(false);
+                        break;
+                    }
                 }
             }
         }
@@ -418,18 +499,16 @@ void EntityManager::CheckProjectileCollisions()
         // Monster가 발사한 투사체
         else if (owner->GetCategory() == CreatureType::MONSTER)
         {
-            if (player == nullptr ||
-                !player->IsActive())
+            if (player == nullptr || 
+                !player->IsActive() || 
+                !projectile->IsCollisionEnabled())
             {
                 continue;
             }
 
-            if (projectile->GetCollider().Collision(
-                player->GetBodyCollider()))
+            if (projectile->GetCollider().Collision( player->GetBodyCollider()))
             {
-                player->TakeDamage(
-                    projectile->GetDamage()
-                );
+                player->TakeDamage(projectile->GetDamage());
 
                 projectile->SetActive(false);
             }
@@ -445,13 +524,16 @@ void EntityManager::RemoveInactiveEntities()
     {
         Monster* monster = *iterator;
 
-        if (monster == nullptr ||
-            !monster->IsActive())
+        if(monster == nullptr || !monster->IsActive())
         {
+            if (monster != nullptr && player != nullptr && player->IsActive())
+            {
+                player->AddExp(monster->GetExp());
+            }
+
             delete monster;
 
-            iterator =
-                monsters.erase(iterator);
+            iterator = monsters.erase(iterator);
         }
         else
         {
@@ -497,7 +579,7 @@ void EntityManager::Update(float deltaTime, sf::RenderWindow& window)
             window
         );
 
-        HandlePlayerRangedAttack();
+        HandlePlayerProjectileAttack();
 
         std::vector<Projectile*> newProjectiles = player->TakePendingProjectiles();
 
@@ -598,6 +680,14 @@ void EntityManager::PrintPlayerInfo()
         << player->GetSkillCooldown()
         << " / "
         << player->GetMaxSkillCooldown()
+        << endl;
+
+    cout << "Ultimate Skill             : " << player->GetUltimateName() << endl;
+    cout << "Ultimate Skill Damage      : " << player->GetUltimateDamage() << endl;
+    cout << "Ultimate Skill Gauge       : "
+        << player->GetUltimateGauge()
+        << " / "
+        << player->GetMaxUltimateGauge()
         << endl;
 
     cout << "EXP               : "

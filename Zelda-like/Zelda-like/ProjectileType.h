@@ -3,6 +3,13 @@
 enum ProjectileType
 {
     ARROW,
-    FIREBALL,
+    BLADE_WAVE,
     NONE_PROJECTILE
+};
+
+enum ProjectileAttackType
+{
+    NORMAL,
+    SKILL,
+    ULTIMATE
 };

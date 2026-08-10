@@ -15,8 +15,6 @@ private:
     std::vector<sf::Sprite> upperWallSprites;
     std::vector<sf::Sprite> lowerWallSprites;
 
-    std::vector<Collider> roomColliders;
-
     Camera camera;
 
 private:
@@ -44,4 +42,7 @@ public:
     void HandleEvent(const sf::Event& event, sf::RenderWindow& window) override;
     void Update(float deltaTime, sf::RenderWindow& window) override;
     void Render(sf::RenderWindow& window) override;
+
+    void SpawnRandomSlimes();
+    MonsterColor GetRandomMonsterColor();
 };

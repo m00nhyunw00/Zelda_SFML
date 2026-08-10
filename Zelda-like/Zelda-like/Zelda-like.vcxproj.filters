@@ -219,6 +219,12 @@
     <ClCompile Include="Arrow.cpp">
       <Filter>소스 파일\Entity\Projectile\ProjectileType</Filter>
     </ClCompile>
+    <ClCompile Include="SkillCooldownUI.cpp">
+      <Filter>소스 파일\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="BladeWave.cpp">
+      <Filter>소스 파일\Entity\Projectile\ProjectileType</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -333,6 +339,12 @@
       <Filter>헤더 파일\Entity\Projectile</Filter>
     </ClInclude>
     <ClInclude Include="Arrow.h">
+      <Filter>헤더 파일\Entity\Projectile\ProjectileType</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillCooldownUI.h">
+      <Filter>헤더 파일\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="BladeWave.h">
       <Filter>헤더 파일\Entity\Projectile\ProjectileType</Filter>
     </ClInclude>
   </ItemGroup>

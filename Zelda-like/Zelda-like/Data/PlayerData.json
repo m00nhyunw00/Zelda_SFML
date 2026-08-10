@@ -11,8 +11,8 @@
     "maxSkillCooldown": 3.0,
 
     "ultimateName": "Blade Sweep",
-    "ultimateDamage": 120,
-    "maxUltimateGauge": 3.0
+    "ultimateDamage": 30,
+    "maxUltimateGauge": 700
   },
 
   "ARCHER": {
@@ -27,8 +27,8 @@
     "maxSkillCooldown": 4.0,
 
     "ultimateName": "Titan Arrow",
-    "ultimateDamage": 220,
-    "maxUltimateGauge": 3.0
+    "ultimateDamage": 240,
+    "maxUltimateGauge": 1000
   },
 
   "MAGE": {
@@ -43,7 +43,7 @@
     "maxSkillCooldown": 5.0,
 
     "ultimateName": "Flame Nova",
-    "ultimateDamage": 140,
-    "maxUltimateGauge": 3.0
+    "ultimateDamage": 160,
+    "maxUltimateGauge": 800
   }
 }

@@ -92,7 +92,7 @@ void InputManager::HandleEvent(const sf::Event& event)
         else if (keyPressed->scancode == sf::Keyboard::Scancode::W ||
             keyPressed->scancode == sf::Keyboard::Scancode::Up)
         {
-            lastPressedDirection = Direction::UP;
+            lastPressedDirection = Direction::UP;     
         }
         else if (keyPressed->scancode == sf::Keyboard::Scancode::S ||
             keyPressed->scancode == sf::Keyboard::Scancode::Down)
@@ -107,8 +107,7 @@ void InputManager::HandleEvent(const sf::Event& event)
         else if (keyPressed->scancode == sf::Keyboard::Scancode::D ||
             keyPressed->scancode == sf::Keyboard::Scancode::Right)
         {
-            lastPressedDirection = Direction::RIGHT;
-        }
+            lastPressedDirection = Direction::RIGHT;        }
     }
     if (const auto* mousePressed = event.getIf<sf::Event::MouseButtonPressed>())
     {
@@ -150,6 +149,11 @@ sf::Vector2f InputManager::GetMoveDirection()
         sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
     {
         direction.x += 1.f;
+    }
+
+    if (direction.x == 0.f && direction.y == 0.f)
+    {
+        // 이동키가 눌리지 않음
     }
 
     // 대각선 이동 속도 보정

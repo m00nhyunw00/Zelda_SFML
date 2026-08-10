@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "PlayerType.h"
 #include "SpriteUtil.h"
+#include "ProjectileType.h"
 #include "Arrow.h"
 #include "Constants.h"
 #include <iostream>
@@ -15,6 +16,7 @@ Archer::Archer(
 ) : Player(name, PlayerType::ARCHER, data, startPosition)
 {
     isTripleShot = false;
+    isTitanArrow = false;
 
     tripleShotCount = 0;
 
@@ -48,8 +50,8 @@ Archer::Archer(
     sprite->setScale({ 4.f,4.f });
     sprite->setPosition(startPosition);
 
-    bodyCollider.SetSize({ 32.f, 24.f });
-    bodyCollider.SetOffset({ 0.f, 12.f });
+    attackCollider.SetSize({ Constants::DEFAULT_COLLIDER_SIZE, Constants::WARRIOR_ATTACK_RANGE / 1.5f });
+    attackCollider.SetOrigin({ Constants::DEFAULT_COLLIDER_SIZE / 2, Constants::WARRIOR_ATTACK_RANGE / 1.5f });
 }
 
 void Archer::UpdateJobLogic(float deltaTime)
@@ -68,7 +70,7 @@ void Archer::UpdateJobLogic(float deltaTime)
 
     tripleShotTimer = 0.f;
 
-    AddPendingProjectile(CreateArrow(tripleShotTarget,GetSkillDamage(), Constants::DEFAULT_SCALE));
+    AddPendingProjectile(CreateArrow(tripleShotTarget,GetSkillDamage(), Constants::DEFAULT_SCALE, ProjectileAttackType::SKILL));
 
     tripleShotCount++;
 
@@ -80,38 +82,60 @@ void Archer::UpdateJobLogic(float deltaTime)
 
         tripleShotTarget = nullptr;
     }
+
+    animationState = CreatureState::IDLE;
 }
 
 bool Archer::HandleJobAnimation(float deltaTime)
 {
-    if (!isTripleShot)
+    // 궁극기
+    if (isTitanArrow)
     {
-        return false;
+        animation.Play(
+            "ARCHER_TITAN_ARROW"
+        );
+
+        const bool animationFinished =
+            animation.Update(
+                *sprite,
+                deltaTime
+            );
+
+        if (animationFinished)
+        {
+            isTitanArrow = false;
+            animationState = CreatureState::IDLE;
+        }
+
+        return true;
     }
 
-    animation.Play(
-        "ARCHER_TRIPLE_SHOT"
-    );
+    // 스킬
+    if (isTripleShot)
+    {
+        animation.Play(
+            "ARCHER_TRIPLE_SHOT"
+        );
 
-    animation.Update(
-        *sprite,
-        deltaTime
-    );
+        animation.Update(
+            *sprite,
+            deltaTime
+        );
 
-    // 기본 Player 애니메이션 처리를 막음
-    return true;
+        return true;
+    }
+
+    return false;
 }
 
 
-Projectile* Archer::CreateArrow(Creature* target, int damage, float scale)
+Projectile* Archer::CreateArrow(Creature* target, int damage, float scale, ProjectileAttackType type)
 {
     sf::Vector2f fireDirection;
 
     if (target != nullptr)
     {
-        fireDirection =
-            target->GetPosition() -
-            GetPosition();
+        fireDirection = target-> GetPosition() - GetPosition();
 
         const float length =
             std::sqrt(
@@ -152,7 +176,8 @@ Projectile* Archer::CreateArrow(Creature* target, int damage, float scale)
         GetPosition(),
         fireDirection,
         damage,
-        scale
+        scale,
+        type
     );
 }
 
@@ -163,13 +188,13 @@ void Archer::Attack(
         CreateArrow(
             target,
             GetDamage(),
-            Constants::DEFAULT_SCALE
+            Constants::DEFAULT_SCALE,
+            ProjectileAttackType::NORMAL
         )
     );
 }
 
-void Archer::UseSkill(
-    Creature* target)
+void Archer::UseSkill(Creature* target)
 {
     if (isTripleShot)
     {
@@ -187,7 +212,34 @@ void Archer::UseSkill(
         CreateArrow(
             tripleShotTarget,
             GetSkillDamage(),
-            Constants::DEFAULT_SCALE
+            Constants::DEFAULT_SCALE, 
+            ProjectileAttackType::SKILL
         )
     );
+}
+
+void Archer::UseUltimate(Creature* target)
+{
+    if (isTitanArrow)
+    {
+        return;
+    }
+
+    isTitanArrow = true;
+
+    Projectile* titanArrow =
+        CreateArrow(
+            target,
+            GetUltimateDamage(),
+            Constants::DEFAULT_SCALE * 7.f,
+            ProjectileAttackType::ULTIMATE
+        );
+
+
+    titanArrow->SetPiercing(true);
+    titanArrow->SetUltimateProjectile(true);
+
+    AddPendingProjectile(titanArrow);
+
+    ResetUltimateGauge();
 }

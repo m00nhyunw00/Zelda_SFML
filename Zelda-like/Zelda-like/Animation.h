@@ -17,6 +17,8 @@ private:
     float elapsedTime;     // 다음 프레임으로 넘어가기 위해 누적된 시간
 
 public:
+    Animation();
+
     void SetOwnerType(const std::string& ownerType) { this->ownerType = ownerType; }
 
     std::string GetAnimationKey();

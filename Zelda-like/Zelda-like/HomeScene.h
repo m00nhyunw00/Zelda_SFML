@@ -6,6 +6,7 @@
 #include "EntityManager.h"
 #include "PlayerType.h"
 #include "InGameScene.h"
+#include "Camera.h"
 
 class HomeScene : public InGameScene
 {
@@ -14,7 +15,7 @@ private:
     std::vector<sf::Sprite> upperWallSprites;
     std::vector<sf::Sprite> lowerWallSprites;
 
-    std::vector<Collider> roomColliders;
+    Camera camera;
 
 private:
     void AddFloorArea(

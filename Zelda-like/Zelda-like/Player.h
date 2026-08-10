@@ -57,19 +57,30 @@ protected:
 public:
     ~Player() override = default;
 
-    virtual void UseSkill(Creature* target) = 0;
+    virtual void UseSkill(Creature* target) = 0;   
+    virtual void UseUltimate(Creature* target) = 0;;
+
 
     std::vector<Projectile*> TakePendingProjectiles();
 
+    void AddUltimateGauge(int damage);
+    void ResetUltimateGauge();
+
     void IncreaseMaxHp(int amount);
     void IncreaseDamage(int amount);
+    void IncreaseDefence(int amount);
     void IncreaseSkillDamage(int amount);
+    void IncreaseUltimateDamage(int amount);
+    void IncreaseMaxExp(int amount);
 
     void AddExp(int exp);
     void LevelUp();
-    void IncreaseStats(int maxHpAmount, int defenceAmount, int damageAmount, int skillDamageAmount);
+    void IncreaseStats(int maxHpAmount, int defenceAmount, int damageAmount, int expAmount);
 
     void Heal(int amount);
+
+    void PrintPlayerInfo();
+    void PrintPlayerHp();
 
     // Getter -------------------------------------------------
 
@@ -93,6 +104,6 @@ public:
 
     void SetJob(PlayerType job) { this->job = job; }
     void SetSkillCooldown(float cooldown) { this->skillCooldown = cooldown; }
-    void SetCurrentExp(int exp) { this->currentExp = currentExp; }
+    void SetCurrentExp(int exp) { this->currentExp = exp; }
 
 };

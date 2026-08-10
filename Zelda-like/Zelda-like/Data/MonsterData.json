@@ -1,11 +1,12 @@
 {
   "SLIME": {
-    "maxHp": 180,
+    "maxHp": 100,
     "defence": 10,
     "damage": 30,
     "evasionRate": 5,
     "moveSpeed": 70.0,
     "detectionRange": 160.0,
-    "attackRange": 48.0
+    "attackRange": 48.0,
+    "exp": 20.0
   }
 }

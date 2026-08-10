@@ -46,10 +46,11 @@ public:
     void ResetGame();
 
     void CheckCollisions();
+    void CheckProjectileWallCollisions(const std::vector<Collider>& walls);
     void CheckPlayerMonsterCollisions();
     void CheckPlayerMeleeAttackCollisions();
     void CheckMonsterAttackCollisions();
-    void HandlePlayerRangedAttack();
+    void HandlePlayerProjectileAttack();
     void CheckProjectileCollisions();
 
     void Update(float deltaTime, sf::RenderWindow& window);

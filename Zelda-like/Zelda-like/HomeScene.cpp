@@ -9,7 +9,14 @@
 
 #include <iostream>
 
-HomeScene::HomeScene(SceneManager* sceneManager, EntityManager* entitymanager) : InGameScene(sceneManager, entitymanager)
+HomeScene::HomeScene(SceneManager* sceneManager, EntityManager* entitymanager) 
+    : InGameScene(sceneManager, entitymanager),
+    camera({ Constants::CENTER_X, Constants::CENTER_Y },
+          {
+              (float)Constants::WINDOW_WIDTH,
+              (float)Constants::WINDOW_HEIGHT
+          }
+    )
 {
     sf::Font* font = ResourceManager::GetInstance().GetFont("MainFont");
 
@@ -106,7 +113,7 @@ HomeScene::~HomeScene()
     floorSprites.clear();
     upperWallSprites.clear();
     lowerWallSprites.clear();
-    roomColliders.clear();
+    wallColliders.clear();
 }
 
 void HomeScene::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
@@ -142,43 +149,47 @@ void HomeScene::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
     }
 }
 
-void HomeScene::Update(
-    float deltaTime,
-    sf::RenderWindow& window)
+void HomeScene::Update(float deltaTime, sf::RenderWindow& window)
 {
-    Player* player =
-        entityManager->GetPlayer();
+    Player* player = entityManager->GetPlayer();
 
-    if (player == nullptr)
+    CheckGameOver();
+    if (player == nullptr || isGameOver)
     {
+        UpdateGameOver(deltaTime, window);
         return;
     }
 
+    camera.Follow(player->GetPosition());
+
     // 이동 전 위치 저장
-    const sf::Vector2f previousPosition =
-        player->GetPosition();
+    const sf::Vector2f previousPosition = player->GetPosition();
 
     // Player를 포함한 Entity 업데이트
-    entityManager->Update(
-        deltaTime,
-        window
-    );
+    entityManager->Update(deltaTime, window);
+
+    UpdateProjectileWallCollisions();
 
     // 방 외벽과 충돌 검사
-    for (const Collider& roomCollider : roomColliders)
+    for (const Collider& roomCollider : wallColliders)
     {
         if (player->GetBodyCollider().Collision(roomCollider))
         {
             // 충돌했다면 이동 전 위치로 복구
+            //player->SetPosition(previousPosition);
             player->MoveForce(previousPosition);
 
             break;
         }
     }
+
+    UpdateUI(deltaTime, window);
 }
 
 void HomeScene::Render(sf::RenderWindow& window)
 {
+    window.setView(camera.GetView());
+
     for (const sf::Sprite& floorSprite : floorSprites)
     {
         window.draw(floorSprite);
@@ -189,17 +200,14 @@ void HomeScene::Render(sf::RenderWindow& window)
         window.draw(wallSprite);
     }
 
-    Player* player = entityManager->GetPlayer();
-
-    if (player != nullptr)
-    {
-        player->Render(window);
-    }
+    entityManager->Render(window);
 
     for (const sf::Sprite& wallSprite : lowerWallSprites)
     {
         window.draw(wallSprite);
     }
+
+    window.setView(window.getDefaultView());
 
     if (isGameOver)
     {
@@ -207,7 +215,7 @@ void HomeScene::Render(sf::RenderWindow& window)
     }
     else
     {
-        RenderPlayerBar(window);
+        RenderUI(window);
     }
 }
 
@@ -296,12 +304,8 @@ void HomeScene::AddRoomWalls(
         sf::Sprite wallSprite = upperWallTemplate;
 
         wallSprite.setPosition({
-            roomLeft
-                + tileWidth / 2.f
-                + column * tileWidth,
-
-            roomTop
-                - upperWallBounds.size.y / 2.f
+            roomLeft + tileWidth / 2.f+ column * tileWidth,
+            roomTop - upperWallBounds.size.y / 2.f + 20.f
             });
 
         upperWallSprites.push_back(wallSprite);
@@ -334,7 +338,7 @@ void HomeScene::AddRoomWalls(
         roomTop - colliderThickness / 2.f
         });
 
-    roomColliders.push_back(topCollider);
+    wallColliders.push_back(topCollider);
 
     // 아래쪽 Collider
     Collider bottomCollider({
@@ -347,7 +351,7 @@ void HomeScene::AddRoomWalls(
         roomBottom + colliderThickness / 2.f
         });
 
-    roomColliders.push_back(bottomCollider);
+    wallColliders.push_back(bottomCollider);
 
     // 왼쪽 Collider
     Collider leftCollider({
@@ -360,7 +364,7 @@ void HomeScene::AddRoomWalls(
         centerPosition.y
         });
 
-    roomColliders.push_back(leftCollider);
+    wallColliders.push_back(leftCollider);
 
     // 오른쪽 Collider
     Collider rightCollider({
@@ -373,5 +377,5 @@ void HomeScene::AddRoomWalls(
         centerPosition.y
         });
 
-    roomColliders.push_back(rightCollider);
+    wallColliders.push_back(rightCollider);
 }

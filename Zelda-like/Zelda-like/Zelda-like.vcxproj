@@ -135,6 +135,7 @@
     <ClCompile Include="AnimationData.h" />
     <ClCompile Include="Archer.cpp" />
     <ClCompile Include="Arrow.cpp" />
+    <ClCompile Include="BladeWave.cpp" />
     <ClCompile Include="BossScene.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="SkillCooldownUI.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="SpriteUtil.cpp" />
     <ClCompile Include="TitleScene.cpp" />
@@ -172,6 +174,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Archer.h" />
     <ClInclude Include="Arrow.h" />
+    <ClInclude Include="BladeWave.h" />
     <ClInclude Include="BossScene.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
@@ -202,6 +205,7 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneType.h" />
+    <ClInclude Include="SkillCooldownUI.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="SpriteUtil.h" />
     <ClInclude Include="TitleScene.h" />

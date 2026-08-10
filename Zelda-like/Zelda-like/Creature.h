@@ -74,8 +74,12 @@ public:
 
     // Setter --------------------------------------------------
 
+    void SetMaxHp(int maxHp) { this->maxHp = maxHp; }
     void SetHp(int hp) { this->hp = hp; }
+    void SetDefence(int defence) { this->defence = defence; }
+    void SetDamage(int damage) { this->damage = damage; }
     void SetPosition(const sf::Vector2f& position) { this->position = position; }
+    void SetMoveSpeed(const float& moveSpeed) { this->moveSpeed = moveSpeed; }
 
     // ---------------------------------------------------------
 

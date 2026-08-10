@@ -8,7 +8,7 @@ Monster::Monster(
 {
     this->type = type;
     this->color = data.color;
-	this->exp = 0;
+    this->exp = data.exp;
 
     hpBar = new GaugeBar(
         { 50.f, 6.f },
@@ -163,10 +163,8 @@ void Monster::UpdateLogic(float deltaTime)
 
 void Monster::Render(sf::RenderWindow& window)
 {
-    // 먼저 Creature의 Sprite 렌더링
     Creature::Render(window);
 
-    // 그 다음 몬스터 HP Bar 렌더링
     if (hpBar != nullptr)
     {
         hpBar->Render(window);

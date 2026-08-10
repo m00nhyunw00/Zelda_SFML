@@ -90,18 +90,18 @@ void Creature::UpdateFacingDirection(const sf::Vector2f& direction)
     if (animationState == CreatureState::ATTACK)
     {
         return;
-
     }
 
-    if (abs(direction.x) >= abs(direction.y))
+    // 가로 이동량이 더 크면 좌/우
+    if (std::abs(direction.x) >= std::abs(direction.y))
     {
-        facingDirection = direction.x > 0.f
-            ? Direction::RIGHT : Direction::LEFT;
+        facingDirection = direction.x > 0.f ? Direction::RIGHT : Direction::LEFT;
     }
+
+    // 세로 이동량이 더 크면 상/하
     else
     {
-        facingDirection = direction.y > 0.f
-            ? Direction::DOWN : Direction::UP;
+        facingDirection = direction.y > 0.f ? Direction::DOWN : Direction::UP;
     }
 
     switch (facingDirection)
@@ -124,7 +124,6 @@ void Creature::UpdateFacingDirection(const sf::Vector2f& direction)
     }
 
     attackCollider.UpdatePosition(position);
-
 }
 
 void Creature::Move(const sf::Vector2f& direction, float deltaTime)

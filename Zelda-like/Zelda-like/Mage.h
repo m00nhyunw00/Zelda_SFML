@@ -4,6 +4,8 @@
 
 class Mage : public Player
 {
+private:
+ 
 public:
     Mage(
         const std::string& name,
@@ -15,5 +17,6 @@ public:
 
     void Attack(Creature* target) override;
     void UseSkill(Creature* target) override;
+    void UseUltimate(Creature* target) override;
 };
 
