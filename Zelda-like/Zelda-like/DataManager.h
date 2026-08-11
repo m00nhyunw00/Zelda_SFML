@@ -10,6 +10,9 @@
 #include "MonsterColor.h"
 #include "AnimationState.h"
 #include "AnimationData.h"
+#include "PlayerLevelData.h"
+#include "MonsterLevelData.h"
+#include "MonsterSpawnData.h"
 
 class DataManager
 {
@@ -17,6 +20,9 @@ private:
     std::map<PlayerType, PlayerData> playerDataTable;
     std::map<MonsterType, MonsterData> monsterDataTable;
     std::map<std::string, AnimationData> animationDataTable;
+    std::map<PlayerType, std::map<int, PlayerLevelData>> playerLevelDataTable;
+    std::map<int, MonsterLevelData> monsterLevelDataTable;
+    std::map<std::string, MonsterSpawnData> monsterSpawnDataTable;
 
 private:
     DataManager();
@@ -39,5 +45,14 @@ public:
 
     bool LoadAnimationData(const std::string& filePath);
     const AnimationData* GetAnimationData(const std::string& key) const;
+
+    bool LoadPlayerLevelData(const std::string& filePath);
+    const PlayerLevelData* GetPlayerLevelData(PlayerType type, int level) const;
+
+    bool LoadMonsterLevelData(const std::string& filePath);
+    const MonsterLevelData* GetMonsterLevelData(int level) const;
+
+    bool LoadMonsterSpawnData(const std::string& filePath);
+    const MonsterSpawnData* GetMonsterSpawnData(int playerLevel) const;
 };
 

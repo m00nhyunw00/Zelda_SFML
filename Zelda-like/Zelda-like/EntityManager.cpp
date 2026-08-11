@@ -5,6 +5,9 @@
 #include "Archer.h"
 #include "Mage.h"
 #include "Slime.h"
+#include "Cacto.h"
+#include "Skeleton.h"
+#include "Lich.h"
 #include "Constants.h"
 
 #include <iostream>
@@ -36,33 +39,75 @@ EntityManager::~EntityManager()
     player = nullptr;
 }
 
+//
+
 void EntityManager::CreatePlayer(
     const std::string& name,
-    PlayerType job,
+    const PlayerSaveData& saveData,
     const sf::Vector2f& position
 )
 {
     DataManager& dataManager = DataManager::GetInstance();
 
-    const PlayerData* data = dataManager.GetPlayerData(job);
+    const PlayerData* basicData = dataManager.GetPlayerData(saveData.job);
 
-    if (data == nullptr)
+    if (basicData == nullptr)
+    {
         return;
+    }
 
-    switch (job)
+    const PlayerLevelData* levelData = dataManager.GetPlayerLevelData(saveData.job, saveData.level);
+
+    if (levelData == nullptr)
+    {
+        return;
+    }
+
+    // 기존 플레이어가 있다면 제거
+    DeletePlayer();
+
+    switch (saveData.job)
     {
     case PlayerType::WARRIOR:
-        player = new Warrior(name, *data, position);
+        player = new Warrior(
+            name,
+            *basicData,
+            *levelData,
+            saveData,
+            position
+        );
+
         break;
+
     case PlayerType::ARCHER:
-        player = new Archer(name, *data, position);
+
+        player = new Archer(
+            name,
+            *basicData,
+            *levelData,
+            saveData,
+            position
+        );
+
         break;
+
     case PlayerType::MAGE:
-        player = new Mage(name, *data, position);
+
+        player = new Mage(
+            name,
+            *basicData,
+            *levelData,
+            saveData,
+            position
+        );
+
         break;
+
     default:
         return;
     }
+
+    PrintPlayerInfo();
 }
 
 void EntityManager::SpawnMonster(
@@ -70,13 +115,40 @@ void EntityManager::SpawnMonster(
     MonsterColor color,
     const sf::Vector2f& position)
 {
-    const MonsterData* data =
-        DataManager::GetInstance().GetMonsterData(type);
+    const MonsterData* baseData = DataManager::GetInstance().GetMonsterData(type);
 
-    if (data == nullptr)
+    if (baseData == nullptr)
     {
-        std::cout << "MonsterData dosen't exist" << std::endl;
         return;
+    }
+
+    // 기본 데이터 복사
+    MonsterData data = *baseData;
+
+    // 보스는 고정 스탯
+    if (type != MonsterType::GIANT_SLIME)
+    {
+        int monsterLevel = 1;
+
+        if (player != nullptr)
+        {
+            monsterLevel = player->GetLevel();
+        }
+
+        const MonsterLevelData* levelData = DataManager::GetInstance().GetMonsterLevelData(monsterLevel);
+
+        if (levelData != nullptr)
+        {
+            data.maxHp = static_cast<int>(data.maxHp * levelData->hpRate);
+
+            data.damage = static_cast<int>(data.damage * levelData->damageRate);
+
+            data.defence = static_cast<int>(data.defence * levelData->defenceRate);
+
+            data.exp = static_cast<int>(data.exp * levelData->expRate);
+
+            data.moveSpeed *= levelData->moveSpeedRate;
+        }
     }
 
     Monster* monster = nullptr;
@@ -84,19 +156,37 @@ void EntityManager::SpawnMonster(
     switch (type)
     {
     case MonsterType::SLIME:
-        monster = new Slime(color, *data, position);
+        monster = new Slime(color, data, position);
         break;
 
+    case MonsterType::CACTO:
+        monster = new Cacto(color, data, position);
+        break;
+
+    case MonsterType::SKELETON:
+        monster = new Skeleton(color, data, position);
+        break;
+
+    case MonsterType::LICH:
+        monster = new Lich(color, data, position);
+        break;
+
+    //case MonsterType::GIANT_SLIME:
+    //    monster = new GiantSlime(data, position);
+    //    break;
+
     default:
-        std::cout << "Not Valid MonsterType" << std::endl;
+        return;
+    }
+
+    if (monster == nullptr)
+    {
         return;
     }
 
     monster->SetTarget(player);
 
-    AddMonster(monster);
-
-    cout << "Slime Spawned: " << position.x << ", " << position.y << endl;
+    monsters.push_back(monster);
 }
 
 void EntityManager::AddMonster(Monster* monster)
@@ -591,13 +681,18 @@ void EntityManager::Update(float deltaTime, sf::RenderWindow& window)
 
     for (Monster* monster : monsters)
     {
-        if (monster != nullptr &&
-            monster->IsActive())
+        if (monster == nullptr || !monster->IsActive())
         {
-            monster->Update(
-                deltaTime,
-                window
-            );
+            continue;
+        }
+
+        monster->Update(deltaTime, window);
+
+        std::vector<Projectile*> newProjectiles = monster->TakePendingProjectiles();
+
+        for (Projectile* projectile : newProjectiles)
+        {
+            AddProjectile(projectile);
         }
     }
 
@@ -606,10 +701,7 @@ void EntityManager::Update(float deltaTime, sf::RenderWindow& window)
         if (projectile != nullptr &&
             projectile->IsActive())
         {
-            projectile->Update(
-                deltaTime,
-                window
-            );
+            projectile->Update(deltaTime, window);
         }
     }
 
@@ -656,7 +748,7 @@ void EntityManager::PrintPlayerInfo()
 
     if (player == nullptr)
     {
-        cout << "Player가 생성되지 않았습니다." << endl;
+        cout << "Player Not Genterated" << endl;
         return;
     }
 
@@ -709,7 +801,7 @@ void EntityManager::PrintPlayerHp()
 {
     if (player == nullptr)
     {
-        cout << "Player가 생성되지 않았습니다." << endl;
+        cout << "Player Not Generated" << endl;
         return;
     }
 

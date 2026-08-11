@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Player.h"
+#include "Constants.h"
 
 class Mage : public Player
 {
@@ -9,7 +10,9 @@ private:
 public:
     Mage(
         const std::string& name,
-        const PlayerData& data,
+        const PlayerData& basicData,
+        const PlayerLevelData& levelData,
+        const PlayerSaveData& saveData,
         const sf::Vector2f& startPosition
     );
 
@@ -19,4 +22,3 @@ public:
     void UseSkill(Creature* target) override;
     void UseUltimate(Creature* target) override;
 };
-

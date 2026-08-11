@@ -1,0 +1,818 @@
+{
+  "WARRIOR": {
+    "1": {
+      "maxExp": 100,
+      "maxHp": 300,
+      "defence": 12,
+      "damage": 30,
+      "skillDamage": 75,
+      "ultimateDamage": 60,
+      "maxUltimateGauge": 700
+    },
+    "2": {
+      "maxExp": 120,
+      "maxHp": 320,
+      "defence": 13,
+      "damage": 32,
+      "skillDamage": 75,
+      "ultimateDamage": 60,
+      "maxUltimateGauge": 720
+    },
+    "3": {
+      "maxExp": 145,
+      "maxHp": 340,
+      "defence": 14,
+      "damage": 34,
+      "skillDamage": 75,
+      "ultimateDamage": 60,
+      "maxUltimateGauge": 740
+    },
+    "4": {
+      "maxExp": 175,
+      "maxHp": 360,
+      "defence": 15,
+      "damage": 36,
+      "skillDamage": 75,
+      "ultimateDamage": 60,
+      "maxUltimateGauge": 760
+    },
+    "5": {
+      "maxExp": 210,
+      "maxHp": 385,
+      "defence": 16,
+      "damage": 39,
+      "skillDamage": 90,
+      "ultimateDamage": 72,
+      "maxUltimateGauge": 780
+    },
+    "6": {
+      "maxExp": 250,
+      "maxHp": 410,
+      "defence": 17,
+      "damage": 42,
+      "skillDamage": 90,
+      "ultimateDamage": 72,
+      "maxUltimateGauge": 800
+    },
+    "7": {
+      "maxExp": 295,
+      "maxHp": 435,
+      "defence": 18,
+      "damage": 45,
+      "skillDamage": 90,
+      "ultimateDamage": 72,
+      "maxUltimateGauge": 820
+    },
+    "8": {
+      "maxExp": 345,
+      "maxHp": 460,
+      "defence": 19,
+      "damage": 48,
+      "skillDamage": 90,
+      "ultimateDamage": 72,
+      "maxUltimateGauge": 840
+    },
+    "9": {
+      "maxExp": 400,
+      "maxHp": 485,
+      "defence": 20,
+      "damage": 51,
+      "skillDamage": 90,
+      "ultimateDamage": 72,
+      "maxUltimateGauge": 860
+    },
+    "10": {
+      "maxExp": 460,
+      "maxHp": 515,
+      "defence": 21,
+      "damage": 55,
+      "skillDamage": 108,
+      "ultimateDamage": 86,
+      "maxUltimateGauge": 880
+    },
+    "11": {
+      "maxExp": 525,
+      "maxHp": 545,
+      "defence": 22,
+      "damage": 59,
+      "skillDamage": 108,
+      "ultimateDamage": 86,
+      "maxUltimateGauge": 900
+    },
+    "12": {
+      "maxExp": 595,
+      "maxHp": 575,
+      "defence": 23,
+      "damage": 63,
+      "skillDamage": 108,
+      "ultimateDamage": 86,
+      "maxUltimateGauge": 920
+    },
+    "13": {
+      "maxExp": 670,
+      "maxHp": 605,
+      "defence": 24,
+      "damage": 67,
+      "skillDamage": 108,
+      "ultimateDamage": 86,
+      "maxUltimateGauge": 940
+    },
+    "14": {
+      "maxExp": 750,
+      "maxHp": 635,
+      "defence": 25,
+      "damage": 71,
+      "skillDamage": 108,
+      "ultimateDamage": 86,
+      "maxUltimateGauge": 960
+    },
+    "15": {
+      "maxExp": 835,
+      "maxHp": 670,
+      "defence": 27,
+      "damage": 76,
+      "skillDamage": 130,
+      "ultimateDamage": 103,
+      "maxUltimateGauge": 980
+    },
+    "16": {
+      "maxExp": 925,
+      "maxHp": 705,
+      "defence": 28,
+      "damage": 81,
+      "skillDamage": 130,
+      "ultimateDamage": 103,
+      "maxUltimateGauge": 1000
+    },
+    "17": {
+      "maxExp": 1020,
+      "maxHp": 740,
+      "defence": 29,
+      "damage": 86,
+      "skillDamage": 130,
+      "ultimateDamage": 103,
+      "maxUltimateGauge": 1020
+    },
+    "18": {
+      "maxExp": 1120,
+      "maxHp": 775,
+      "defence": 30,
+      "damage": 91,
+      "skillDamage": 130,
+      "ultimateDamage": 103,
+      "maxUltimateGauge": 1040
+    },
+    "19": {
+      "maxExp": 1225,
+      "maxHp": 810,
+      "defence": 31,
+      "damage": 96,
+      "skillDamage": 130,
+      "ultimateDamage": 103,
+      "maxUltimateGauge": 1060
+    },
+    "20": {
+      "maxExp": 1335,
+      "maxHp": 850,
+      "defence": 33,
+      "damage": 102,
+      "skillDamage": 156,
+      "ultimateDamage": 124,
+      "maxUltimateGauge": 1080
+    },
+    "21": {
+      "maxExp": 1450,
+      "maxHp": 890,
+      "defence": 34,
+      "damage": 108,
+      "skillDamage": 156,
+      "ultimateDamage": 124,
+      "maxUltimateGauge": 1100
+    },
+    "22": {
+      "maxExp": 1570,
+      "maxHp": 930,
+      "defence": 35,
+      "damage": 114,
+      "skillDamage": 156,
+      "ultimateDamage": 124,
+      "maxUltimateGauge": 1120
+    },
+    "23": {
+      "maxExp": 1695,
+      "maxHp": 970,
+      "defence": 36,
+      "damage": 120,
+      "skillDamage": 156,
+      "ultimateDamage": 124,
+      "maxUltimateGauge": 1140
+    },
+    "24": {
+      "maxExp": 1825,
+      "maxHp": 1010,
+      "defence": 37,
+      "damage": 126,
+      "skillDamage": 156,
+      "ultimateDamage": 124,
+      "maxUltimateGauge": 1160
+    },
+    "25": {
+      "maxExp": 1960,
+      "maxHp": 1055,
+      "defence": 39,
+      "damage": 133,
+      "skillDamage": 187,
+      "ultimateDamage": 149,
+      "maxUltimateGauge": 1180
+    },
+    "26": {
+      "maxExp": 2100,
+      "maxHp": 1100,
+      "defence": 40,
+      "damage": 140,
+      "skillDamage": 187,
+      "ultimateDamage": 149,
+      "maxUltimateGauge": 1200
+    },
+    "27": {
+      "maxExp": 2245,
+      "maxHp": 1145,
+      "defence": 41,
+      "damage": 147,
+      "skillDamage": 187,
+      "ultimateDamage": 149,
+      "maxUltimateGauge": 1220
+    },
+    "28": {
+      "maxExp": 2395,
+      "maxHp": 1190,
+      "defence": 42,
+      "damage": 154,
+      "skillDamage": 187,
+      "ultimateDamage": 149,
+      "maxUltimateGauge": 1240
+    },
+    "29": {
+      "maxExp": 2550,
+      "maxHp": 1235,
+      "defence": 43,
+      "damage": 161,
+      "skillDamage": 187,
+      "ultimateDamage": 149,
+      "maxUltimateGauge": 1260
+    },
+    "30": {
+      "maxExp": 0,
+      "maxHp": 1285,
+      "defence": 45,
+      "damage": 170,
+      "skillDamage": 225,
+      "ultimateDamage": 180,
+      "maxUltimateGauge": 1280
+    }
+  },
+  "ARCHER": {
+    "1": {
+      "maxExp": 100,
+      "maxHp": 200,
+      "defence": 6,
+      "damage": 40,
+      "skillDamage": 36,
+      "ultimateDamage": 220,
+      "maxUltimateGauge": 800
+    },
+    "2": {
+      "maxExp": 120,
+      "maxHp": 214,
+      "defence": 6,
+      "damage": 43,
+      "skillDamage": 36,
+      "ultimateDamage": 220,
+      "maxUltimateGauge": 820
+    },
+    "3": {
+      "maxExp": 145,
+      "maxHp": 228,
+      "defence": 7,
+      "damage": 46,
+      "skillDamage": 36,
+      "ultimateDamage": 220,
+      "maxUltimateGauge": 840
+    },
+    "4": {
+      "maxExp": 175,
+      "maxHp": 242,
+      "defence": 7,
+      "damage": 49,
+      "skillDamage": 36,
+      "ultimateDamage": 220,
+      "maxUltimateGauge": 860
+    },
+    "5": {
+      "maxExp": 210,
+      "maxHp": 258,
+      "defence": 8,
+      "damage": 53,
+      "skillDamage": 43,
+      "ultimateDamage": 250,
+      "maxUltimateGauge": 880
+    },
+    "6": {
+      "maxExp": 250,
+      "maxHp": 274,
+      "defence": 8,
+      "damage": 57,
+      "skillDamage": 43,
+      "ultimateDamage": 250,
+      "maxUltimateGauge": 900
+    },
+    "7": {
+      "maxExp": 295,
+      "maxHp": 290,
+      "defence": 9,
+      "damage": 61,
+      "skillDamage": 43,
+      "ultimateDamage": 250,
+      "maxUltimateGauge": 920
+    },
+    "8": {
+      "maxExp": 345,
+      "maxHp": 306,
+      "defence": 9,
+      "damage": 65,
+      "skillDamage": 43,
+      "ultimateDamage": 250,
+      "maxUltimateGauge": 940
+    },
+    "9": {
+      "maxExp": 400,
+      "maxHp": 322,
+      "defence": 10,
+      "damage": 69,
+      "skillDamage": 43,
+      "ultimateDamage": 250,
+      "maxUltimateGauge": 960
+    },
+    "10": {
+      "maxExp": 460,
+      "maxHp": 340,
+      "defence": 11,
+      "damage": 74,
+      "skillDamage": 52,
+      "ultimateDamage": 285,
+      "maxUltimateGauge": 980
+    },
+    "11": {
+      "maxExp": 525,
+      "maxHp": 358,
+      "defence": 11,
+      "damage": 79,
+      "skillDamage": 52,
+      "ultimateDamage": 285,
+      "maxUltimateGauge": 1000
+    },
+    "12": {
+      "maxExp": 595,
+      "maxHp": 376,
+      "defence": 12,
+      "damage": 84,
+      "skillDamage": 52,
+      "ultimateDamage": 285,
+      "maxUltimateGauge": 1020
+    },
+    "13": {
+      "maxExp": 670,
+      "maxHp": 394,
+      "defence": 12,
+      "damage": 89,
+      "skillDamage": 52,
+      "ultimateDamage": 285,
+      "maxUltimateGauge": 1040
+    },
+    "14": {
+      "maxExp": 750,
+      "maxHp": 412,
+      "defence": 13,
+      "damage": 94,
+      "skillDamage": 52,
+      "ultimateDamage": 285,
+      "maxUltimateGauge": 1060
+    },
+    "15": {
+      "maxExp": 835,
+      "maxHp": 432,
+      "defence": 14,
+      "damage": 100,
+      "skillDamage": 62,
+      "ultimateDamage": 325,
+      "maxUltimateGauge": 1080
+    },
+    "16": {
+      "maxExp": 925,
+      "maxHp": 452,
+      "defence": 14,
+      "damage": 106,
+      "skillDamage": 62,
+      "ultimateDamage": 325,
+      "maxUltimateGauge": 1100
+    },
+    "17": {
+      "maxExp": 1020,
+      "maxHp": 472,
+      "defence": 15,
+      "damage": 112,
+      "skillDamage": 62,
+      "ultimateDamage": 325,
+      "maxUltimateGauge": 1120
+    },
+    "18": {
+      "maxExp": 1120,
+      "maxHp": 492,
+      "defence": 15,
+      "damage": 118,
+      "skillDamage": 62,
+      "ultimateDamage": 325,
+      "maxUltimateGauge": 1140
+    },
+    "19": {
+      "maxExp": 1225,
+      "maxHp": 512,
+      "defence": 16,
+      "damage": 124,
+      "skillDamage": 62,
+      "ultimateDamage": 325,
+      "maxUltimateGauge": 1160
+    },
+    "20": {
+      "maxExp": 1335,
+      "maxHp": 535,
+      "defence": 17,
+      "damage": 131,
+      "skillDamage": 74,
+      "ultimateDamage": 370,
+      "maxUltimateGauge": 1180
+    },
+    "21": {
+      "maxExp": 1450,
+      "maxHp": 558,
+      "defence": 17,
+      "damage": 138,
+      "skillDamage": 74,
+      "ultimateDamage": 370,
+      "maxUltimateGauge": 1200
+    },
+    "22": {
+      "maxExp": 1570,
+      "maxHp": 581,
+      "defence": 18,
+      "damage": 145,
+      "skillDamage": 74,
+      "ultimateDamage": 370,
+      "maxUltimateGauge": 1220
+    },
+    "23": {
+      "maxExp": 1695,
+      "maxHp": 604,
+      "defence": 18,
+      "damage": 152,
+      "skillDamage": 74,
+      "ultimateDamage": 370,
+      "maxUltimateGauge": 1240
+    },
+    "24": {
+      "maxExp": 1825,
+      "maxHp": 627,
+      "defence": 19,
+      "damage": 159,
+      "skillDamage": 74,
+      "ultimateDamage": 370,
+      "maxUltimateGauge": 1260
+    },
+    "25": {
+      "maxExp": 1960,
+      "maxHp": 652,
+      "defence": 20,
+      "damage": 167,
+      "skillDamage": 89,
+      "ultimateDamage": 420,
+      "maxUltimateGauge": 1280
+    },
+    "26": {
+      "maxExp": 2100,
+      "maxHp": 677,
+      "defence": 20,
+      "damage": 175,
+      "skillDamage": 89,
+      "ultimateDamage": 420,
+      "maxUltimateGauge": 1300
+    },
+    "27": {
+      "maxExp": 2245,
+      "maxHp": 702,
+      "defence": 21,
+      "damage": 183,
+      "skillDamage": 89,
+      "ultimateDamage": 420,
+      "maxUltimateGauge": 1320
+    },
+    "28": {
+      "maxExp": 2395,
+      "maxHp": 727,
+      "defence": 21,
+      "damage": 191,
+      "skillDamage": 89,
+      "ultimateDamage": 420,
+      "maxUltimateGauge": 1340
+    },
+    "29": {
+      "maxExp": 2550,
+      "maxHp": 752,
+      "defence": 22,
+      "damage": 199,
+      "skillDamage": 89,
+      "ultimateDamage": 420,
+      "maxUltimateGauge": 1360
+    },
+    "30": {
+      "maxExp": 0,
+      "maxHp": 780,
+      "defence": 23,
+      "damage": 208,
+      "skillDamage": 107,
+      "ultimateDamage": 480,
+      "maxUltimateGauge": 1380
+    }
+  },
+  "MAGE": {
+    "1": {
+      "maxExp": 100,
+      "maxHp": 150,
+      "defence": 3,
+      "damage": 50,
+      "skillDamage": 120,
+      "ultimateDamage": 140,
+      "maxUltimateGauge": 850
+    },
+    "2": {
+      "maxExp": 120,
+      "maxHp": 162,
+      "defence": 3,
+      "damage": 54,
+      "skillDamage": 120,
+      "ultimateDamage": 140,
+      "maxUltimateGauge": 870
+    },
+    "3": {
+      "maxExp": 145,
+      "maxHp": 174,
+      "defence": 4,
+      "damage": 58,
+      "skillDamage": 120,
+      "ultimateDamage": 140,
+      "maxUltimateGauge": 890
+    },
+    "4": {
+      "maxExp": 175,
+      "maxHp": 186,
+      "defence": 4,
+      "damage": 62,
+      "skillDamage": 120,
+      "ultimateDamage": 140,
+      "maxUltimateGauge": 910
+    },
+    "5": {
+      "maxExp": 210,
+      "maxHp": 200,
+      "defence": 5,
+      "damage": 67,
+      "skillDamage": 144,
+      "ultimateDamage": 165,
+      "maxUltimateGauge": 930
+    },
+    "6": {
+      "maxExp": 250,
+      "maxHp": 214,
+      "defence": 5,
+      "damage": 72,
+      "skillDamage": 144,
+      "ultimateDamage": 165,
+      "maxUltimateGauge": 950
+    },
+    "7": {
+      "maxExp": 295,
+      "maxHp": 228,
+      "defence": 6,
+      "damage": 77,
+      "skillDamage": 144,
+      "ultimateDamage": 165,
+      "maxUltimateGauge": 970
+    },
+    "8": {
+      "maxExp": 345,
+      "maxHp": 242,
+      "defence": 6,
+      "damage": 82,
+      "skillDamage": 144,
+      "ultimateDamage": 165,
+      "maxUltimateGauge": 990
+    },
+    "9": {
+      "maxExp": 400,
+      "maxHp": 256,
+      "defence": 7,
+      "damage": 87,
+      "skillDamage": 144,
+      "ultimateDamage": 165,
+      "maxUltimateGauge": 1010
+    },
+    "10": {
+      "maxExp": 460,
+      "maxHp": 272,
+      "defence": 7,
+      "damage": 93,
+      "skillDamage": 173,
+      "ultimateDamage": 195,
+      "maxUltimateGauge": 1030
+    },
+    "11": {
+      "maxExp": 525,
+      "maxHp": 288,
+      "defence": 8,
+      "damage": 99,
+      "skillDamage": 173,
+      "ultimateDamage": 195,
+      "maxUltimateGauge": 1050
+    },
+    "12": {
+      "maxExp": 595,
+      "maxHp": 304,
+      "defence": 8,
+      "damage": 105,
+      "skillDamage": 173,
+      "ultimateDamage": 195,
+      "maxUltimateGauge": 1070
+    },
+    "13": {
+      "maxExp": 670,
+      "maxHp": 320,
+      "defence": 9,
+      "damage": 111,
+      "skillDamage": 173,
+      "ultimateDamage": 195,
+      "maxUltimateGauge": 1090
+    },
+    "14": {
+      "maxExp": 750,
+      "maxHp": 336,
+      "defence": 9,
+      "damage": 117,
+      "skillDamage": 173,
+      "ultimateDamage": 195,
+      "maxUltimateGauge": 1110
+    },
+    "15": {
+      "maxExp": 835,
+      "maxHp": 354,
+      "defence": 10,
+      "damage": 124,
+      "skillDamage": 208,
+      "ultimateDamage": 230,
+      "maxUltimateGauge": 1130
+    },
+    "16": {
+      "maxExp": 925,
+      "maxHp": 372,
+      "defence": 10,
+      "damage": 131,
+      "skillDamage": 208,
+      "ultimateDamage": 230,
+      "maxUltimateGauge": 1150
+    },
+    "17": {
+      "maxExp": 1020,
+      "maxHp": 390,
+      "defence": 11,
+      "damage": 138,
+      "skillDamage": 208,
+      "ultimateDamage": 230,
+      "maxUltimateGauge": 1170
+    },
+    "18": {
+      "maxExp": 1120,
+      "maxHp": 408,
+      "defence": 11,
+      "damage": 145,
+      "skillDamage": 208,
+      "ultimateDamage": 230,
+      "maxUltimateGauge": 1190
+    },
+    "19": {
+      "maxExp": 1225,
+      "maxHp": 426,
+      "defence": 12,
+      "damage": 152,
+      "skillDamage": 208,
+      "ultimateDamage": 230,
+      "maxUltimateGauge": 1210
+    },
+    "20": {
+      "maxExp": 1335,
+      "maxHp": 446,
+      "defence": 12,
+      "damage": 160,
+      "skillDamage": 250,
+      "ultimateDamage": 270,
+      "maxUltimateGauge": 1230
+    },
+    "21": {
+      "maxExp": 1450,
+      "maxHp": 466,
+      "defence": 13,
+      "damage": 168,
+      "skillDamage": 250,
+      "ultimateDamage": 270,
+      "maxUltimateGauge": 1250
+    },
+    "22": {
+      "maxExp": 1570,
+      "maxHp": 486,
+      "defence": 13,
+      "damage": 176,
+      "skillDamage": 250,
+      "ultimateDamage": 270,
+      "maxUltimateGauge": 1270
+    },
+    "23": {
+      "maxExp": 1695,
+      "maxHp": 506,
+      "defence": 14,
+      "damage": 184,
+      "skillDamage": 250,
+      "ultimateDamage": 270,
+      "maxUltimateGauge": 1290
+    },
+    "24": {
+      "maxExp": 1825,
+      "maxHp": 526,
+      "defence": 14,
+      "damage": 192,
+      "skillDamage": 250,
+      "ultimateDamage": 270,
+      "maxUltimateGauge": 1310
+    },
+    "25": {
+      "maxExp": 1960,
+      "maxHp": 548,
+      "defence": 15,
+      "damage": 201,
+      "skillDamage": 300,
+      "ultimateDamage": 320,
+      "maxUltimateGauge": 1330
+    },
+    "26": {
+      "maxExp": 2100,
+      "maxHp": 570,
+      "defence": 15,
+      "damage": 210,
+      "skillDamage": 300,
+      "ultimateDamage": 320,
+      "maxUltimateGauge": 1350
+    },
+    "27": {
+      "maxExp": 2245,
+      "maxHp": 592,
+      "defence": 16,
+      "damage": 219,
+      "skillDamage": 300,
+      "ultimateDamage": 320,
+      "maxUltimateGauge": 1370
+    },
+    "28": {
+      "maxExp": 2395,
+      "maxHp": 614,
+      "defence": 16,
+      "damage": 228,
+      "skillDamage": 300,
+      "ultimateDamage": 320,
+      "maxUltimateGauge": 1390
+    },
+    "29": {
+      "maxExp": 2550,
+      "maxHp": 636,
+      "defence": 17,
+      "damage": 237,
+      "skillDamage": 300,
+      "ultimateDamage": 320,
+      "maxUltimateGauge": 1410
+    },
+    "30": {
+      "maxExp": 0,
+      "maxHp": 660,
+      "defence": 18,
+      "damage": 247,
+      "skillDamage": 360,
+      "ultimateDamage": 380,
+      "maxUltimateGauge": 1430
+    }
+  }
+}

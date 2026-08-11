@@ -95,6 +95,78 @@
     "frameDuration": 0.08
   },
 
+  "CACTO_IDLE": {
+    "textureKey": "Cacto_Idle",
+    "totalRows": 1,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.2
+  },
+
+  "CACTO_RUN": {
+    "textureKey": "Cacto_Run",
+    "totalRows": 3,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.1
+  },
+
+  "CACTO_ATTACK": {
+    "textureKey": "Cacto_Attack",
+    "totalRows": 3,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.08
+  },
+
+  "SKELETON_IDLE": {
+    "textureKey": "Skeleton_Idle",
+    "totalRows": 1,
+    "totalColumns": 4,
+    "frameCount": 4,
+    "frameDuration": 0.2
+  },
+
+  "SKELETON_RUN": {
+    "textureKey": "Skeleton_Run",
+    "totalRows": 3,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.1
+  },
+
+  "SKELETON_ATTACK": {
+    "textureKey": "Skeleton_Attack",
+    "totalRows": 3,
+    "totalColumns": 5,
+    "frameCount": 5,
+    "frameDuration": 0.08
+  },
+
+  "LICH_IDLE": {
+    "textureKey": "Lich_Idle",
+    "totalRows": 1,
+    "totalColumns": 4,
+    "frameCount": 4,
+    "frameDuration": 0.2
+  },
+
+  "LICH_RUN": {
+    "textureKey": "Lich_Run",
+    "totalRows": 3,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.1
+  },
+
+  "LICH_ATTACK": {
+    "textureKey": "Lich_Attack",
+    "totalRows": 3,
+    "totalColumns": 5,
+    "frameCount": 5,
+    "frameDuration": 0.08
+  },
+
   "ARROW": {
     "textureKey": "Arrow",
     "totalRows": 1,
@@ -108,7 +180,7 @@
     "totalRows": 1,
     "totalColumns": 4,
     "frameCount": 4,
-    "frameDuration": 0.02
+    "frameDuration": 0.04
   },
 
   "BLADE_WAVE": {
@@ -117,5 +189,13 @@
     "totalColumns": 3,
     "frameCount": 3,
     "frameDuration": 0.08
+  },
+
+  "LICH_FIREBALL": {
+    "textureKey": "LichFireball",
+    "totalRows": 1,
+    "totalColumns": 4,
+    "frameCount": 4,
+    "frameDuration": 0.1
   }
 }

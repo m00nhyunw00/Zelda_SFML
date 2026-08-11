@@ -8,7 +8,9 @@
 #include "MonsterData.h"
 #include "AnimationState.h"
 #include "GaugeBar.h"
+#include "Projectile.h"
 #include <string>
+#include <vector>
 
 class Player;
 
@@ -27,8 +29,13 @@ private:
     float detectionRange;           // 플레이어 감지 범위
     float attackRange;              // 공격 시작 범위
 
+    float maxAttackCooldown;
+    float attackCooldown;
+
 protected:
     GaugeBar* hpBar;
+
+    std::vector<Projectile*> pendingProjectiles;
 
 private:
     sf::Vector2f AIMovement(float deltaTime);
@@ -48,6 +55,10 @@ public:
     ~Monster() override;
 
     void Render(sf::RenderWindow& window);
+
+    void AddPendingProjectile(Projectile* projectile);
+
+    std::vector<Projectile*> TakePendingProjectiles();
 
     // Getter -------------------------------------------------
 

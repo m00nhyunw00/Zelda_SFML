@@ -9,6 +9,8 @@ Monster::Monster(
     this->type = type;
     this->color = data.color;
     this->exp = data.exp;
+    this->maxAttackCooldown =data.attackCooldown;
+    this->attackCooldown = 0.f;
 
     hpBar = new GaugeBar(
         { 50.f, 6.f },
@@ -75,12 +77,23 @@ sf::Vector2f Monster::AIMovement(float deltaTime)
     {
         monsterState = MonsterState::NONE_CHASE;
 
-        if (animationState != CreatureState::ATTACK)
+        if (distance > 0.f)
+        {
+            direction.x /= distance;
+            direction.y /= distance;
+
+            UpdateFacingDirection(direction);
+        }
+
+        if (animationState != CreatureState::ATTACK && attackCooldown <= 0.f)
         {
             animationState = CreatureState::ATTACK;
 
             attackTriggered = true;
+
+            attackCooldown = maxAttackCooldown;
         }
+
         return { 0.f, 0.f };
     }
 
@@ -144,8 +157,17 @@ void Monster::HandleAnimation(const sf::Vector2f& direction, float deltaTime)
 
 void Monster::UpdateLogic(float deltaTime)
 {
-    // 기본적으로 이번 프레임에는 새 공격 없음
     attackTriggered = false;
+
+    if (attackCooldown > 0.f)
+    {
+        attackCooldown -= deltaTime;
+
+        if (attackCooldown < 0.f)
+        {
+            attackCooldown = 0.f;
+        }
+    }
 
     const sf::Vector2f direction = AIMovement(deltaTime);
 
@@ -155,10 +177,7 @@ void Monster::UpdateLogic(float deltaTime)
 
     hpBar->SetValue(GetHp());
 
-    hpBar->SetPosition({
-        position.x,
-        position.y - 45.f
-        });
+    hpBar->SetPosition({ position.x,position.y - 45.f });
 }
 
 void Monster::Render(sf::RenderWindow& window)
@@ -169,4 +188,23 @@ void Monster::Render(sf::RenderWindow& window)
     {
         hpBar->Render(window);
     }
+}
+
+void Monster::AddPendingProjectile(Projectile* projectile)
+{
+    if (projectile == nullptr)
+    {
+        return;
+    }
+
+    pendingProjectiles.push_back(projectile);
+}
+
+std::vector<Projectile*> Monster::TakePendingProjectiles()
+{
+    std::vector<Projectile*> result = std::move(pendingProjectiles);
+
+    pendingProjectiles.clear();
+
+    return result;
 }

@@ -7,26 +7,49 @@
 
 using namespace std;
 
+
 Player::Player(
-	const std::string& name,
-	PlayerType job,
-	const PlayerData& data,
-	const sf::Vector2f& position
-) : Creature(CreatureType::PLAYER, data, position)
+    const std::string& name,
+    PlayerType job,
+    const PlayerData& basicData,
+    const PlayerLevelData& levelData,
+    const PlayerSaveData& saveData,
+    const sf::Vector2f& position
+)
+    : Creature(
+        CreatureType::PLAYER,
+        levelData,
+        position
+    )
 {
-	this->userName = name;
-	this->job = job;
-	this->level = 1;
-	this->skillName = data.skillName;
-	this->skillDamage = data.skillDamage;
-	this->maxSkillCooldown = data.maxSkillCooldown;
-	this->skillCooldown = 0;
-    this->ultimateName = data.ultimateName;
-    this->ultimateDamage = data.ultimateDamage;
-    this->maxUltimateGauge = data.maxUltimateGauge;
-    this->ultimateGauge = 1400; // 테스트값
-	this->maxExp = 60;          // 테스트값
-	this->currentExp = 0;
+    userName = name;
+    this->job = job;
+
+    level = saveData.level;
+
+    moveSpeed = basicData.moveSpeed;
+
+    skillName = basicData.skillName;
+
+    maxSkillCooldown = basicData.maxSkillCooldown;
+
+    skillCooldown = 0.f;
+
+    ultimateName = basicData.ultimateName;
+
+    skillDamage = levelData.skillDamage;
+
+    ultimateDamage = levelData.ultimateDamage;
+
+    maxUltimateGauge = levelData.maxUltimateGauge;
+
+    maxExp = levelData.maxExp;
+
+    ultimateGauge = 0.f;
+
+    currentExp = saveData.currentExp;
+
+    SetHp(saveData.currentHp);
 }
 
 void Player::UpdateLogic(float deltaTime)
@@ -37,8 +60,7 @@ void Player::UpdateLogic(float deltaTime)
 
     InputManager& input = InputManager::GetInstance();
 
-    const sf::Vector2f direction =
-        input.GetMoveDirection();
+    const sf::Vector2f direction = input.GetMoveDirection();
 
     if (animationState != CreatureState::ATTACK)
     {
@@ -167,6 +189,35 @@ void Player::ResetUltimateGauge()
     ultimateGauge = 0;
 }
 
+void Player::ApplyLevelData()
+{
+    const PlayerLevelData* data = DataManager::GetInstance().GetPlayerLevelData(job, level);
+
+    if (data == nullptr)
+    {
+        return;
+    }
+
+    SetMaxHp(data->maxHp);
+
+    SetDefence(data->defence);
+
+    SetDamage(data->damage);
+
+    skillDamage =data->skillDamage;
+
+    ultimateDamage =data->ultimateDamage;
+
+    maxUltimateGauge = data->maxUltimateGauge;
+
+    maxExp =data->maxExp;
+
+    if (ultimateGauge > maxUltimateGauge)
+    {
+        ultimateGauge = maxUltimateGauge;
+    }
+}
+
 void Player::IncreaseMaxHp(int amount)
 {
     SetMaxHp(GetMaxHp() + amount);
@@ -200,44 +251,71 @@ void Player::IncreaseMaxExp(int amount)
 
 void Player::AddExp(int exp)
 {
-    if (exp <= 0)
+    if (exp <= 0 || level >= 30)
     {
         return;
     }
 
     currentExp += exp;
 
-    // 한 번에 경험치를 많이 받아
-    // 여러 레벨이 오를 수도 있으므로 while 사용
-    while (currentExp >= maxExp)
+    while (level < 30 && currentExp >= maxExp)
     {
         currentExp -= maxExp;
 
         LevelUp();
     }
+
+    if (level >= 30)
+    {
+        currentExp = 0;
+    }
 }
 
 void Player::LevelUp()
 {
+    if (level >= 30)
+    {
+        return;
+    }
+
     level++;
 
-    IncreaseStats(
-        static_cast<int>(GetMaxHp() * 0.2f),
-        static_cast<int>(GetDefence() * 0.1f),
-        static_cast<int>(GetDamage() * 0.2f),
-        static_cast<int>(maxExp * 0.2f)
-    );
+    ApplyLevelData();
 
-    if (level % 5 == 0)
-        IncreaseSkillDamage(static_cast<int>(skillDamage * 1.5f));
-    if (level % 10 == 0)
-        IncreaseUltimateDamage(static_cast<int>(skillDamage * 5.f));
+    // 레벨업 시 체력 완전 회복
+    SetHp(GetMaxHp());
 
-    SetHp(GetMaxHp());  // 레벨 업에 따른 체력 회복
-
-    cout << "Level Up! Lv." << level << endl;
+    cout
+        << "Level Up! Lv."
+        << level
+        << endl;
 
     PrintPlayerInfo();
+}
+
+void Player::ApplyDeathPenalty()
+{
+    const int lostExp = static_cast<int>(maxExp / 3.f);
+
+    currentExp -= lostExp;
+
+    if (currentExp < 0)
+    {
+        currentExp = 0;
+    }
+
+    // 체력 완전 회복
+    SetHp(GetMaxHp());
+
+    // 궁극기 게이지 초기화
+    ultimateGauge = 0.f;
+
+    // 스킬 쿨타임도 초기화
+    skillCooldown = 0.f;
+
+    SetActive(true);
+
+    cout << "Death Penalty - EXP Lost: " << lostExp << endl;
 }
 
 void Player::IncreaseStats(int maxHpAmount, int defenceAmount, int damageAmount, int expAmount)
@@ -269,7 +347,6 @@ void Player::PrintPlayerInfo()
 
     cout << "Damage            : " << GetDamage() << endl;
     cout << "Defence           : " << GetDefence() << endl;
-    cout << "Evasion Rate      : " << GetEvasionRate() << endl;
     cout << "Move Speed        : " << GetMoveSpeed() << endl;
 
     cout << "Skill             : " << GetSkillName() << endl;

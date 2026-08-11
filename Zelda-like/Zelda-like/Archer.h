@@ -18,7 +18,9 @@ private:
 public:
     Archer(
         const std::string& name,
-        const PlayerData& data,
+        const PlayerData& basicData,
+        const PlayerLevelData& levelData,
+        const PlayerSaveData& saveData,
         const sf::Vector2f& startPosition
     );
 

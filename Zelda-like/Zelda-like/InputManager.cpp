@@ -6,6 +6,7 @@ InputManager::InputManager()
     ePressed = false;
     qPressed = false;
     iPressed = false;
+    fPressed = false;
     escPressed = false;
     enterPressed = false;
     num1Pressed = false;
@@ -35,6 +36,7 @@ void InputManager::BeginFrame()
     ePressed = false;
     qPressed = false;
     iPressed = false;
+    fPressed = false;
     escPressed = false;
     enterPressed = false;
     num1Pressed = false;
@@ -65,14 +67,16 @@ void InputManager::HandleEvent(const sf::Event& event)
         {
             iPressed = true;
         }
+        else if (keyPressed->scancode == sf::Keyboard::Scancode::F)
+        {
+            fPressed = true;
+        }
         else if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
         {
             escPressed = true;
         }
         else if (keyPressed->scancode == sf::Keyboard::Scancode::Enter)
         {
-            
-
             enterPressed = true;
         }
         else if (keyPressed->scancode == sf::Keyboard::Scancode::Num1)

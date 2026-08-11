@@ -3,12 +3,11 @@
 
 using namespace std;
 
-Creature::Creature(CreatureType category, const PlayerData& data, const sf::Vector2f& position)
+Creature::Creature(CreatureType category, const PlayerLevelData& data, const sf::Vector2f& position)
     : bodyCollider({ Constants::DEFAULT_COLLIDER_SIZE, Constants::DEFAULT_COLLIDER_SIZE }, { 0.f, 0.f }),
       attackCollider({ Constants::DEFAULT_COLLIDER_SIZE, Constants::DEFAULT_ATTACK_RANGE }, { 0.f, 0.f })
 {
     this->position = position;
-    this->moveSpeed = data.moveSpeed;
 
     facingDirection = Direction::DOWN;
     animationState = CreatureState::IDLE;
@@ -18,7 +17,6 @@ Creature::Creature(CreatureType category, const PlayerData& data, const sf::Vect
     this->hp = data.maxHp;
     this->defence = data.defence;
     this->damage = data.damage;
-    this->evasionRate = data.evasionRate;
 
     attackTriggered = false;
 
@@ -42,8 +40,7 @@ Creature::Creature(CreatureType category, const MonsterData& data, const sf::Vec
     this->hp = data.maxHp;
     this->defence = data.defence;
     this->damage = data.damage;
-    this->evasionRate = data.evasionRate;
-
+\
     bodyCollider.UpdatePosition(position);
     attackCollider.SetOrigin({ Constants::DEFAULT_COLLIDER_SIZE / 2, Constants::DEFAULT_ATTACK_RANGE });
     attackCollider.UpdatePosition(position);

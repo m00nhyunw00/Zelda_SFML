@@ -11,9 +11,19 @@ using namespace std;
 
 Archer::Archer(
     const std::string& name,
-    const PlayerData& data,
+    const PlayerData& basicData,
+    const PlayerLevelData& levelData,
+    const PlayerSaveData& saveData,
     const sf::Vector2f& startPosition
-) : Player(name, PlayerType::ARCHER, data, startPosition)
+)
+    : Player(
+        name,
+        PlayerType::ARCHER,
+        basicData,
+        levelData,
+        saveData,
+        startPosition
+    )
 {
     isTripleShot = false;
     isTitanArrow = false;
@@ -47,7 +57,7 @@ Archer::Archer(
             0  
         )
     );
-    sprite->setScale({ 4.f,4.f });
+    sprite->setScale({ Constants::DEFAULT_SCALE, Constants::DEFAULT_SCALE });
     sprite->setPosition(startPosition);
 
     attackCollider.SetSize({ Constants::DEFAULT_COLLIDER_SIZE, Constants::WARRIOR_ATTACK_RANGE / 1.5f });

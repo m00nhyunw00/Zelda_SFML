@@ -5,6 +5,7 @@
 #include "CreatureType.h"
 #include "AnimationState.h"
 #include "PlayerData.h"
+#include "PlayerLevelData.h"
 #include "MonsterData.h"
 #include "Animation.h"
 #include "Collider.h"
@@ -39,7 +40,7 @@ private:
 protected:
     Creature(
         CreatureType category,
-        const PlayerData& data,
+        const PlayerLevelData& data,
         const sf::Vector2f& position
     );
 

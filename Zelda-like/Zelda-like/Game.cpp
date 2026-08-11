@@ -2,6 +2,7 @@
 #include "Constants.h"
 #include "ResourceManager.h"
 #include "DataManager.h"
+#include "SaveManager.h"
 #include "SFML/Graphics.hpp"
 
 Game::Game()
@@ -18,6 +19,7 @@ Game::Game()
     window.setKeyRepeatEnabled(false);  // KeyPressed 이벤트의 자동 반복 방지
 
     ResourceManager& resourceManager = ResourceManager::GetInstance();
+    DataManager& dataManager = DataManager::GetInstance();
 
     resourceManager.LoadFont("MainFont", "Assets/Fonts/windows-bold.ttf");                      // 폰트 업로드
 
@@ -28,17 +30,33 @@ Game::Game()
     resourceManager.LoadTexture("Staff_3", "Assets/Icons/Staff_3.png");                         // 레벨3 지팡이 텍스쳐 업로드
     resourceManager.LoadTexture("Arrow", "Assets/Effects/Effect_Arrow.png");                    // 화살 텍스쳐 업로드
     resourceManager.LoadTexture("Fireball", "Assets/Effects/Effect_Fireball_Loop.png");         // 파이어볼 텍스쳐 업로드
+    resourceManager.LoadTexture("LichFireball", "Assets/Effects/Effect_LichFireball_Loop.png");     // 리치 파이어볼 텍스쳐 업로드
 
     resourceManager.LoadTexture("Slime_Idle", "Assets/Characters/Enemy_Slime/Enemy_Slime_Idle.png");        // 슬라임 Idle 텍스쳐 업로드
     resourceManager.LoadTexture("Slime_Run", "Assets/Characters/Enemy_Slime/Enemy_Slime_Walk.png");         // 슬라임 Run 텍스쳐 업로드
     resourceManager.LoadTexture("Slime_Attack", "Assets/Characters/Enemy_Slime/Enemy_Slime_Attack.png");    // 슬라임 Attack 텍스쳐 업로드
+
+    resourceManager.LoadTexture("Cacto_Idle", "Assets/Characters/Enemy_Cacto/Enemy_Cacto_Idle.png");        // 선인장 Idle 텍스쳐 업로드
+    resourceManager.LoadTexture("Cacto_Run", "Assets/Characters/Enemy_Cacto/Enemy_Cacto_Walk.png");         // 선인장 Run 텍스쳐 업로드
+    resourceManager.LoadTexture("Cacto_Attack", "Assets/Characters/Enemy_Cacto/Enemy_Cacto_Attack.png");    // 선인장 Attack 텍스쳐 업로드
+
+    resourceManager.LoadTexture("Skeleton_Idle", "Assets/Characters/Enemy_Skel/Enemy_Skel_Idle.png");        // 스켈레톤 Idle 텍스쳐 업로드
+    resourceManager.LoadTexture("Skeleton_Run", "Assets/Characters/Enemy_Skel/Enemy_Skel_Walk.png");         // 스켈레톤 Run 텍스쳐 업로드
+    resourceManager.LoadTexture("Skeleton_Attack", "Assets/Characters/Enemy_Skel/Enemy_Skel_Attack.png");    // 스켈레톤 Attack 텍스쳐 업로드
+
+    resourceManager.LoadTexture("Lich_Idle", "Assets/Characters/Enemy_Lich/Enemy_Lich_Idle.png");        // 리치 Idle 텍스쳐 업로드
+    resourceManager.LoadTexture("Lich_Run", "Assets/Characters/Enemy_Lich/Enemy_Lich_Walk.png");         // 리치 Run 텍스쳐 업로드
+    resourceManager.LoadTexture("Lich_Attack", "Assets/Characters/Enemy_Lich/Enemy_Lich_Attack.png");    // 리치 Attack 텍스쳐 업로드
         
     resourceManager.LoadTexture("House", "Assets/Tileset_Housing1.png");                         // 집 타일셋 텍스쳐 업로드
     resourceManager.LoadTexture("Indoor", "Assets/Objects/Tileset_Objects_Indoors1.png");        // 실내 바닥 타일셋 텍스쳐 업로드
 
-    DataManager::GetInstance().LoadPlayerData("Data/PlayerData.json");
-    DataManager::GetInstance().LoadMonsterData("Data/MonsterData.json");
-    DataManager::GetInstance().LoadAnimationData("Data/AnimationData.json");
+    dataManager.LoadPlayerData("Data/PlayerData.json");
+    dataManager.LoadMonsterData("Data/MonsterData.json");
+    dataManager.LoadPlayerLevelData("Data/PlayerLevelData.json");
+    dataManager.LoadMonsterLevelData("Data/MonsterLevelData.json");
+    dataManager.LoadAnimationData("Data/AnimationData.json");
+    dataManager.LoadMonsterSpawnData("Data/MonsterSpawnData.json");
 
     sceneManager.Start(TITLE);
 }

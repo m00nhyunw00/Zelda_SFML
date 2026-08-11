@@ -2,6 +2,7 @@
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "InputManager.h"
+#include "SaveManager.h"
 #include "Constants.h"
 
 #include <iostream>
@@ -84,19 +85,13 @@ void TitleScene::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
     // Enter 버튼을 눌렀는지 확인
     if (input.IsEnterPressed())
     {
-        sceneManager->RequestSceneChange(JOB_SELECT);
-        return;
+        CheckSaveDate();
     }
 
     // 버튼을 마우스로 클릭했는지 확인
     if (input.IsLeftMouseClicked())
     {
-        sf::Vector2f mousePos = input.GetMouseClickWorldPosition(window);
-
-        if (startButton.getGlobalBounds().contains(mousePos))
-        {
-            sceneManager->RequestSceneChange(JOB_SELECT);
-        }
+        CheckSaveDate();
     }
 }
 
@@ -126,5 +121,35 @@ void TitleScene::Render(sf::RenderWindow& window)
     if (startText != NULL)
     {
         window.draw(*startText);
+    }
+}
+
+void TitleScene::CheckSaveDate()
+{
+    SaveManager& saveManager = SaveManager::GetInstance();
+    PlayerSaveData saveData;
+
+    if (saveManager.LoadPlayerSaveData(saveData))
+    {
+
+        DataManager& dataManager = DataManager::GetInstance();
+        const PlayerData* basicData = dataManager.GetPlayerData(saveData.job);
+        const PlayerLevelData* levelData = dataManager.GetPlayerLevelData(saveData.job, saveData.level);
+
+        if (basicData == nullptr || levelData == nullptr)
+        {
+            return;
+        }
+
+        entityManager->CreatePlayer("Player", saveData, { Constants::CENTER_X, Constants::CENTER_Y });
+
+
+
+        sceneManager->RequestSceneChange(HOME);
+    }
+    else
+    {
+        // 세이브 데이터 없는 경우
+        sceneManager->RequestSceneChange(JOB_SELECT);
     }
 }

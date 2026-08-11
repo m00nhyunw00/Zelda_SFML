@@ -107,10 +107,7 @@ DungeonScene::DungeonScene(SceneManager* sceneManager, EntityManager* entitymana
         );
     }
 
-    // 몬스터 스폰 테스트를 위한 코드
-    //entityManager->SpawnMonster(SLIME, NONE_COLOR, { Constants::CENTER_X + 100.f, Constants::CENTER_Y + 100.f });
-
-    SpawnRandomSlimes();
+    SpawnRandomMonsters();
 }
 
 DungeonScene::~DungeonScene()
@@ -137,15 +134,19 @@ void DungeonScene::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
     // 숫자 키
     if (input.IsNum1Pressed())
     {
-        sceneManager->RequestSceneChange(HOME);
+        SaveManager::GetInstance().SavePlayer(entityManager->GetPlayer());
         entityManager->ClearMonsters();
+
+        sceneManager->RequestSceneChange(HOME);
         return;
     }
 
     if (input.IsNum2Pressed())
     {
-        sceneManager->RequestSceneChange(DUNGEON);
+        SaveManager::GetInstance().SavePlayer(entityManager->GetPlayer());
         entityManager->ClearMonsters();
+
+        sceneManager->RequestSceneChange(DUNGEON);
         return;
     }
 
@@ -231,31 +232,24 @@ void DungeonScene::Render(sf::RenderWindow& window)
     }
 }
 
-void DungeonScene::SpawnRandomSlimes()
+void DungeonScene::SpawnRandomMonsters()
 {
-    Player* player =
-        entityManager->GetPlayer();
+    Player* player = entityManager->GetPlayer();
 
     if (player == nullptr)
     {
         return;
     }
 
-    // -----------------------------
-    // 스폰 마릿수
-    // -----------------------------
+    // 스폰 마릿수 -----------------------------------------
 
-    const int minSpawnCount = 5;
-    const int maxSpawnCount = 10;
+    const int minSpawnCount = Constants::MIN_SPAWN_COUNT;
 
-    const int spawnCount =
-        minSpawnCount +
-        rand() %
-        (maxSpawnCount - minSpawnCount + 1);
+    const int maxSpawnCount = Constants::MAX_SPAWN_COUNT;
 
-    // -----------------------------
-    // 방 내부 영역
-    // -----------------------------
+    const int spawnCount = minSpawnCount + rand() % (maxSpawnCount - minSpawnCount + 1);
+
+    // 방 내부 영역 -----------------------------------------
 
     const sf::Vector2f roomPosition =
     {
@@ -266,40 +260,28 @@ void DungeonScene::SpawnRandomSlimes()
     const int roomColumns = 13;
     const int roomRows = 9;
 
-    // 지금 네 타일이 16x16에 scale 4니까
     const float tileSize = 16.f * 4.f;
 
-    const float roomWidth =
-        roomColumns * tileSize;
+    const float roomWidth = roomColumns * tileSize;
 
-    const float roomHeight =
-        roomRows * tileSize;
+    const float roomHeight = roomRows * tileSize;
 
-    // 몬스터가 벽에 너무 붙지 않게 여유 공간
+    // 벽에서 여유 공간
     const float margin = 50.f;
 
-    const float minX =
-        roomPosition.x -
-        roomWidth / 2.f +
-        margin;
+    const float minX = roomPosition.x - roomWidth / 2.f + margin;
 
-    const float maxX =
-        roomPosition.x +
-        roomWidth / 2.f -
-        margin;
+    const float maxX = roomPosition.x + roomWidth / 2.f - margin;
 
-    const float minY =
-        roomPosition.y -
-        roomHeight / 2.f +
-        margin;
+    const float minY = roomPosition.y - roomHeight / 2.f + margin;
 
-    const float maxY =
-        roomPosition.y +
-        roomHeight / 2.f -
-        margin;
+    const float maxY = roomPosition.y + roomHeight / 2.f - margin;
 
-    // Player 주변에는 생성 금지
+    // Player 주변 생성 금지
     const float playerSafeRadius = 180.f;
+
+
+    // 몬스터 생성 -----------------------------------------
 
     for (int i = 0; i < spawnCount; i++)
     {
@@ -308,21 +290,11 @@ void DungeonScene::SpawnRandomSlimes()
         bool validPosition = false;
 
         // 무한 루프 방지
-        for (int attempt = 0;
-            attempt < 100;
-            attempt++)
+        for (int attempt = 0; attempt < 100; attempt++)
         {
-            const float randomX =
-                minX +
-                static_cast<float>(rand()) /
-                static_cast<float>(RAND_MAX) *
-                (maxX - minX);
+            const float randomX = minX + static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * (maxX - minX);
 
-            const float randomY =
-                minY +
-                static_cast<float>(rand()) /
-                static_cast<float>(RAND_MAX) *
-                (maxY - minY);
+            const float randomY = minY + static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * (maxY - minY);
 
             spawnPosition =
             {
@@ -330,9 +302,7 @@ void DungeonScene::SpawnRandomSlimes()
                 randomY
             };
 
-            const sf::Vector2f toPlayer =
-                spawnPosition -
-                player->GetPosition();
+            const sf::Vector2f toPlayer = spawnPosition - player->GetPosition();
 
             const float distance =
                 std::sqrt(
@@ -352,14 +322,14 @@ void DungeonScene::SpawnRandomSlimes()
             continue;
         }
 
-        const MonsterColor color =
-            GetRandomMonsterColor();
+        // 플레이어 레벨에 따른 MonsterType
+        const MonsterType monsterType = GetRandomMonsterType();
 
-        entityManager->SpawnMonster(
-            MonsterType::SLIME,
-            color,
-            spawnPosition
-        );
+        // 랜덤 색상
+        const MonsterColor color = GetRandomMonsterColor();
+
+        // 실제 생성
+        entityManager->SpawnMonster(monsterType, color, spawnPosition);
     }
 }
 
@@ -383,6 +353,50 @@ MonsterColor DungeonScene::GetRandomMonsterColor()
     }
 
     return MonsterColor::NONE_COLOR;
+}
+
+MonsterType DungeonScene::GetRandomMonsterType()
+{
+    Player* player = entityManager->GetPlayer();
+
+    if (player == nullptr)
+    {
+        return MonsterType::SLIME;
+    }
+
+    const MonsterSpawnData* spawnData = DataManager::GetInstance().GetMonsterSpawnData(player->GetLevel());
+
+    if (spawnData == nullptr)
+    {
+        return MonsterType::SLIME;
+    }
+
+    const int random = rand() % 100;
+
+    int accumulatedRate = 0;
+
+    accumulatedRate += spawnData->slimeRate;
+
+    if (random < accumulatedRate)
+    {
+        return MonsterType::SLIME;
+    }
+
+    accumulatedRate += spawnData->cactoRate;
+
+    if (random < accumulatedRate)
+    {
+        return MonsterType::CACTO;
+    }
+
+    accumulatedRate += spawnData->skeletonRate;
+
+    if (random < accumulatedRate)
+    {
+        return MonsterType::SKELETON;
+    }
+
+    return MonsterType::LICH;
 }
 
 void DungeonScene::AddFloorArea(

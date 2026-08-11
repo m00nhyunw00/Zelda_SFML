@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "SceneManager.h"
 #include "EntityManager.h"
+#include "SaveManager.h"
 #include "PlayerType.h"
 #include "Camera.h"
 #include "InGameScene.h"
@@ -43,6 +44,7 @@ public:
     void Update(float deltaTime, sf::RenderWindow& window) override;
     void Render(sf::RenderWindow& window) override;
 
-    void SpawnRandomSlimes();
+    void SpawnRandomMonsters();
     MonsterColor GetRandomMonsterColor();
+    MonsterType GetRandomMonsterType();
 };

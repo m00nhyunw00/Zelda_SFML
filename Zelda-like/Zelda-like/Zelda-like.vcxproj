@@ -138,6 +138,7 @@
     <ClCompile Include="BladeWave.cpp" />
     <ClCompile Include="BossScene.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Cacto.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="Creature.cpp" />
@@ -153,16 +154,21 @@
     <ClCompile Include="InGameScene.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="JobSelectScene.cpp" />
+    <ClCompile Include="Lich.cpp" />
+    <ClCompile Include="LichFireball.cpp" />
     <ClCompile Include="Mage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="MonsterColor.h" />
     <ClCompile Include="MonsterData.h" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerSaveData.h" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="SaveManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="SkillCooldownUI.cpp" />
     <ClCompile Include="Slime.cpp" />
     <ClCompile Include="SpriteUtil.cpp" />
@@ -177,6 +183,7 @@
     <ClInclude Include="BladeWave.h" />
     <ClInclude Include="BossScene.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Cacto.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="Constants.h" />
@@ -193,8 +200,13 @@
     <ClInclude Include="InGameScene.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="JobSelectScene.h" />
+    <ClInclude Include="Lich.h" />
+    <ClInclude Include="LichFireball.h" />
     <ClInclude Include="Mage.h" />
+    <ClInclude Include="MonsterLevelData.h" />
+    <ClInclude Include="MonsterSpawnData.h" />
     <ClInclude Include="PlayerData.h" />
+    <ClInclude Include="PlayerLevelData.h" />
     <ClInclude Include="PlayerType.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="MonsterType.h" />
@@ -202,9 +214,11 @@
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="ProjectileType.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="SaveManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneType.h" />
+    <ClInclude Include="Skeleton.h" />
     <ClInclude Include="SkillCooldownUI.h" />
     <ClInclude Include="Slime.h" />
     <ClInclude Include="SpriteUtil.h" />
@@ -214,8 +228,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Data\MonsterData.json" />
+    <None Include="Data\MonsterLevelData.json" />
+    <None Include="Data\MonsterSpawnData.json" />
     <None Include="Data\PlayerData.json" />
     <None Include="Data\AnimationData.json" />
+    <None Include="Data\PlayerLevelData.json" />
+    <None Include="Save\SaveData.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

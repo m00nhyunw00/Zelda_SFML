@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "SceneManager.h"
 #include "EntityManager.h"
+#include "SaveManager.h"
 #include "PlayerType.h"
 #include "InGameScene.h"
 #include "Camera.h"
@@ -15,9 +16,15 @@ private:
     std::vector<sf::Sprite> upperWallSprites;
     std::vector<sf::Sprite> lowerWallSprites;
 
+    sf::Sprite* entranceSprite = nullptr;
+
+    Collider entranceInteractionCollider;
+
     Camera camera;
 
 private:
+    bool IsPlayerNearEntrance();
+
     void AddFloorArea(
         const sf::Sprite& floorTileTemplate,
         const sf::Vector2f& centerPosition,
@@ -29,6 +36,12 @@ private:
         const sf::Sprite& floorTileTemplate,
         const sf::Sprite& upperWallTemplate,
         const sf::Sprite& lowerWallTemplate,
+        const sf::Sprite& leftWallTemplate,
+        const sf::Sprite& rightWallTemplate,
+        const sf::Sprite& upperLeftCornerTemplate,
+        const sf::Sprite& upperRightCornerTemplate,
+        const sf::Sprite& lowerLeftCornerTemplate,
+        const sf::Sprite& lowerRightCornerTemplate,
         const sf::Vector2f& centerPosition,
         int columns,
         int rows,

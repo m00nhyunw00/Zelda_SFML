@@ -156,11 +156,24 @@ void JobSelectScene::HandleEvent(const sf::Event& event, sf::RenderWindow& windo
 
     if (selectedJob != PlayerType::NONE_PLAYER)
     {
-        entityManager->CreatePlayer(
-            "Player",
-            selectedJob,
-            { Constants::CENTER_X, Constants::CENTER_Y }
-        );
+        PlayerSaveData saveData;
+
+        saveData.job = selectedJob;
+
+        saveData.level = 1;
+
+        saveData.currentExp = 0;
+
+        const PlayerLevelData* levelData = DataManager::GetInstance().GetPlayerLevelData(selectedJob, 1);
+
+        if (levelData == nullptr)
+        {
+            return;
+        }
+
+        saveData.currentHp = levelData->maxHp;
+
+        entityManager->CreatePlayer("Player", saveData, { Constants::CENTER_X, Constants::CENTER_Y });
 
         entityManager->PrintPlayerInfo();
 

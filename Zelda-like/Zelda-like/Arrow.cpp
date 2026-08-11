@@ -70,13 +70,13 @@ Arrow::Arrow(
     }
 
     collider.SetSize({
-        8.f * scale,
-        2.f * scale
+        4.f * scale,
+        4.f * scale
         });
 
     collider.SetOrigin({
-        4.f * scale,
-        1.f * scale
+        0.5f * scale,
+        2.f * scale
         });
 
     collider.SetRotation(angle);

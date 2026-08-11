@@ -1,0 +1,44 @@
+{
+  "1-4": {
+    "SLIME": 80,
+    "CACTO": 20,
+    "SKELETON": 0,
+    "LICH": 0
+  },
+  "5-9": {
+    "SLIME": 52,
+    "CACTO": 33,
+    "SKELETON": 15,
+    "LICH": 0
+  },
+  "10-14": {
+    "SLIME": 34,
+    "CACTO": 34,
+    "SKELETON": 29,
+    "LICH": 3
+  },
+  "15-19": {
+    "SLIME": 24,
+    "CACTO": 30,
+    "SKELETON": 38,
+    "LICH": 8
+  },
+  "20-24": {
+    "SLIME": 15,
+    "CACTO": 27,
+    "SKELETON": 45,
+    "LICH": 13
+  },
+  "25-29": {
+    "SLIME": 10,
+    "CACTO": 24,
+    "SKELETON": 48,
+    "LICH": 18
+  },
+  "30": {
+    "SLIME": 8,
+    "CACTO": 22,
+    "SKELETON": 48,
+    "LICH": 22
+  }
+}

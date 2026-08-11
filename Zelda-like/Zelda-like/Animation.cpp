@@ -171,7 +171,7 @@ bool Animation::Update(sf::Sprite& sprite, float deltaTime)
             switch (currentDirection)
             {
             case Direction::DOWN:
-                if (ownerType == "WARRIOR" || ownerType == "SLIME")
+                if (ownerType == "WARRIOR" || ownerType == "SLIME" || ownerType == "CACTO" || ownerType == "SKELETON")
                 {
                     directionRow = 0;
                 }
@@ -183,7 +183,7 @@ bool Animation::Update(sf::Sprite& sprite, float deltaTime)
 
             case Direction::LEFT:
             case Direction::RIGHT:
-                if (ownerType == "WARRIOR" || ownerType == "SLIME")
+                if (ownerType == "WARRIOR" || ownerType == "SLIME" || ownerType == "CACTO" || ownerType == "SKELETON")
                 {
                     directionRow = 1;
                 }
@@ -210,8 +210,7 @@ bool Animation::Update(sf::Sprite& sprite, float deltaTime)
         )
     );
 
-    const sf::FloatRect bounds =
-        sprite.getLocalBounds();
+    const sf::FloatRect bounds = sprite.getLocalBounds();
 
     // 이 과정 없이 좌우 반전을 할 경우, 회전의 중심이 스프라이트의 중심이 아니기 때문에 의도한대로 회전이 안됨
     sprite.setOrigin({

@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <filesystem>
 
 #include <nlohmann/json.hpp>
 
@@ -46,11 +47,32 @@ PlayerType DataManager::StringToPlayerType(const std::string& value) const
     return PlayerType::NONE_PLAYER;
 }
 
-MonsterType DataManager::StringToMonsterType(const std::string& value) const
+MonsterType DataManager::StringToMonsterType(
+    const std::string& value) const
 {
     if (value == "SLIME")
     {
         return MonsterType::SLIME;
+    }
+
+    if (value == "CACTO")
+    {
+        return MonsterType::CACTO;
+    }
+
+    if (value == "SKELETON")
+    {
+        return MonsterType::SKELETON;
+    }
+
+    if (value == "LICH")
+    {
+        return MonsterType::LICH;
+    }
+
+    if (value == "GIANT_SLIME")
+    {
+        return MonsterType::GIANT_SLIME;
     }
 
     return MonsterType::NONE_MONSTER;
@@ -63,10 +85,7 @@ bool DataManager::LoadPlayerData(
 
     if (!file.is_open())
     {
-        std::cerr
-            << "플레이어 데이터 파일을 열 수 없습니다: "
-            << filePath
-            << std::endl;
+        cerr << "[DataManager] PlayerData - File open failed: " << filePath << endl;
 
         return false;
     }
@@ -87,44 +106,27 @@ bool DataManager::LoadPlayerData(
 
             if (playerType == PlayerType::NONE_PLAYER)
             {
-                std::cerr
-                    << "알 수 없는 플레이어 직업 데이터: "
-                    << jobName
-                    << std::endl;
+                cerr << "[DataManager] PlayerData - Unknown player type: " << jobName << endl;
 
                 continue;
             }
 
             PlayerData data;
 
-            data.maxHp = value.at("maxHp").get<int>();
-
-            data.defence = value.at("defence").get<int>();
-
-            data.damage = value.at("damage").get<int>();
-
-            data.evasionRate = value.at("evasionRate").get<int>();
-
             data.moveSpeed = value.at("moveSpeed").get<float>();
 
             data.skillName = value.at("skillName").get<std::string>();
 
-            data.skillDamage = value.at("skillDamage").get<int>();
-
             data.maxSkillCooldown = value.at("maxSkillCooldown").get<float>();
 
             data.ultimateName = value.at("ultimateName").get<std::string>();
-
-            data.ultimateDamage = value.at("ultimateDamage").get<int>();
-
-            data.maxUltimateGauge = value.at("maxUltimateGauge").get<float>();
 
             playerDataTable[playerType] = data;
         }
     }
     catch (const json::exception& exception)
     {
-        cerr << "플레이어 JSON 파싱 실패: " << exception.what() << std::endl;
+        cerr << "[DataManager] PlayerData - JSON parsing failed: " << exception.what() << endl;
 
         playerDataTable.clear();
 
@@ -151,10 +153,7 @@ bool DataManager::LoadMonsterData(
 
     if (!file.is_open())
     {
-        std::cerr
-            << "몬스터 데이터 파일을 열 수 없습니다: "
-            << filePath
-            << std::endl;
+        cerr << "[DataManager] MonsterData - File open failed: " << filePath << endl;
 
         return false;
     }
@@ -175,10 +174,7 @@ bool DataManager::LoadMonsterData(
 
             if (monsterType == MonsterType::NONE_MONSTER)
             {
-                std::cerr
-                    << "알 수 없는 몬스터 데이터: "
-                    << typeName
-                    << std::endl;
+                cerr << "[DataManager] MonsterData - Unknown monster type: " << typeName << endl;
 
                 continue;
             }
@@ -191,8 +187,6 @@ bool DataManager::LoadMonsterData(
 
             data.damage = value.at("damage").get<int>();
 
-            data.evasionRate = value.at("evasionRate").get<int>();
-
             data.moveSpeed = value.at("moveSpeed").get<float>();
 
             data.detectionRange = value.at("detectionRange").get<float>();
@@ -201,6 +195,8 @@ bool DataManager::LoadMonsterData(
 
             data.exp = value.at("exp").get<int>();
 
+            data.attackCooldown = value.at("attackCooldown").get<float>();
+
             data.color = MonsterColor::NONE_COLOR;
 
             monsterDataTable[monsterType] = data;
@@ -208,7 +204,7 @@ bool DataManager::LoadMonsterData(
     }
     catch (const json::exception& exception)
     {
-        cerr << "몬스터 JSON 파싱 실패: " << exception.what() << std::endl;
+        cerr << "[DataManager] MonsterData - JSON parsing failed: " << exception.what() << endl;
 
         monsterDataTable.clear();
 
@@ -234,7 +230,7 @@ bool DataManager::LoadAnimationData(const std::string& filePath)
 
     if (!file.is_open())
     {
-        cerr << "애니메이션 데이터 파일을 열 수 없습니다: " << filePath << endl;
+        cerr << "[DataManager] AnimationData - File open failed: " << filePath << endl;
 
         return false;
     }
@@ -269,7 +265,7 @@ bool DataManager::LoadAnimationData(const std::string& filePath)
     }
     catch (const nlohmann::json::exception& exception)
     {
-        cerr << "애니메이션 JSON 파싱 실패: " << exception.what() << endl;
+        cerr << "[DataManager] AnimationData - JSON parsing failed: " << exception.what() << endl;
 
         return false;
     }
@@ -283,6 +279,250 @@ const AnimationData* DataManager::GetAnimationData(const std::string& key) const
 
     if (iterator == animationDataTable.end())
         return nullptr;
+
+    return &iterator->second;
+}
+
+bool DataManager::LoadPlayerLevelData(
+    const std::string& filePath)
+{
+    cout << "[DataManager] PlayerLevelData - Current path: " << std::filesystem::current_path() << endl;
+
+    cout << "[DataManager] PlayerLevelData - Loading: " << std::filesystem::absolute(filePath) << endl;
+
+    std::ifstream file(filePath);
+
+    if (!file.is_open())
+    {
+        cerr << "[DataManager] PlayerLevelData - File open failed: " << filePath << endl;
+
+        return false;
+    }
+
+    try
+    {
+        json root;
+        file >> root;
+
+        playerLevelDataTable.clear();
+
+        for (const auto& jobItem : root.items())
+        {
+            const PlayerType playerType = StringToPlayerType(jobItem.key());
+
+            if (playerType == PlayerType::NONE_PLAYER)
+            {
+                continue;
+            }
+
+            for (const auto& levelItem : jobItem.value().items())
+            {
+                int level = std::stoi(levelItem.key());
+
+                const json& value = levelItem.value();
+
+                PlayerLevelData data;
+
+                data.maxExp = value.at("maxExp").get<int>();
+
+                data.maxHp = value.at("maxHp").get<int>();
+
+                data.defence = value.at("defence").get<int>();
+
+                data.damage = value.at("damage").get<int>();
+
+                data.skillDamage = value.at("skillDamage").get<int>();
+
+                data.ultimateDamage = value.at("ultimateDamage").get<int>();
+
+                data.maxUltimateGauge = value.at("maxUltimateGauge").get<float>();
+
+                playerLevelDataTable[playerType][level] = data;
+            }
+        }
+    }
+    catch (const json::exception& exception)
+    {
+        cerr << "[DataManager] PlayerLevelData - JSON parsing failed: " << exception.what() << endl;
+
+        playerLevelDataTable.clear();
+
+        return false;
+    }
+
+    return true;
+}
+
+const PlayerLevelData* DataManager::GetPlayerLevelData(PlayerType type, int level) const
+{
+    auto playerIterator = playerLevelDataTable.find(type);
+
+    if (playerIterator == playerLevelDataTable.end())
+    {
+        return nullptr;
+    }
+
+    auto levelIterator = playerIterator->second.find(level);
+
+    if (levelIterator == playerIterator->second.end())
+    {
+        return nullptr;
+    }
+
+    return &levelIterator->second;
+}
+
+bool DataManager::LoadMonsterLevelData(const std::string& filePath)
+{
+    std::ifstream file(filePath);
+
+    if (!file.is_open())
+    {
+        cerr << "[DataManager] MonsterLevelData - File open failed: " << filePath << endl;
+
+        return false;
+    }
+
+    try
+    {
+        json root;
+        file >> root;
+
+        monsterLevelDataTable.clear();
+
+        for (const auto& item : root.items())
+        {
+            int level = std::stoi(item.key());
+
+            const json& value = item.value();
+
+            MonsterLevelData data;
+
+            data.hpRate = value.at("hpRate").get<float>();
+
+            data.damageRate = value.at("damageRate").get<float>();
+
+            data.defenceRate = value.at("defenceRate").get<float>();
+
+            data.expRate = value.at("expRate").get<float>();
+
+            data.moveSpeedRate = value.at("moveSpeedRate").get<float>();
+
+            monsterLevelDataTable[level] = data;
+        }
+    }
+    catch (const json::exception& exception)
+    {
+        cerr << "[DataManager] MonsterLevelData - JSON parsing failed: " << exception.what() << endl;
+
+        monsterLevelDataTable.clear();
+
+        return false;
+    }
+
+    return true;
+}
+
+const MonsterLevelData* DataManager::GetMonsterLevelData(int level) const
+{
+    auto iterator = monsterLevelDataTable.find(level);
+
+    if (iterator == monsterLevelDataTable.end())
+    {
+        return nullptr;
+    }
+
+    return &iterator->second;
+}
+
+bool DataManager::LoadMonsterSpawnData(const std::string& filePath)
+{
+    std::ifstream file(filePath);
+
+    if (!file.is_open())
+    {
+        cerr << "[DataManager] MonsterSpawnData - File open failed: " << filePath << endl;
+
+        return false;
+    }
+
+    try
+    {
+        json root;
+        file >> root;
+
+        monsterSpawnDataTable.clear();
+
+        for (const auto& item : root.items())
+        {
+            const std::string& rangeKey = item.key();
+
+            const json& value = item.value();
+
+            MonsterSpawnData data;
+
+            data.slimeRate = value.at("SLIME").get<int>();
+
+            data.cactoRate = value.at("CACTO").get<int>();
+
+            data.skeletonRate = value.at("SKELETON").get<int>();
+
+            data.lichRate = value.at("LICH").get<int>();
+
+            monsterSpawnDataTable[rangeKey] = data;
+        }
+    }
+    catch (const json::exception& exception)
+    {
+        cerr << "[DataManager] MonsterSpawnData - JSON parsing failed: " << exception.what() << endl;
+
+        monsterSpawnDataTable.clear();
+
+        return false;
+    }
+
+    return true;
+}
+
+const MonsterSpawnData* DataManager::GetMonsterSpawnData(int playerLevel) const
+{
+    std::string key;
+
+    if (playerLevel <= 4)
+    {
+        key = "1-4";
+    }
+    else if (playerLevel <= 9)
+    {
+        key = "5-9";
+    }
+    else if (playerLevel <= 14)
+    {
+        key = "10-14";
+    }
+    else if (playerLevel <= 19)
+    {
+        key = "15-19";
+    }
+    else if (playerLevel <= 24)
+    {
+        key = "20-24";
+    }
+    else if (playerLevel <= 29)
+    {
+        key = "25-29";
+    }
+    else
+    {
+        key = "30";
+    }
+
+    auto iterator = monsterSpawnDataTable.find(key);
+
+    if (iterator == monsterSpawnDataTable.end())
+    {
+        return nullptr;
+    }
 
     return &iterator->second;
 }

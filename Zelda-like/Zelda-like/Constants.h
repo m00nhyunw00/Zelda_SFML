@@ -13,8 +13,12 @@ namespace Constants
     const float DEFAULT_COLLIDER_SIZE = 28.f;
     const float DEFAULT_ATTACK_RANGE = 48.f;
 
-    const float WARRIOR_ATTACK_RANGE = 64.f;
+    const float WARRIOR_ATTACK_RANGE = 70;
     const float ARCHER_ATTACK_RANGE = 250.f;
     const float ARCHER_ANGLE = 90.f;
     const float MAGE_ATTACK_RANGE = 32.f;
+
+    const int MIN_SPAWN_COUNT = 5;
+    const int MAX_SPAWN_COUNT = 10;
+
 }

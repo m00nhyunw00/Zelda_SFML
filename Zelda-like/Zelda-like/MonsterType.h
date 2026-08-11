@@ -3,9 +3,10 @@
 enum MonsterType
 {
     SLIME,
-    SKELETON,
     CACTO,
+    SKELETON,
     LICH,
     GIANT_SLIME,
+
     NONE_MONSTER
 };

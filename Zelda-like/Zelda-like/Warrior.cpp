@@ -10,12 +10,22 @@ using namespace std;
 
 Warrior::Warrior(
     const std::string& name,
-    const PlayerData& data,
+    const PlayerData& basicData,
+    const PlayerLevelData& levelData,
+    const PlayerSaveData& saveData,
     const sf::Vector2f& startPosition
-) : Player(name, PlayerType::WARRIOR, data, startPosition)
+)
+    : Player(
+        name,
+        PlayerType::WARRIOR,
+        basicData,
+        levelData,
+        saveData,
+        startPosition
+    )
 {
     isPowerStrike = false;
-    isBladeSweep = false;
+    isFlameBlade = false;
 
     sf::Texture* idleTexture = ResourceManager::GetInstance().GetTexture("Player_Idle");
 
@@ -85,7 +95,7 @@ bool Warrior::HandleJobAnimation(float deltaTime)
 {   
     // Blade Sweep ------------------------------
 
-    if (isBladeSweep)
+    if (isFlameBlade)
     {
         animation.Play("WARRIOR_BLADE_SWEEP");
 
@@ -93,7 +103,7 @@ bool Warrior::HandleJobAnimation(float deltaTime)
 
         if (animationFinished)
         {
-            isBladeSweep = false;
+            isFlameBlade = false;
 
             animationState =
                 CreatureState::IDLE;
@@ -228,19 +238,19 @@ void Warrior::UseUltimate(Creature* target)
 {
     (void)target;
 
-    if (isBladeSweep)
+    if (isFlameBlade)
     {
         return;
     }
 
-    isBladeSweep = true;
+    isFlameBlade = true;
 
-    CreateBladeSweep();
+    CreateFlameBlade();
 
     ResetUltimateGauge();
 }
 
-void Warrior::CreateBladeSweep()
+void Warrior::CreateFlameBlade()
 {
     const int projectileCount = 21;
 

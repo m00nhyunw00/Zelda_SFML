@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "SceneManager.h"
 #include "InputManager.h"
+#include "SaveManager.h"
 
 InGameScene::InGameScene(SceneManager* sceneManager, EntityManager* entityManager) 
     : Scene(sceneManager, entityManager)
@@ -190,6 +191,18 @@ void InGameScene::HandleGameOverEvent(const sf::Event& event, sf::RenderWindow& 
         return;
     }
 
+    Player* player = entityManager->GetPlayer();
+
+    if (player != nullptr)
+    {
+        player->ApplyDeathPenalty();
+    }
+
+    entityManager->ClearProjectiles();
+    entityManager->ClearMonsters();
+
+    SaveManager::GetInstance().SavePlayer(player);
+
     if (restartButton != nullptr)
     {
         restartButton->HandleEvent(event, window);
@@ -201,20 +214,15 @@ void InGameScene::HandleGameOverEvent(const sf::Event& event, sf::RenderWindow& 
     }
 
     // Restart
-    if (restartButton != nullptr &&
-        restartButton->IsClicked())
+    if (restartButton != nullptr && restartButton->IsClicked())
     {
-        entityManager->ClearMonsters();
-        entityManager->DeletePlayer();
-
-        sceneManager->RequestSceneChange(TITLE);
+        sceneManager->RequestSceneChange(HOME);
 
         return;
     }
 
     // Exit
-    if (exitButton != nullptr &&
-        exitButton->IsClicked())
+    if (exitButton != nullptr && exitButton->IsClicked())
     {
         window.close();
 
@@ -335,9 +343,7 @@ void InGameScene::UpdateSkillCooldownUI(float deltaTime, sf::RenderWindow& windo
     skillCooldownUI->Update(deltaTime, window);
 }
 
-void InGameScene::UpdateGameOver(
-    float deltaTime,
-    sf::RenderWindow& window)
+void InGameScene::UpdateGameOver(float deltaTime, sf::RenderWindow& window)
 {
     if (restartButton != nullptr)
     {

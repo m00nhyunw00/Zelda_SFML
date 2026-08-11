@@ -8,12 +8,13 @@ struct MonsterData
     int maxHp;
     int defence;
     int damage;
-    int evasionRate;
 
     float moveSpeed;
 
-    float detectionRange;         
-    float attackRange;    
+    float detectionRange;
+    float attackRange;
+
+    float attackCooldown;
 
     int exp;
 

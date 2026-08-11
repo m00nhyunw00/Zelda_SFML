@@ -10,12 +10,14 @@ private:
     bool isPowerStrike;
     std::unordered_set<Creature*> powerStrikeHitTargets;
 
-    bool isBladeSweep;
+    bool isFlameBlade;
 
 public:
     Warrior(
         const std::string& name,
-        const PlayerData& data,
+        const PlayerData& basicData,
+        const PlayerLevelData& levelData,
+        const PlayerSaveData& saveData,
         const sf::Vector2f& startPosition
     );
 
@@ -29,6 +31,6 @@ public:
     void HitPowerStrike(Creature* target);
     bool IsPowerStrike() { return isPowerStrike; }
 
-    void CreateBladeSweep();
+    void CreateFlameBlade();
 };
 

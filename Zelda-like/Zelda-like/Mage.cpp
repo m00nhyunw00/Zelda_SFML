@@ -8,9 +8,19 @@ using namespace std;
 
 Mage::Mage(
     const std::string& name,
-    const PlayerData& data,
+    const PlayerData& basicData,
+    const PlayerLevelData& levelData,
+    const PlayerSaveData& saveData,
     const sf::Vector2f& startPosition
-) : Player(name, PlayerType::MAGE, data, startPosition)
+)
+    : Player(
+        name,
+        PlayerType::MAGE,
+        basicData,
+        levelData,
+        saveData,
+        startPosition
+    )
 {
     sf::Texture* idleTexture = ResourceManager::GetInstance().GetTexture("Player_Idle");
 
@@ -33,7 +43,7 @@ Mage::Mage(
             0
         )
     );
-    sprite->setScale({ 4.f,4.f });
+    sprite->setScale({ Constants::DEFAULT_SCALE, Constants::DEFAULT_SCALE });
     sprite->setPosition(startPosition);
 
     bodyCollider.SetSize({ 32.f, 24.f });

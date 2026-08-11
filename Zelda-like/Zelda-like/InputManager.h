@@ -10,6 +10,7 @@ private:
     bool ePressed;
     bool qPressed;
     bool iPressed;
+    bool fPressed;
     bool escPressed;
     bool enterPressed;
     bool num1Pressed;
@@ -36,6 +37,7 @@ public:
     bool IsEPressed() { return ePressed; }
     bool IsQPressed() { return qPressed; }
     bool IsIPressed() { return iPressed; }
+    bool IsFPressed() { return fPressed; }
     bool IsEscPressed() { return escPressed; }
     bool IsEnterPressed() { return enterPressed; }
     bool IsNum1Pressed() { return num1Pressed; }

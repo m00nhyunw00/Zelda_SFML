@@ -2,7 +2,9 @@
 
 #include "Creature.h"
 #include "PlayerType.h"
-#include "PlayerData.h"
+#include "DataManager.h"
+#include "PlayerLevelData.h"
+#include "PlayerSaveData.h"
 #include <string>
 
 class Player : public Creature
@@ -43,7 +45,9 @@ protected:
     Player(
         const std::string& name,
         PlayerType job,
-        const PlayerData& data,
+        const PlayerData& basicData,
+        const PlayerLevelData& levelData,
+        const PlayerSaveData& saveData,
         const sf::Vector2f& position
     );
 
@@ -65,6 +69,9 @@ public:
 
     void AddUltimateGauge(int damage);
     void ResetUltimateGauge();
+
+    void ApplyLevelData();
+    void ApplyDeathPenalty();
 
     void IncreaseMaxHp(int amount);
     void IncreaseDamage(int amount);

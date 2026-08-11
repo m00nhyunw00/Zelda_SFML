@@ -4,6 +4,7 @@ enum ProjectileType
 {
     ARROW,
     BLADE_WAVE,
+    LICH_FIREBALL,
     NONE_PROJECTILE
 };
 

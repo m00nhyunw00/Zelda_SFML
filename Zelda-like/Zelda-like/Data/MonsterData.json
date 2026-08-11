@@ -3,10 +3,50 @@
     "maxHp": 100,
     "defence": 10,
     "damage": 30,
-    "evasionRate": 5,
     "moveSpeed": 70.0,
-    "detectionRange": 160.0,
-    "attackRange": 48.0,
-    "exp": 20.0
+    "detectionRange": 200.0,
+    "attackRange": 45.0,
+    "attackCooldown": 1.2,
+    "exp": 20
+  },
+  "CACTO": {
+    "maxHp": 150,
+    "defence": 14,
+    "damage": 60,
+    "moveSpeed": 68.0,
+    "detectionRange": 300.0,
+    "attackRange": 30.0,
+    "attackCooldown": 2.2,
+    "exp": 32
+  },
+  "SKELETON": {
+    "maxHp": 165,
+    "defence": 14,
+    "damage": 18,
+    "moveSpeed": 40.0,
+    "detectionRange": 250.0,
+    "attackRange": 60.0,
+    "attackCooldown": 0.3,
+    "exp": 36
+  },
+  "LICH": {
+    "maxHp": 215,
+    "defence": 17,
+    "damage": 52,
+    "moveSpeed": 60.0,
+    "detectionRange": 350.0,
+    "attackRange": 250.0,
+    "attackCooldown": 1.2,
+    "exp": 50
+  },
+  "GIANT_SLIME": {
+    "maxHp": 7000,
+    "defence": 40,
+    "damage": 150,
+    "moveSpeed": 65.0,
+    "detectionRange": 1000.0,
+    "attackRange": 450.0,
+    "attackCooldown": 1.5,
+    "exp": 5000
   }
 }

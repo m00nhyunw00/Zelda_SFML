@@ -2,6 +2,7 @@
 #include <vector>
 #include "Entity.h"
 #include "Player.h"
+#include "PlayerSaveData.h"
 #include "Monster.h"
 #include "PlayerType.h"
 #include "MonsterType.h"
@@ -22,7 +23,7 @@ public:
 
     void CreatePlayer(
         const std::string& name,
-        PlayerType job,
+        const PlayerSaveData& saveData,
         const sf::Vector2f& position
     );
 
