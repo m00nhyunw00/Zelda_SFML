@@ -9,157 +9,67 @@
 
 #include <iostream>
 
-DungeonScene::DungeonScene(SceneManager* sceneManager, EntityManager* entitymanager) 
-    : InGameScene(sceneManager, entitymanager),
-    camera({ Constants::CENTER_X, Constants::CENTER_Y },
-          {
-              (float)Constants::WINDOW_WIDTH,
-              (float)Constants::WINDOW_HEIGHT
-          }
+using namespace std;
+
+DungeonScene::DungeonScene(SceneManager* sceneManager, EntityManager* entityManager)
+    : InGameScene(sceneManager, entityManager),
+    camera(
+        { Constants::CENTER_X, Constants::CENTER_Y },
+        {
+            static_cast<float>(Constants::WINDOW_WIDTH),
+            static_cast<float>(Constants::WINDOW_HEIGHT)
+        }
     )
 {
-    sf::Font* font = ResourceManager::GetInstance().GetFont("MainFont");
+    CreateDungeonRoom();
 
-    if (font != nullptr)
-    {
-        /*titleText = new sf::Text(*font);
-        titleText->setString("Select Your Job");
-        titleText->setCharacterSize(42);
+    BuildRoomColliders();
 
-        sf::FloatRect bounds = titleText->getLocalBounds();
-        titleText->setOrigin({
-            bounds.position.x + bounds.size.x / 2.f,
-            bounds.position.y + bounds.size.y / 2.f
-            });
+    SetupEntrances();
 
-        titleText->setPosition({ 640.f, 70.f });*/
-
-    }
-
-    //warriorPanel.setSize({ 220.f, 260.f });
-    //warriorPanel.setPosition({ 170.f, 180.f });
-    //warriorPanel.setFillColor(sf::Color(80, 80, 80));
-    //warriorPanel.setOutlineThickness(3.f);
-
-    ResourceManager& resourceManager = ResourceManager::GetInstance();
-
-    sf::Texture* houseTexture = resourceManager.GetTexture("House");
-    sf::Texture* indoorTexture = resourceManager.GetTexture("Indoor");
-
-    if (indoorTexture != nullptr)
-    {
-
-        sf::Sprite floorTile =
-            SpriteUtil::CreateSprite(
-                *indoorTexture,
-                sf::IntRect(
-                    { 240, 48 },
-                    { 16, 16 }
-                ),
-                { 4.f, 4.f }
-            );
-
-        sf::Sprite upperWallTile =
-            SpriteUtil::CreateSprite(
-                *houseTexture,
-                sf::IntRect(
-                    { 56, 0 },
-                    { 16, 24 }
-                ),
-                { 4.f, 4.f }
-            );
-
-        sf::Sprite lowerWallTile =
-            SpriteUtil::CreateSprite(
-                *houseTexture,
-                sf::IntRect(
-                    { 55, 96 },
-                    { 16, 24 }
-                ),
-                { 4.f, 4.f }
-            );
-
-        SpriteUtil::SetSpriteOriginToCenter(&floorTile);
-        SpriteUtil::SetSpriteOriginToCenter(&upperWallTile);
-        SpriteUtil::SetSpriteOriginToCenter(&lowerWallTile);
-
-        const sf::Vector2f roomPosition = { Constants::CENTER_X, Constants::CENTER_Y + 22 };
-
-        const int roomColumns = 13;
-        const int roomRows = 9;
-        const int colliderTickness = 2;
-
-        AddFloorArea(
-            floorTile,
-            roomPosition,
-            roomColumns,
-            roomRows
-        );
-
-        AddRoomWalls(
-            floorTile,
-            upperWallTile,
-            lowerWallTile,
-            roomPosition,
-            roomColumns,
-            roomRows,
-            colliderTickness
-        );
-    }
+    MovePlayerToSpawn();
 
     SpawnRandomMonsters();
 }
 
 DungeonScene::~DungeonScene()
 {
-    floorSprites.clear();
-    upperWallSprites.clear();
-    lowerWallSprites.clear();
+    delete roomSprite;
+    roomSprite = nullptr;
+
     wallColliders.clear();
 }
 
-void DungeonScene::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
+void DungeonScene::CreateDungeonRoom()
 {
-    (void)event;
+    sf::Texture* dungeonTexture = ResourceManager::GetInstance().GetTexture("Dungeon");
 
-    if (isGameOver)
+    if (dungeonTexture == nullptr)
     {
-        HandleGameOverEvent(event, window);
-
+        cerr << "[DungeonScene] Dungeon texture not found" << endl;
         return;
     }
 
-    InputManager& input = InputManager::GetInstance();
+    delete roomSprite;
 
-    // 숫자 키
-    if (input.IsNum1Pressed())
-    {
-        SaveManager::GetInstance().SavePlayer(entityManager->GetPlayer());
-        entityManager->ClearMonsters();
+    roomSprite = new sf::Sprite(*dungeonTexture);
 
-        sceneManager->RequestSceneChange(HOME);
-        return;
-    }
+    roomSprite->setScale({
+        Constants::ROOM_SCALE,
+        Constants::ROOM_SCALE
+        });
 
-    if (input.IsNum2Pressed())
-    {
-        SaveManager::GetInstance().SavePlayer(entityManager->GetPlayer());
-        entityManager->ClearMonsters();
+    const sf::FloatRect bounds = roomSprite->getLocalBounds();
 
-        sceneManager->RequestSceneChange(DUNGEON);
-        return;
-    }
+    roomSprite->setOrigin({
+        bounds.position.x + bounds.size.x / 2.f,
+        bounds.position.y + bounds.size.y / 2.f
+        });
 
-    // 마우스
-    if (input.IsLeftMouseClicked())
-    {
-        sf::Vector2f mousePosition = input.GetMouseClickWorldPosition(window);
-
-        //if (warriorPanel.getGlobalBounds().contains(mousePosition))
-        //{
-        //}
-
-    }
+    roomSprite->setPosition({
+        Constants::CENTER_X,
+        Constants::CENTER_Y
+        });
 }
 
 void DungeonScene::Update(float deltaTime, sf::RenderWindow& window)
@@ -199,26 +109,100 @@ void DungeonScene::Update(float deltaTime, sf::RenderWindow& window)
     UpdateUI(deltaTime, window);
 }
 
+void DungeonScene::HandleEvent(const sf::Event& event,sf::RenderWindow& window)
+{
+    if (isGameOver)
+    {
+        HandleGameOverEvent(event,window);
+
+        return;
+    }
+
+    InputManager& input = InputManager::GetInstance();
+
+    if (!input.IsFPressed() && !input.IsEnterPressed())
+    {
+        return;
+    }
+
+
+    // 몬스터를 모두 잡기 전에는
+    // 어느 출입구도 이용 불가
+    if (!CanUseEntrance())
+    {
+        cout << "[DungeonScene] Defeat all monsters first" << endl;
+
+        return;
+    }
+
+
+    // =========================================================
+    // 아래쪽 계단 → HOME
+    // =========================================================
+
+    if (IsPlayerNearExit())
+    {
+        SaveManager::GetInstance().SavePlayer(entityManager->GetPlayer());
+
+        entityManager->ClearProjectiles();
+        entityManager->ClearMonsters();
+
+        sceneManager->ResetDungeonStage();
+
+        sceneManager->RequestSceneChange(HOME);
+
+        return;
+    }
+
+
+    // =========================================================
+    // 위쪽 계단
+    // =========================================================
+
+    if (IsPlayerNearNextStage())
+    {
+        SaveManager::GetInstance().SavePlayer(entityManager->GetPlayer());
+
+        entityManager->ClearProjectiles();
+        entityManager->ClearMonsters();
+
+
+        if (sceneManager->GetDungeonStage() >= 10)
+        {
+            sceneManager->RequestSceneChange(BOSS);
+        }
+        else
+        {
+            sceneManager->NextDungeonStage();
+
+            sceneManager->RequestSceneChange(DUNGEON);
+        }
+
+        return;
+    }
+}
+
 void DungeonScene::Render(sf::RenderWindow& window)
 {
     window.setView(camera.GetView());
 
-    for (const sf::Sprite& floorSprite : floorSprites)
+    if (roomSprite != nullptr)
     {
-        window.draw(floorSprite);
-    }
-
-    for (const sf::Sprite& wallSprite : upperWallSprites)
-    {
-        window.draw(wallSprite);
+        window.draw(*roomSprite);
     }
 
     entityManager->Render(window);
 
-    for (const sf::Sprite& wallSprite : lowerWallSprites)
+    // Debug Collider ----------------------------
+
+    for (const Collider& collider : wallColliders)
     {
-        window.draw(wallSprite);
+        collider.Draw(window);
     }
+
+    exitInteractionCollider.Draw(window);
+
+    nextStageInteractionCollider.Draw(window);
 
     window.setView(window.getDefaultView());
 
@@ -232,16 +216,181 @@ void DungeonScene::Render(sf::RenderWindow& window)
     }
 }
 
-void DungeonScene::SpawnRandomMonsters()
+void DungeonScene::BuildRoomColliders()
+{
+    wallColliders.clear();
+
+    if (roomSprite == nullptr)
+    {
+        return;
+    }
+
+    const sf::FloatRect bounds = roomSprite->getGlobalBounds();
+
+    const float left = bounds.position.x;
+
+    const float top = bounds.position.y;
+
+    const float width = bounds.size.x;
+
+    const float height = bounds.size.y;
+
+
+    // 실제 플레이 영역 ----------------------------
+
+    const float playableLeft = left + width * 0.07f;
+
+    const float playableRight = left + width * 0.93f;
+
+    const float playableTop = top + height * 0.16f;
+
+    const float playableBottom = top + height * 0.865f;
+
+
+    const float playableWidth = playableRight - playableLeft;
+
+    const float playableHeight = playableBottom - playableTop;
+
+
+    const float wallThickness = 8.f * Constants::ROOM_SCALE;
+
+
+    // 위쪽 벽
+    Collider topCollider({playableWidth,wallThickness});
+
+    topCollider.UpdatePosition({playableLeft + playableWidth / 2.f,playableTop});
+
+    wallColliders.push_back(topCollider);
+
+
+    // 아래쪽 벽
+    Collider bottomCollider({playableWidth,wallThickness});
+
+    bottomCollider.UpdatePosition({playableLeft + playableWidth / 2.f,playableBottom});
+
+    wallColliders.push_back(bottomCollider);
+
+
+    // 왼쪽 벽
+    Collider leftCollider({wallThickness,playableHeight});
+
+    leftCollider.UpdatePosition({playableLeft,playableTop + playableHeight / 2.f});
+
+    wallColliders.push_back(leftCollider);
+
+
+    // 오른쪽 벽
+    Collider rightCollider({wallThickness,playableHeight});
+
+    rightCollider.UpdatePosition({playableRight,playableTop + playableHeight / 2.f});
+
+    wallColliders.push_back(rightCollider);
+}
+
+void DungeonScene::MovePlayerToSpawn()
+{
+    Player* player = entityManager->GetPlayer();
+
+    if (player == nullptr || roomSprite == nullptr)
+    {
+        return;
+    }
+
+    const sf::FloatRect bounds = roomSprite->getGlobalBounds();
+
+    const sf::Vector2f spawnPosition =
+    {
+        bounds.position.x + bounds.size.x / 2.f,
+        bounds.position.y + bounds.size.y * 0.80f
+    };
+
+    player->MoveForce(spawnPosition);
+}
+
+void DungeonScene::SetupEntrances()
+{
+    if (roomSprite == nullptr)
+    {
+        return;
+    }
+
+    const sf::FloatRect bounds = roomSprite->getGlobalBounds();
+
+    const float centerX = bounds.position.x + bounds.size.x / 2.f;
+
+
+    // =========================================================
+    // 아래쪽 탈출구
+    // =========================================================
+
+    exitInteractionCollider.SetSize({
+        80.f * Constants::ROOM_SCALE,
+        70.f * Constants::ROOM_SCALE
+        });
+
+    exitInteractionCollider.UpdatePosition({
+        centerX,
+
+        bounds.position.y +
+        bounds.size.y * 0.875f
+        });
+
+
+    // =========================================================
+    // 위쪽 다음 Stage 입구
+    // =========================================================
+
+    nextStageInteractionCollider.SetSize({
+        80.f * Constants::ROOM_SCALE,
+        70.f * Constants::ROOM_SCALE
+        });
+
+    nextStageInteractionCollider.UpdatePosition({
+        centerX,
+
+        bounds.position.y +
+        bounds.size.y * 0.155f
+        });
+}
+
+bool DungeonScene::CanUseEntrance()
+{
+    return entityManager->AreAllMonstersDead();
+}
+
+bool DungeonScene::IsPlayerNearExit()
 {
     Player* player = entityManager->GetPlayer();
 
     if (player == nullptr)
     {
-        return;
+        return false;
     }
 
-    // 스폰 마릿수 -----------------------------------------
+    return player->GetBodyCollider().Collision(exitInteractionCollider);
+}
+
+bool DungeonScene::IsPlayerNearNextStage()
+{
+    Player* player = entityManager->GetPlayer();
+
+    if (player == nullptr)
+    {
+        return false;
+    }
+
+    return player->GetBodyCollider().Collision(nextStageInteractionCollider);
+}
+
+void DungeonScene::SpawnRandomMonsters()
+{
+    Player* player = entityManager->GetPlayer();
+
+    if (player == nullptr ||
+        roomSprite == nullptr)
+    {
+        return;
+    }
 
     const int minSpawnCount = Constants::MIN_SPAWN_COUNT;
 
@@ -249,39 +398,27 @@ void DungeonScene::SpawnRandomMonsters()
 
     const int spawnCount = minSpawnCount + rand() % (maxSpawnCount - minSpawnCount + 1);
 
-    // 방 내부 영역 -----------------------------------------
+    const sf::FloatRect bounds = roomSprite->getGlobalBounds();
 
-    const sf::Vector2f roomPosition =
-    {
-        Constants::CENTER_X,
-        Constants::CENTER_Y + 22.f
-    };
+    // 몬스터는 중앙의 넓은 바닥 영역에서만 생성
+    const float minX =
+        bounds.position.x +
+        bounds.size.x * 0.15f;
 
-    const int roomColumns = 13;
-    const int roomRows = 9;
+    const float maxX =
+        bounds.position.x +
+        bounds.size.x * 0.85f;
 
-    const float tileSize = 16.f * 4.f;
+    const float minY =
+        bounds.position.y +
+        bounds.size.y * 0.27f;
 
-    const float roomWidth = roomColumns * tileSize;
-
-    const float roomHeight = roomRows * tileSize;
-
-    // 벽에서 여유 공간
-    const float margin = 50.f;
-
-    const float minX = roomPosition.x - roomWidth / 2.f + margin;
-
-    const float maxX = roomPosition.x + roomWidth / 2.f - margin;
-
-    const float minY = roomPosition.y - roomHeight / 2.f + margin;
-
-    const float maxY = roomPosition.y + roomHeight / 2.f - margin;
-
-    // Player 주변 생성 금지
-    const float playerSafeRadius = 180.f;
+    const float maxY =
+        bounds.position.y +
+        bounds.size.y * 0.72f;
 
 
-    // 몬스터 생성 -----------------------------------------
+    const float playerSafeRadius = 130.f;
 
     for (int i = 0; i < spawnCount; i++)
     {
@@ -289,12 +426,19 @@ void DungeonScene::SpawnRandomMonsters()
 
         bool validPosition = false;
 
-        // 무한 루프 방지
         for (int attempt = 0; attempt < 100; attempt++)
         {
-            const float randomX = minX + static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * (maxX - minX);
+            const float randomX =
+                minX +
+                static_cast<float>(rand()) /
+                static_cast<float>(RAND_MAX) *
+                (maxX - minX);
 
-            const float randomY = minY + static_cast<float>(rand()) / static_cast<float>(RAND_MAX) * (maxY - minY);
+            const float randomY =
+                minY +
+                static_cast<float>(rand()) /
+                static_cast<float>(RAND_MAX) *
+                (maxY - minY);
 
             spawnPosition =
             {
@@ -310,26 +454,31 @@ void DungeonScene::SpawnRandomMonsters()
                     toPlayer.y * toPlayer.y
                 );
 
-            if (distance >= playerSafeRadius)
+            if (distance < playerSafeRadius)
             {
-                validPosition = true;
-                break;
+                continue;
             }
+
+            validPosition = true;
+
+            break;
         }
+
 
         if (!validPosition)
         {
             continue;
         }
 
-        // 플레이어 레벨에 따른 MonsterType
         const MonsterType monsterType = GetRandomMonsterType();
 
-        // 랜덤 색상
         const MonsterColor color = GetRandomMonsterColor();
 
-        // 실제 생성
-        entityManager->SpawnMonster(monsterType, color, spawnPosition);
+        entityManager->SpawnMonster(
+            monsterType,
+            color,
+            spawnPosition
+        );
     }
 }
 
@@ -397,165 +546,4 @@ MonsterType DungeonScene::GetRandomMonsterType()
     }
 
     return MonsterType::LICH;
-}
-
-void DungeonScene::AddFloorArea(
-    const sf::Sprite& floorTileTemplate,
-    const sf::Vector2f& centerPosition,
-    int columns,
-    int rows
-)
-{
-    if (columns <= 0 || rows <= 0)
-    {
-        return;
-    }
-
-    const sf::FloatRect bounds = floorTileTemplate.getGlobalBounds();
-
-    const float tileWidth = bounds.size.x;
-    const float tileHeight = bounds.size.y;
-
-    const float roomWidth = columns * tileWidth;
-
-    const float roomHeight = rows * tileHeight;
-
-    const float startX = centerPosition.x - roomWidth / 2.f + tileWidth / 2.f;
-
-    const float startY = centerPosition.y - roomHeight / 2.f + tileHeight / 2.f;
-
-    for (int row = 0; row < rows; row++)
-    {
-        for (int column = 0; column < columns; column++)
-        {
-            sf::Sprite floorSprite = floorTileTemplate;
-
-            floorSprite.setPosition({
-                startX + column * tileWidth,
-                startY + row * tileHeight
-                });
-
-            floorSprites.push_back(floorSprite);
-        }
-    }
-}
-
-void DungeonScene::AddRoomWalls(
-    const sf::Sprite& floorTileTemplate,
-    const sf::Sprite& upperWallTemplate,
-    const sf::Sprite& lowerWallTemplate,
-    const sf::Vector2f& centerPosition,
-    int columns,
-    int rows,
-    float colliderThickness
-)
-{
-    if (columns <= 0 ||
-        rows <= 0 ||
-        colliderThickness <= 0.f)
-    {
-        return;
-    }
-
-    const sf::FloatRect tileBounds = floorTileTemplate.getGlobalBounds();
-
-    const float tileWidth = tileBounds.size.x;
-
-    const float tileHeight = tileBounds.size.y;
-
-    const float roomWidth = columns * tileWidth;
-
-    const float roomHeight = rows * tileHeight;
-
-    const float roomLeft = centerPosition.x - roomWidth / 2.f;
-
-    const float roomRight = centerPosition.x + roomWidth / 2.f;
-
-    const float roomTop = centerPosition.y - roomHeight / 2.f;
-
-    const float roomBottom = centerPosition.y + roomHeight / 2.f;
-
-    const sf::FloatRect upperWallBounds = upperWallTemplate.getGlobalBounds();
-    const sf::FloatRect lowerWallBounds = lowerWallTemplate.getGlobalBounds();
-
-    // 위쪽 벽 Sprite를 가로로 배치
-    for (int column = 0; column < columns; column++)
-    {
-        sf::Sprite wallSprite = upperWallTemplate;
-
-        wallSprite.setPosition({
-            roomLeft + tileWidth / 2.f + column * tileWidth,
-            roomTop - upperWallBounds.size.y / 2.f + 20.f
-            });
-
-        upperWallSprites.push_back(wallSprite);
-    }
-
-    // 아래쪽 벽 Sprite를 가로로 배치
-    for (int column = 0; column < columns; column++)
-    {
-        sf::Sprite wallSprite = lowerWallTemplate;
-
-        wallSprite.setPosition({
-            roomLeft
-                + tileWidth / 2.f
-                + column * tileWidth,
-
-            roomBottom
-            });
-
-        lowerWallSprites.push_back(wallSprite);
-    }
-
-    // 위쪽 Collider
-    Collider topCollider({
-        roomWidth,
-        colliderThickness
-        });
-
-    topCollider.UpdatePosition({
-        centerPosition.x,
-        roomTop - colliderThickness / 2.f
-        });
-
-    wallColliders.push_back(topCollider);
-
-    // 아래쪽 Collider
-    Collider bottomCollider({
-        roomWidth,
-        colliderThickness
-        });
-
-    bottomCollider.UpdatePosition({
-        centerPosition.x,
-        roomBottom + colliderThickness / 2.f
-        });
-
-    wallColliders.push_back(bottomCollider);
-
-    // 왼쪽 Collider
-    Collider leftCollider({
-        colliderThickness,
-        roomHeight
-        });
-
-    leftCollider.UpdatePosition({
-        roomLeft - colliderThickness / 2.f,
-        centerPosition.y
-        });
-
-    wallColliders.push_back(leftCollider);
-
-    // 오른쪽 Collider
-    Collider rightCollider({
-        colliderThickness,
-        roomHeight
-        });
-
-    rightCollider.UpdatePosition({
-        roomRight + colliderThickness / 2.f,
-        centerPosition.y
-        });
-
-    wallColliders.push_back(rightCollider);
 }

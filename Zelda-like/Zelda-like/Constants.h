@@ -21,4 +21,5 @@ namespace Constants
     const int MIN_SPAWN_COUNT = 5;
     const int MAX_SPAWN_COUNT = 10;
 
+    const float ROOM_SCALE = 0.7f;
 }

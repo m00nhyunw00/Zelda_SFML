@@ -741,6 +741,19 @@ void EntityManager::Render(sf::RenderWindow& window)
     }
 }
 
+bool EntityManager::AreAllMonstersDead()
+{
+    for (const Monster* monster : monsters)
+    {
+        if (monster != nullptr && monster->IsActive())
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 void EntityManager::PrintPlayerInfo()
 {
     using std::cout;

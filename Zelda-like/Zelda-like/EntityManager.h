@@ -54,6 +54,8 @@ public:
     void HandlePlayerProjectileAttack();
     void CheckProjectileCollisions();
 
+    bool AreAllMonstersDead();
+
     void Update(float deltaTime, sf::RenderWindow& window);
 
     void Render(sf::RenderWindow& window);

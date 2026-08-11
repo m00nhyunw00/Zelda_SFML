@@ -8,43 +8,50 @@
 #include "PlayerType.h"
 #include "Camera.h"
 #include "InGameScene.h"
+#include "Collider.h"
 
 class DungeonScene : public InGameScene
 {
 private:
-    std::vector<sf::Sprite> floorSprites;
-    std::vector<sf::Sprite> upperWallSprites;
-    std::vector<sf::Sprite> lowerWallSprites;
-
     Camera camera;
 
-private:
-    void AddFloorArea(
-        const sf::Sprite& floorTileTemplate,
-        const sf::Vector2f& centerPosition,
-        int columns,
-        int rows
-    );
+    sf::Sprite* roomSprite = nullptr;
 
-    void AddRoomWalls(
-        const sf::Sprite& floorTileTemplate,
-        const sf::Sprite& upperWallTemplate,
-        const sf::Sprite& lowerWallTemplate,
-        const sf::Vector2f& centerPosition,
-        int columns,
-        int rows,
-        float colliderThickness
-    );
+    // 아래쪽 = 탈출
+    Collider exitInteractionCollider;
+
+    // 위쪽 = 다음 스테이지 / 10층에서는 보스룸
+    Collider nextStageInteractionCollider;
+
+private:
+    void CreateDungeonRoom();
+
+    void BuildRoomColliders();
+
+    void SetupEntrances();
+
+    void MovePlayerToSpawn();
+
+    bool CanUseEntrance();
+
+    bool IsPlayerNearExit();
+
+    bool IsPlayerNearNextStage();
 
 public:
     DungeonScene(SceneManager* sceneManager, EntityManager* entityManager);
+
     ~DungeonScene();
 
-    void HandleEvent(const sf::Event& event, sf::RenderWindow& window) override;
-    void Update(float deltaTime, sf::RenderWindow& window) override;
+    void HandleEvent(const sf::Event& event,sf::RenderWindow& window) override;
+
+    void Update(float deltaTime,sf::RenderWindow& window) override;
+
     void Render(sf::RenderWindow& window) override;
 
     void SpawnRandomMonsters();
+
     MonsterColor GetRandomMonsterColor();
+
     MonsterType GetRandomMonsterType();
 };

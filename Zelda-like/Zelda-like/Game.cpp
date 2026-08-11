@@ -48,8 +48,9 @@ Game::Game()
     resourceManager.LoadTexture("Lich_Run", "Assets/Characters/Enemy_Lich/Enemy_Lich_Walk.png");         // 리치 Run 텍스쳐 업로드
     resourceManager.LoadTexture("Lich_Attack", "Assets/Characters/Enemy_Lich/Enemy_Lich_Attack.png");    // 리치 Attack 텍스쳐 업로드
         
-    resourceManager.LoadTexture("House", "Assets/Tileset_Housing1.png");                         // 집 타일셋 텍스쳐 업로드
+    resourceManager.LoadTexture("Home", "Assets/Tileset_House.png");                         // 집 타일셋 텍스쳐 업로드
     resourceManager.LoadTexture("Indoor", "Assets/Objects/Tileset_Objects_Indoors1.png");        // 실내 바닥 타일셋 텍스쳐 업로드
+    resourceManager.LoadTexture("Dungeon", "Assets/Tileset_Dungeon.png");                        // 던전 타일셋 텍스쳐 업로드
 
     dataManager.LoadPlayerData("Data/PlayerData.json");
     dataManager.LoadMonsterData("Data/MonsterData.json");
