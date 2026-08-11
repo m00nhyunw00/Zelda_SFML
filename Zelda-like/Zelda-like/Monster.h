@@ -34,6 +34,7 @@ private:
 
 protected:
     GaugeBar* hpBar;
+    bool showHpBar = true;
 
     std::vector<Projectile*> pendingProjectiles;
 
@@ -66,10 +67,13 @@ public:
     MonsterColor GetColor() const { return color; }
     int GetExp() const { return exp; }
     Player* GetTarget() { return target; }
+    float GetAttakRange() { return attackRange; }
 
     // Setter -------------------------------------------------
 
     void SetType(MonsterType type) { this->type = type; }
     void SetColor(MonsterColor color) { this->color = color; }
     void SetTarget(Player* target) { this->target = target; }
+    void SetShowHpBar(bool show) { showHpBar = show; }
+    virtual void SetAttakRange(float range);
 };

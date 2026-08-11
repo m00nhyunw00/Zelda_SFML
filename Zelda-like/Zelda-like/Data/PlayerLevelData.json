@@ -1,5 +1,14 @@
 {
   "WARRIOR": {
+    "0": {
+      "maxExp": 100000,
+      "maxHp": 300000,
+      "defence": 120000,
+      "damage": 1000,
+      "skillDamage": 2000,
+      "ultimateDamage": 3000,
+      "maxUltimateGauge": 1
+    },
     "1": {
       "maxExp": 100,
       "maxHp": 300,
@@ -272,6 +281,15 @@
     }
   },
   "ARCHER": {
+    "0": {
+      "maxExp": 100000,
+      "maxHp": 300000,
+      "defence": 120000,
+      "damage": 1000,
+      "skillDamage": 2000,
+      "ultimateDamage": 3000,
+      "maxUltimateGauge": 1
+    },
     "1": {
       "maxExp": 100,
       "maxHp": 200,
@@ -544,6 +562,15 @@
     }
   },
   "MAGE": {
+    "0": {
+      "maxExp": 100000,
+      "maxHp": 300000,
+      "defence": 120000,
+      "damage": 1000,
+      "skillDamage": 2000,
+      "ultimateDamage": 3000,
+      "maxUltimateGauge": 1
+    },
     "1": {
       "maxExp": 100,
       "maxHp": 150,

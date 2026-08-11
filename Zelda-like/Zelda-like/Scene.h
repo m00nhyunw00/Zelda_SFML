@@ -12,25 +12,6 @@ protected:
     SceneManager* sceneManager;
     EntityManager* entityManager;
 
-    //bool isGameOver;
-
-    //// ----- 게임 오버 시 UI ------------------------
-
-    //sf::RectangleShape* gameOverOverlay;
-    //sf::Text* gameOverText;
-
-    //sf::RectangleShape* restartButton;
-    //sf::Text* restartText;
-    //sf::RectangleShape* exitButton;
-    //sf::Text* exitText;
-
-    //// ----- 체력 게이지 UI ------------------------
-
-    //sf::RectangleShape* hpBarBackground = nullptr;
-    //sf::RectangleShape* hpBar = nullptr;
-
-    //sf::Text* hpText = nullptr;
-
 public:
     Scene(SceneManager* manager, EntityManager* entityManager);
 

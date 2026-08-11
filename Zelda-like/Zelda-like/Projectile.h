@@ -29,7 +29,8 @@ protected:
     sf::Vector2f colliderOffset = { 0.f, 0.f };
     bool collisionEnabled = true;
 
-    bool piercing;
+    bool destroyOnHit = true;
+    bool piercing = false;
     bool skillProjectile = false;
     bool ultimateProjectile = false;
 
@@ -56,6 +57,7 @@ public:
     Collider& GetCollider() { return collider; }
     int GetDamage() const { return damage; }
     bool IsPiercing() const { return piercing; }
+    bool IsDestroyOnHit() const { return destroyOnHit; }
     bool IsSkillProjectile() const { return skillProjectile; }
     bool IsUltimateProjectile() const { return ultimateProjectile; }
     bool IsCollisionEnabled() const { return collisionEnabled; }
@@ -65,4 +67,5 @@ public:
     void SetColor(const sf::Color& color);
     void SetAnimationPaused(bool paused) { animationPaused = paused; }
     void SetCollisionEnabled(bool enabled) { collisionEnabled = enabled; }
+    void SetDestroyOnHit(bool value) { destroyOnHit = value; }
 };

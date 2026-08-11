@@ -25,7 +25,7 @@ TitleScene::TitleScene(SceneManager* sceneManager, EntityManager* entityManager)
     {
         // 게임 제목
         titleText = new sf::Text(*font);
-        titleText->setString("ZELDA-LIKE RPG");
+        titleText->setString("Dungeon Heroes");
         titleText->setCharacterSize(50);
 
         sf::FloatRect titleBounds = titleText->getLocalBounds();

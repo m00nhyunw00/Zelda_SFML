@@ -36,7 +36,7 @@
     "moveSpeed": 60.0,
     "detectionRange": 350.0,
     "attackRange": 250.0,
-    "attackCooldown": 1.2,
+    "attackCooldown": 2,
     "exp": 50
   },
   "GIANT_SLIME": {
@@ -45,7 +45,7 @@
     "damage": 150,
     "moveSpeed": 65.0,
     "detectionRange": 1000.0,
-    "attackRange": 450.0,
+    "attackRange": 145.0,
     "attackCooldown": 1.5,
     "exp": 5000
   }

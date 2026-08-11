@@ -29,6 +29,10 @@ protected:
 
     bool attackTriggered;           // 공격 플래그
 
+    bool canMove = true;            // 이동 가능 여부
+    bool canAttack = true;          // 공격 가능 여부
+    bool invincible = false;        // 무적 여부
+
 private:
     CreatureType category;          // 플레이어인지 몬스터인지 구분
     int maxHp;                      // 최대 체력
@@ -71,6 +75,8 @@ public:
     Collider& GetAttackCollider() { return attackCollider; }
     Animation& GetAnimation() { return animation; }
     Direction GetFacingDirection() { return facingDirection; };
+    sf::Color GetSpriteColor() const;
+    bool IsInvincible() const { return invincible; }
     bool IsAttackTriggered() const { return attackTriggered; }
 
     // Setter --------------------------------------------------
@@ -81,6 +87,9 @@ public:
     void SetDamage(int damage) { this->damage = damage; }
     void SetPosition(const sf::Vector2f& position) { this->position = position; }
     void SetMoveSpeed(const float& moveSpeed) { this->moveSpeed = moveSpeed; }
+    void SetCanMove(bool canMove) { this->canMove = canMove; }
+    void SetCanAttack(bool canAttack) { this->canAttack = canAttack; }
+    void SetInvincible(bool invincible) { this->invincible = invincible; }
 
     // ---------------------------------------------------------
 
@@ -95,7 +104,6 @@ public:
     virtual void Attack(Creature* target) = 0;
 
     int TakeDamage(int incomingDamage); // 피격 함수
-    bool IsDead();                // 사망 판정 함수
 
     void MoveForce(const sf::Vector2f& position);
 };

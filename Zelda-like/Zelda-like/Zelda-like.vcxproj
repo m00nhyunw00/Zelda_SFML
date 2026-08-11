@@ -150,6 +150,7 @@
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GaugeBar.cpp" />
+    <ClCompile Include="GiantSlime.cpp" />
     <ClCompile Include="HomeScene.cpp" />
     <ClCompile Include="InGameScene.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -171,6 +172,7 @@
     <ClCompile Include="Skeleton.cpp" />
     <ClCompile Include="SkillCooldownUI.cpp" />
     <ClCompile Include="Slime.cpp" />
+    <ClCompile Include="SlimeSpike.cpp" />
     <ClCompile Include="SpriteUtil.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UI.cpp" />
@@ -181,6 +183,7 @@
     <ClInclude Include="Archer.h" />
     <ClInclude Include="Arrow.h" />
     <ClInclude Include="BladeWave.h" />
+    <ClInclude Include="BossPhase.h" />
     <ClInclude Include="BossScene.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Cacto.h" />
@@ -196,6 +199,7 @@
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GaugeBar.h" />
+    <ClInclude Include="GiantSlime.h" />
     <ClInclude Include="HomeScene.h" />
     <ClInclude Include="InGameScene.h" />
     <ClInclude Include="InputManager.h" />
@@ -221,6 +225,7 @@
     <ClInclude Include="Skeleton.h" />
     <ClInclude Include="SkillCooldownUI.h" />
     <ClInclude Include="Slime.h" />
+    <ClInclude Include="SlimeSpike.h" />
     <ClInclude Include="SpriteUtil.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UI.h" />

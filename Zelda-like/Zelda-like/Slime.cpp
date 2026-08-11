@@ -88,7 +88,7 @@ Slime::Slime(
         break;
 
     case MonsterColor::NONE_COLOR:
-        sprite->setColor(sf::Color(70, 255, 90));
+        sprite->setColor(sf::Color::White);
         break;
     }
 }

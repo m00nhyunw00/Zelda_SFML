@@ -177,9 +177,18 @@ InGameScene::~InGameScene()
 
 bool InGameScene::CheckGameOver()
 {
+    // 이미 GameOver에 들어갔다면 계속 유지
+    if (isGameOver)
+    {
+        return true;
+    }
+
     Player* player = entityManager->GetPlayer();
 
-    isGameOver = ((player != nullptr && !player->IsActive()) ? true : false);
+    if (player != nullptr && !player->IsActive())
+    {
+        isGameOver = true;
+    }
 
     return isGameOver;
 }
@@ -191,18 +200,6 @@ void InGameScene::HandleGameOverEvent(const sf::Event& event, sf::RenderWindow& 
         return;
     }
 
-    Player* player = entityManager->GetPlayer();
-
-    if (player != nullptr)
-    {
-        player->ApplyDeathPenalty();
-    }
-
-    entityManager->ClearProjectiles();
-    entityManager->ClearMonsters();
-
-    SaveManager::GetInstance().SavePlayer(player);
-
     if (restartButton != nullptr)
     {
         restartButton->HandleEvent(event, window);
@@ -213,19 +210,40 @@ void InGameScene::HandleGameOverEvent(const sf::Event& event, sf::RenderWindow& 
         exitButton->HandleEvent(event, window);
     }
 
+    const bool restartClicked = restartButton != nullptr && restartButton->IsClicked();
+
+    const bool exitClicked = exitButton != nullptr && exitButton->IsClicked();
+
+    // 아무 버튼도 누르지 않았으면 아무 것도 하지 않음
+    if (!restartClicked && !exitClicked)
+    {
+        return;
+    }
+
+    Player* player = entityManager->GetPlayer();
+
+    // Restart / Exit 공통 사망 처리
+    if (player != nullptr)
+    {
+        player->ApplyDeathPenalty();
+
+        SaveManager::GetInstance().SavePlayer(player);
+    }
+
+    entityManager->ClearProjectiles();
+    entityManager->ClearMonsters();
+
     // Restart
-    if (restartButton != nullptr && restartButton->IsClicked())
+    if (restartClicked)
     {
         sceneManager->RequestSceneChange(HOME);
-
         return;
     }
 
     // Exit
-    if (exitButton != nullptr && exitButton->IsClicked())
+    if (exitClicked)
     {
         window.close();
-
         return;
     }
 }

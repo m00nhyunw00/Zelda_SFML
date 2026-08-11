@@ -27,7 +27,7 @@ public:
         const sf::Vector2f& position
     );
 
-    void SpawnMonster(
+    Monster* SpawnMonster(
         MonsterType type,
         MonsterColor color,
         const sf::Vector2f& position

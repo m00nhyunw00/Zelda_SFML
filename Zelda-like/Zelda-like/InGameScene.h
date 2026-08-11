@@ -33,10 +33,7 @@ public:
     InGameScene(SceneManager* sceneManager, EntityManager* entityManager);
     ~InGameScene();
 
-    void UpdateProjectileWallCollisions();
-
     bool CheckGameOver();
-
     void HandleGameOverEvent(const sf::Event& event, sf::RenderWindow& window);
     void UpdateUI(float deltaTime,sf::RenderWindow& window);    
     void UpdatePlayerHpBar(float deltaTime, sf::RenderWindow& window);
@@ -44,6 +41,7 @@ public:
     void UpdateUltimateGauge(float deltaTime, sf::RenderWindow& window);
     void UpdateGameOver(float deltaTime, sf::RenderWindow& window);
     void UpdateExpBar(float deltaTime, sf::RenderWindow& window);
+    void UpdateProjectileWallCollisions();
     void UpdateLevelText();
     void RenderUI(sf::RenderWindow& window);
     void RenderGameOver(sf::RenderWindow& window);

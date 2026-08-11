@@ -4,9 +4,9 @@
 #include "JobSelectScene.h"
 #include "HomeScene.h"
 #include "DungeonScene.h"
-//#include "BossScene.h"
+#include "BossScene.h"
 //#include "GameOverScene.h"
-//#include "EndingScene.h"
+#include "EndingScene.h"
 
 SceneManager::SceneManager(EntityManager* entityManager)
     : entityManager(entityManager)
@@ -45,14 +45,11 @@ Scene* SceneManager::CreateScene(SceneType type)
     case DUNGEON:
         return new DungeonScene(this, entityManager);
 
-    //case BOSS:
-    //    return new BossScene(this);
+    case BOSS:
+        return new BossScene(this, entityManager);
 
-    //case GAME_OVER:
-    //    return new GameOverScene(this);
-
-    //case ENDING:
-    //    return new EndingScene(this);
+    case ENDING:
+        return new EndingScene(this, entityManager);
 
     default:
         return NULL;

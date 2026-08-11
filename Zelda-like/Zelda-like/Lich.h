@@ -16,4 +16,7 @@ public:
     void UpdateTypeLogic(float deltaTime) override;
 
     void Attack(Creature* target) override;
+
+    void SetAttakRange(float range) override;
+
 };

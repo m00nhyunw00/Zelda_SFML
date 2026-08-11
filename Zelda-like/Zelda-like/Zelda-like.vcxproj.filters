@@ -246,6 +246,12 @@
     <ClCompile Include="LichFireball.cpp">
       <Filter>소스 파일\Entity\Projectile\ProjectileType</Filter>
     </ClCompile>
+    <ClCompile Include="GiantSlime.cpp">
+      <Filter>소스 파일\Entity\Creature\Monster\MonsterType</Filter>
+    </ClCompile>
+    <ClCompile Include="SlimeSpike.cpp">
+      <Filter>소스 파일\Entity\Projectile\ProjectileType</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -390,6 +396,15 @@
       <Filter>헤더 파일\Entity\Creature\Monster\MonsterType</Filter>
     </ClInclude>
     <ClInclude Include="LichFireball.h">
+      <Filter>헤더 파일\Entity\Projectile\ProjectileType</Filter>
+    </ClInclude>
+    <ClInclude Include="GiantSlime.h">
+      <Filter>헤더 파일\Entity\Creature\Monster\MonsterType</Filter>
+    </ClInclude>
+    <ClInclude Include="BossPhase.h">
+      <Filter>헤더 파일\Entity\Creature\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="SlimeSpike.h">
       <Filter>헤더 파일\Entity\Projectile\ProjectileType</Filter>
     </ClInclude>
   </ItemGroup>

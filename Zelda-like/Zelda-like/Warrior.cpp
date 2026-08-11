@@ -56,41 +56,6 @@ Warrior::Warrior(
     attackCollider.SetOrigin({ Constants::DEFAULT_COLLIDER_SIZE, Constants::WARRIOR_ATTACK_RANGE });
 }
 
-//bool Warrior::HandleJobAnimation(float deltaTime)
-//{
-//    if (!isPowerStrike)
-//    {
-//        return false;
-//    }
-//
-//    animation.Play("WARRIOR_POWER_STRIKE");
-//
-//    const bool animationFinished =
-//        animation.Update(*sprite, deltaTime);
-//
-//    if (animationFinished)
-//    {
-//        // Power Strike 종료
-//        isPowerStrike = false;
-//
-//        // ATTACK 상태도 종료
-//        animationState = CreatureState::IDLE;
-//
-//        // 다음 Power Strike를 위해 초기화
-//        powerStrikeHitTargets.clear();
-//
-//        if (sprite != nullptr)
-//        {
-//            sprite->setColor(sf::Color::White);
-//        }
-//
-//        // 방어력 원상복구
-//        SetDefence(GetDefence() / 2);
-//    }
-//
-//    return true;
-//}
-
 bool Warrior::HandleJobAnimation(float deltaTime)
 {   
     // Blade Sweep ------------------------------
@@ -206,8 +171,8 @@ void Warrior::UseSkill(Creature* target)
         sprite->setColor(sf::Color(170, 170, 170));
     }
 
-    // 스킬 도중 방어력 2배
-    SetDefence(GetDefence() * 2);
+    // 스킬 도중 방어력 3배
+    SetDefence(GetDefence() * 3);
 }
 
 void Warrior::HitPowerStrike(Creature* target)

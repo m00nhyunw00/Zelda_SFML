@@ -160,6 +160,11 @@ void Creature::MoveForce(const sf::Vector2f& position)
 
 int Creature::TakeDamage(int incomingDamage)
 {
+    if (invincible)
+    {
+        return 0;
+    }
+
     int beforeHp = hp;
 
     hp -= incomingDamage;
@@ -176,7 +181,12 @@ int Creature::TakeDamage(int incomingDamage)
     return beforeHp - hp;	// 몬스터가 죽은 경우를 감안하여 실제로 적용된 논리적 데미지를 반환
 }
 
-bool Creature::IsDead()
+sf::Color Creature::GetSpriteColor() const
 {
-    return false;
+    if (sprite != nullptr)
+    {
+        return sprite->getColor();
+    }
+
+    return sf::Color::White;
 }

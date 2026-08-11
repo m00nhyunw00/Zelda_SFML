@@ -7,6 +7,7 @@
 #include "Slime.h"
 #include "Cacto.h"
 #include "Skeleton.h"
+#include "GiantSlime.h"
 #include "Lich.h"
 #include "Constants.h"
 
@@ -110,7 +111,7 @@ void EntityManager::CreatePlayer(
     PrintPlayerInfo();
 }
 
-void EntityManager::SpawnMonster(
+Monster* EntityManager::SpawnMonster(
     MonsterType type,
     MonsterColor color,
     const sf::Vector2f& position)
@@ -119,7 +120,7 @@ void EntityManager::SpawnMonster(
 
     if (baseData == nullptr)
     {
-        return;
+        return nullptr;
     }
 
     // 기본 데이터 복사
@@ -171,22 +172,24 @@ void EntityManager::SpawnMonster(
         monster = new Lich(color, data, position);
         break;
 
-    //case MonsterType::GIANT_SLIME:
-    //    monster = new GiantSlime(data, position);
-    //    break;
+    case MonsterType::GIANT_SLIME:
+        monster = new GiantSlime(data, position);
+        break;
 
     default:
-        return;
+        return nullptr;
     }
 
     if (monster == nullptr)
     {
-        return;
+        return nullptr;
     }
 
     monster->SetTarget(player);
 
     monsters.push_back(monster);
+
+    return monster;
 }
 
 void EntityManager::AddMonster(Monster* monster)
@@ -326,9 +329,7 @@ void EntityManager::CheckPlayerMeleeAttackCollisions()
     Warrior* warrior =
         static_cast<Warrior*>(player);
 
-    // ==================================================
     // 평타
-    // ==================================================
 
     if (player->IsAttackTriggered())
     {
@@ -350,9 +351,7 @@ void EntityManager::CheckPlayerMeleeAttackCollisions()
         }
     }
 
-    // ==================================================
     // Power Strike 시작
-    // ==================================================
 
     if (player->IsSkillTriggered())
     {
@@ -360,9 +359,7 @@ void EntityManager::CheckPlayerMeleeAttackCollisions()
         player->UseSkill(nullptr);
     }
 
-    // ==================================================
     // Power Strike 진행 중 충돌 판정
-    // ==================================================
 
     if (warrior->IsPowerStrike())
     {
@@ -589,16 +586,47 @@ void EntityManager::CheckProjectileCollisions()
         // Monster가 발사한 투사체
         else if (owner->GetCategory() == CreatureType::MONSTER)
         {
-            if (player == nullptr || 
-                !player->IsActive() || 
+            if (player == nullptr ||
+                !player->IsActive() ||
                 !projectile->IsCollisionEnabled())
             {
                 continue;
             }
 
-            if (projectile->GetCollider().Collision( player->GetBodyCollider()))
+            // Slime Spike -------------------------------
+            if (projectile->GetType() ==
+                ProjectileType::SLIME_SPIKE)
             {
-                player->TakeDamage(projectile->GetDamage());
+                SlimeSpike* spike =
+                    static_cast<SlimeSpike*>(projectile);
+
+                // 아직 데미지 판정이 활성화되지 않았거나
+                // 이미 플레이어를 한 번 때렸으면 검사 안 함
+                if (!spike->CanDamage())
+                {
+                    continue;
+                }
+
+                if (spike->GetCollider().Collision(player->GetBodyCollider()))
+                {
+                    player->TakeDamage(spike->GetDamage());
+
+                    // 한 Spike가 여러 프레임 연속 데미지를 주는 것 방지
+                    spike->MarkDamaged();
+                }
+
+                // SlimeSpike는 여기서 삭제하지 않음.
+                // 애니메이션/수명이 끝나면 스스로 비활성화
+                continue;
+            }
+
+            // 일반 Monster Projectile -------------------------------
+            if (projectile->GetCollider().Collision(
+                player->GetBodyCollider()))
+            {
+                player->TakeDamage(
+                    projectile->GetDamage()
+                );
 
                 projectile->SetActive(false);
             }

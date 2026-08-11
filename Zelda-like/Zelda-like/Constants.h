@@ -22,4 +22,6 @@ namespace Constants
     const int MAX_SPAWN_COUNT = 10;
 
     const float ROOM_SCALE = 0.7f;
+
+    const int TOTAL_STAGE = 5;
 }

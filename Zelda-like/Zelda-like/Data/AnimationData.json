@@ -167,6 +167,46 @@
     "frameDuration": 0.08
   },
 
+  "GIANT_SLIME_SPAWN": {
+    "textureKey": "GiantSlime_Spawn",
+    "totalRows": 1,
+    "totalColumns": 4,
+    "frameCount": 4,
+    "frameDuration": 0.2
+  },
+
+  "GIANT_SLIME_IDLE": {
+    "textureKey": "GiantSlime_Idle",
+    "totalRows": 1,
+    "totalColumns": 6,
+    "frameCount": 6,
+    "frameDuration": 0.3
+  },
+
+  "GIANT_SLIME_RUN": {
+    "textureKey": "GiantSlime_Run",
+    "totalRows": 2,
+    "totalColumns": 4,
+    "frameCount": 8,
+    "frameDuration": 0.2
+  },
+
+  "GIANT_SLIME_ATTACK": {
+    "textureKey": "GiantSlime_Attack",
+    "totalRows": 3,
+    "totalColumns": 7,
+    "frameCount": 7,
+    "frameDuration": 0.1
+  },
+
+  "GIANT_SLIME_DEAD": {
+    "textureKey": "GiantSlime_Dead",
+    "totalRows": 2,
+    "totalColumns": 4,
+    "frameCount": 8,
+    "frameDuration": 0.4
+  },
+
   "ARROW": {
     "textureKey": "Arrow",
     "totalRows": 1,
@@ -197,5 +237,13 @@
     "totalColumns": 4,
     "frameCount": 4,
     "frameDuration": 0.1
+  },
+
+  "SLIME_SPIKE": {
+    "textureKey": "SlimeSpike",
+    "totalRows": 2,
+    "totalColumns": 4,
+    "frameCount": 8,
+    "frameDuration": 0.2
   }
 }

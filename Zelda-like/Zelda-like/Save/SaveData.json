@@ -1,7 +1,7 @@
 {
-    "currentExp": 0,
-    "currentHp": 850,
+    "currentExp": 144,
+    "currentHp": 300000,
     "inventory": [],
     "job": "WARRIOR",
-    "level": 20
+    "level": 0
 }

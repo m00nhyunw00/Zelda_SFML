@@ -37,7 +37,8 @@ Monster::~Monster()
 sf::Vector2f Monster::AIMovement(float deltaTime)
 {
     // 타겟이 없으면 움직이지 않음
-    if (target == nullptr || !target->IsActive())
+    if (target == nullptr ||
+        !target->IsActive())
     {
         monsterState = MonsterState::NONE_CHASE;
         animationState = CreatureState::RUN;
@@ -45,7 +46,8 @@ sf::Vector2f Monster::AIMovement(float deltaTime)
         return { 0.f, 0.f };
     }
 
-    const sf::Vector2f targetPosition = target->GetPosition();
+    const sf::Vector2f targetPosition =
+        target->GetPosition();
 
     // Monster → Player 방향 벡터
     sf::Vector2f direction =
@@ -54,16 +56,14 @@ sf::Vector2f Monster::AIMovement(float deltaTime)
         targetPosition.y - position.y
     };
 
-    // 직선 거리 계산 -------------------------------------
-
+    // 직선 거리 계산
     const float distance =
         std::sqrt(
             direction.x * direction.x +
             direction.y * direction.y
         );
 
-    // 감지 범위 밖 -------------------------------------
-
+    // 감지 범위 밖
     if (distance > detectionRange)
     {
         monsterState = MonsterState::NONE_CHASE;
@@ -71,8 +71,7 @@ sf::Vector2f Monster::AIMovement(float deltaTime)
         return { 0.f, 0.f };
     }
 
-    // 공격 범위 -------------------------------------
-
+    // 공격 범위
     if (distance <= attackRange)
     {
         monsterState = MonsterState::NONE_CHASE;
@@ -85,7 +84,9 @@ sf::Vector2f Monster::AIMovement(float deltaTime)
             UpdateFacingDirection(direction);
         }
 
-        if (animationState != CreatureState::ATTACK && attackCooldown <= 0.f)
+        if (canAttack &&
+            animationState != CreatureState::ATTACK &&
+            attackCooldown <= 0.f)
         {
             animationState = CreatureState::ATTACK;
 
@@ -97,12 +98,8 @@ sf::Vector2f Monster::AIMovement(float deltaTime)
         return { 0.f, 0.f };
     }
 
-    // 추격 -------------------------------------
-    // - TODO) A* 알고리즘 적용
-
+    // 추격 상태
     monsterState = MonsterState::CHASE;
-
-    // 방향 벡터 정규화 ------------------------------
 
     if (distance > 0.f)
     {
@@ -111,6 +108,12 @@ sf::Vector2f Monster::AIMovement(float deltaTime)
     }
 
     UpdateFacingDirection(direction);
+
+    // 이동 불가능 몬스터는 여기서만 이동 차단
+    if (!canMove)
+    {
+        return { 0.f, 0.f };
+    }
 
     Move(direction, deltaTime);
 
@@ -132,10 +135,7 @@ void Monster::HandleAnimation(const sf::Vector2f& direction, float deltaTime)
         }
     }
 
-    animation.Play(
-        animationState,
-        facingDirection
-    );
+    animation.Play(animationState,facingDirection);
 
     const bool animationFinished =
         animation.Update(*sprite, deltaTime);
@@ -184,7 +184,7 @@ void Monster::Render(sf::RenderWindow& window)
 {
     Creature::Render(window);
 
-    if (hpBar != nullptr)
+    if (hpBar != nullptr && showHpBar)
     {
         hpBar->Render(window);
     }
@@ -207,4 +207,9 @@ std::vector<Projectile*> Monster::TakePendingProjectiles()
     pendingProjectiles.clear();
 
     return result;
+}
+
+void Monster::SetAttakRange(float range)
+{
+    attackRange = range;
 }

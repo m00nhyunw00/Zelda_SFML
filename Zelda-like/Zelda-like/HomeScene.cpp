@@ -85,6 +85,20 @@ void HomeScene::HandleEvent(const sf::Event& event,sf::RenderWindow& window)
         return;
     }
 
+    // 테스트용 BossRoom 이동
+    if (input.IsNum3Pressed())
+    {
+        SaveManager::GetInstance().SavePlayer(entityManager->GetPlayer());
+
+        entityManager->ClearProjectiles();
+        entityManager->ClearMonsters();
+
+        sceneManager->ResetDungeonStage();
+
+        sceneManager->RequestSceneChange(BOSS);
+
+        return;
+    }
 
     // 실제 출입구
     if ((input.IsFPressed() || input.IsEnterPressed()) && IsPlayerNearEntrance())
@@ -172,36 +186,6 @@ void HomeScene::Render(sf::RenderWindow& window)
         RenderUI(window);
     }
 }
-
-//void HomeScene::CreateHomeRoom()
-//{
-//    sf::Texture* homeTexture =ResourceManager::GetInstance().GetTexture("Home");
-//
-//    if (homeTexture == nullptr)
-//    {
-//        cerr << "[HomeScene] Home texture not found" << endl;
-//        return;
-//    }
-//
-//    roomSprite = new sf::Sprite(*homeTexture);
-//
-//    roomSprite->setScale({ Constants::ROOM_SCALE,Constants::ROOM_SCALE });
-//
-//    const sf::FloatRect bounds = roomSprite->getLocalBounds();
-//
-//    roomSprite->setOrigin({
-//        bounds.position.x +
-//        bounds.size.x / 2.f,
-//
-//        bounds.position.y +
-//        bounds.size.y / 2.f
-//        });
-//
-//    roomSprite->setPosition({
-//        Constants::CENTER_X,
-//        Constants::CENTER_Y
-//        });
-//}
 
 void HomeScene::CreateHomeRoom()
 {

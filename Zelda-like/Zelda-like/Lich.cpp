@@ -53,17 +53,14 @@ Lich::Lich(
     );
 
     attackCollider.SetSize({
-        //Constants::DEFAULT_COLLIDER_SIZE + 100.f,
         data.attackRange,
         data.attackRange
         });
 
     attackCollider.SetOrigin({
-        //(Constants::DEFAULT_COLLIDER_SIZE + 100.f) / 2,
         data.attackRange / 2,
         data.attackRange
         });
-
 
     SetColor(color);    // 실제 몬스터 색상 타입 저장
 
@@ -92,7 +89,7 @@ Lich::Lich(
         break;
 
     case MonsterColor::NONE_COLOR:
-        sprite->setColor(sf::Color(70, 255, 90));
+        sprite->setColor(sf::Color::White);
         break;
     }
 }
@@ -135,4 +132,11 @@ void Lich::Attack(Creature* target)
         );
 
     AddPendingProjectile(fireball);
+}
+
+void Lich::SetAttakRange(float range)
+{
+    Monster::SetAttakRange(range);
+    attackCollider.SetSize({ range,range });
+    attackCollider.SetOrigin({ range / 2,range });
 }

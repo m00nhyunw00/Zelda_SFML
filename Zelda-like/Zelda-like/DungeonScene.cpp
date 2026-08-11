@@ -125,7 +125,6 @@ void DungeonScene::HandleEvent(const sf::Event& event,sf::RenderWindow& window)
         return;
     }
 
-
     // 몬스터를 모두 잡기 전에는
     // 어느 출입구도 이용 불가
     if (!CanUseEntrance())
@@ -134,7 +133,6 @@ void DungeonScene::HandleEvent(const sf::Event& event,sf::RenderWindow& window)
 
         return;
     }
-
 
     // =========================================================
     // 아래쪽 계단 → HOME
@@ -154,7 +152,6 @@ void DungeonScene::HandleEvent(const sf::Event& event,sf::RenderWindow& window)
         return;
     }
 
-
     // =========================================================
     // 위쪽 계단
     // =========================================================
@@ -166,8 +163,7 @@ void DungeonScene::HandleEvent(const sf::Event& event,sf::RenderWindow& window)
         entityManager->ClearProjectiles();
         entityManager->ClearMonsters();
 
-
-        if (sceneManager->GetDungeonStage() >= 10)
+        if (sceneManager->GetDungeonStage() >= Constants::TOTAL_STAGE)
         {
             sceneManager->RequestSceneChange(BOSS);
         }
