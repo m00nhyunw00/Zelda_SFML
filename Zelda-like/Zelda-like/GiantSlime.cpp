@@ -26,8 +26,7 @@ GiantSlime::GiantSlime(
 
     if (idleTexture == nullptr)
     {
-        cerr << "GiantSlime_Idle texture not found."
-            << endl;
+        cerr << "GiantSlime_Idle texture not found." << endl;
 
         return;
     }
@@ -101,8 +100,8 @@ GiantSlime::GiantSlime(
 
     rangedAttackTimer = 0.f;
 
-    // 6초마다 원거리 패턴 시작
-    rangedAttackInterval = 10.f;
+    // 8초마다 원거리 패턴 시작
+    rangedAttackInterval = 8.f;
 
     // 공격 전 2초간 예고
     rangedAttackWindup = 2.f;
@@ -115,7 +114,7 @@ GiantSlime::GiantSlime(
 
     currentSpikeStep = 0;
 
-    maxSpikeStep = 5;
+    maxSpikeStep = 6;
 
     spikeStepTimer = 0.f;
 

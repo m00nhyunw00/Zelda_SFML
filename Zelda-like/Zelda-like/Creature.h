@@ -33,6 +33,9 @@ protected:
     bool canAttack = true;          // 공격 가능 여부
     bool invincible = false;        // 무적 여부
 
+    float slowTimer = 0.f;
+    float slowRate = 1.f;
+
 private:
     CreatureType category;          // 플레이어인지 몬스터인지 구분
     int maxHp;                      // 최대 체력
@@ -78,6 +81,7 @@ public:
     sf::Color GetSpriteColor() const;
     bool IsInvincible() const { return invincible; }
     bool IsAttackTriggered() const { return attackTriggered; }
+    bool CanMove() { return canMove; }
 
     // Setter --------------------------------------------------
 
@@ -106,5 +110,8 @@ public:
     int TakeDamage(int incomingDamage); // 피격 함수
 
     void MoveForce(const sf::Vector2f& position);
+
+    void ApplySlow(float rate, float duration);
+    void UpdateSlow(float deltaTime);
 };
 

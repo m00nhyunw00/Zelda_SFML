@@ -23,12 +23,16 @@ Game::Game()
 
     resourceManager.LoadFont("MainFont", "Assets/Fonts/windows-bold.ttf");                      // 폰트 업로드
 
+    resourceManager.LoadTexture("TitleScene", "Assets/TitleScene.png");                 // 플레이어 Idle 텍스쳐 업로드
+    resourceManager.LoadTexture("EndingScene", "Assets/EndingScene.png");               // 플레이어 Idle 텍스쳐 업로드
+
     resourceManager.LoadTexture("Player_Idle", "Assets/Characters/Character_Idle.png");             // 플레이어 Idle 텍스쳐 업로드
     resourceManager.LoadTexture("Player_Run", "Assets/Characters/Character_Run.png");               // 플레이어 Run 텍스쳐 업로드
     resourceManager.LoadTexture("Warrior", "Assets/Characters/Character_AttackSword1.png");         // 전사 Attack 텍스쳐 업로드
     resourceManager.LoadTexture("Archer", "Assets/Characters/Character_AttackBow1.png");            // 궁수 Attack 텍스쳐 업로드
     resourceManager.LoadTexture("Staff_3", "Assets/Icons/Staff_3.png");                             // 레벨3 지팡이 텍스쳐 업로드
     resourceManager.LoadTexture("Arrow", "Assets/Effects/Effect_Arrow.png");                        // 화살 텍스쳐 업로드
+    resourceManager.LoadTexture("TitanArrow", "Assets/Effects/Effect_TitanArrow.png");                        // 화살 텍스쳐 업로드
     resourceManager.LoadTexture("Fireball", "Assets/Effects/Effect_Fireball_Loop.png");             // 파이어볼 텍스쳐 업로드
     resourceManager.LoadTexture("LichFireball", "Assets/Effects/Effect_LichFireball_Loop.png");     // 리치 파이어볼 텍스쳐 업로드
     resourceManager.LoadTexture("SlimeSpike", "Assets/Effects/Effect_Slime_Spike.png");             // 자이언트 슬라임 스파이크 텍스쳐 업로드
@@ -60,6 +64,11 @@ Game::Game()
     resourceManager.LoadTexture("Dungeon", "Assets/Tileset_Dungeon.png");                        // 던전 타일셋 텍스쳐 업로드
     resourceManager.LoadTexture("BossRoom", "Assets/Tileset_BossRoom.png");                      // 던전 타일셋 텍스쳐 업로드
 
+    resourceManager.LoadTexture("PowerStrike_Icon", "Assets/Icons/PowerStrike.png");                    // 전사 스킬 아이콘 업로드
+    resourceManager.LoadTexture("FlameBlade_Icon", "Assets/Icons/FlameBlade.png");                      // 전사 궁극기 아이콘 업로드
+    resourceManager.LoadTexture("TripleShot_Icon", "Assets/Icons/TripleShot.png");                      // 궁수 스킬 아이콘 업로드
+    resourceManager.LoadTexture("TitanArrow_Icon", "Assets/Icons/TitanArrow.png");                      // 궁수 궁국기 아이콘 업로드
+
     dataManager.LoadPlayerData("Data/PlayerData.json");
     dataManager.LoadMonsterData("Data/MonsterData.json");
     dataManager.LoadPlayerLevelData("Data/PlayerLevelData.json");
@@ -85,9 +94,16 @@ void Game::Run()
         // 발생한 모든 이벤트 처리
         while (const auto event = window.pollEvent())
         {
-            // 창 닫기 버튼 클릭 시 게임 종료
+            // 창 닫기 버튼 클릭 시 저장 후 게임 종료
             if (event->is<sf::Event::Closed>())
             {
+                Player* player = entityManager.GetPlayer();
+
+                if (player != nullptr)
+                {
+                    SaveManager::GetInstance().SavePlayer(player);
+                }
+
                 window.close();
             }
 

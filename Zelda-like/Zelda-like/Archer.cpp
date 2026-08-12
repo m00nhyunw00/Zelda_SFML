@@ -241,7 +241,7 @@ void Archer::UseUltimate(Creature* target)
         CreateArrow(
             target,
             GetUltimateDamage(),
-            Constants::DEFAULT_SCALE * 7.f,
+            Constants::DEFAULT_SCALE * 0.3f,
             ProjectileAttackType::ULTIMATE
         );
 

@@ -4,6 +4,10 @@
 #include "SceneManager.h"
 #include "InputManager.h"
 #include "SaveManager.h"
+#include "PlayerType.h"
+#include <iostream>
+
+using namespace std;
 
 InGameScene::InGameScene(SceneManager* sceneManager, EntityManager* entityManager) 
     : Scene(sceneManager, entityManager)
@@ -53,20 +57,65 @@ InGameScene::InGameScene(SceneManager* sceneManager, EntityManager* entityManage
 
     if (font != nullptr && player != nullptr)
     {
-        skillCooldownUI =
-            new SkillCooldownUI(
+        ResourceManager& resourceManager = ResourceManager::GetInstance();
+
+        sf::Texture* skillIconTexture = nullptr;
+        sf::Texture* ultimateIconTexture = nullptr;
+
+        switch (player->GetJob())
+        {
+        case PlayerType::WARRIOR:
+            skillIconTexture = resourceManager.GetTexture("PowerStrike_Icon");
+            ultimateIconTexture = resourceManager.GetTexture("FlameBlade_Icon");
+            break;
+
+        case PlayerType::ARCHER:
+            skillIconTexture = resourceManager.GetTexture("TripleShot_Icon");
+            ultimateIconTexture = resourceManager.GetTexture("TitanArrow_Icon");
+            break;
+
+        case PlayerType::MAGE:
+            // 마법사 스킬 구현 후 추가
+            break;
+
+        default:
+            break;
+        }
+
+        // 스킬 아이콘 + 쿨타임 UI
+        if (skillIconTexture != nullptr)
+        {
+            skillCooldownUI = new SkillCooldownUI(
                 *font,
-                { 64.f, 64.f },
-                {Constants::CENTER_X + 200.f, Constants::WINDOW_HEIGHT * 0.925f},
+                *skillIconTexture,
+                { 48.f, 48.f },
+                { Constants::CENTER_X + 200.f, Constants::WINDOW_HEIGHT * 0.925f },
                 player->GetMaxSkillCooldown()
             );
 
+            skillCooldownUI->SetCooldown(player->GetSkillCooldown());
+        }
+
+        // 궁극기 아이콘 UI
+        if (ultimateIconTexture != nullptr)
+        {
+            ultimateUI = new UltimateUI(
+                *ultimateIconTexture,
+                { 48.f, 48.f },
+                { Constants::CENTER_X + 268.f, Constants::WINDOW_HEIGHT * 0.925f },
+                static_cast<float>(player->GetMaxUltimateGauge())
+            );
+
+            ultimateUI->SetGauge(
+                static_cast<float>(player->GetUltimateGauge())
+            );
+        }
+
+        // 기존 Level Text
         levelText = new sf::Text(*font);
 
         levelText->setCharacterSize(22);
-
         levelText->setFillColor(sf::Color::White);
-
         levelText->setString("Lv. " + std::to_string(player->GetLevel()));
 
         const sf::FloatRect bounds = levelText->getLocalBounds();
@@ -95,9 +144,7 @@ InGameScene::InGameScene(SceneManager* sceneManager, EntityManager* entityManage
 
         gameOverOverlay->setPosition({ 0.f, 0.f });
 
-        gameOverOverlay->setFillColor(
-            sf::Color(0, 0, 0, 150)
-        );
+        gameOverOverlay->setFillColor(sf::Color(0, 0, 0, 150));
 
         // ---------------- GAME OVER Text ----------------
 
@@ -142,6 +189,42 @@ InGameScene::InGameScene(SceneManager* sceneManager, EntityManager* entityManage
             Constants::CENTER_Y + 80.f
         }
         );
+
+        // ---------------- Ending UI ----------------
+
+        sf::Texture* endingTexture = ResourceManager::GetInstance().GetTexture("EndingScene");
+
+        if (endingTexture == nullptr)
+        {
+            cerr << "[InGameScene] Ending texture not found" << endl;
+        }
+        else
+        {
+            endingSprite = new sf::Sprite(*endingTexture);
+
+            const sf::Vector2u textureSize = endingTexture->getSize();
+
+            // 화면 전체 크기에 맞춤
+            endingSprite->setScale({
+                static_cast<float>(Constants::WINDOW_WIDTH) / static_cast<float>(textureSize.x),
+                static_cast<float>(Constants::WINDOW_HEIGHT) / static_cast<float>(textureSize.y)
+                });
+
+            endingSprite->setPosition({
+                0.f,
+                0.f
+                });
+
+            // 처음에는 완전 투명
+            endingSprite->setColor(
+                sf::Color(
+                    255,
+                    255,
+                    255,
+                    0
+                )
+            );
+        }
     }
 }
 
@@ -168,11 +251,17 @@ InGameScene::~InGameScene()
     delete skillCooldownUI;
     skillCooldownUI = nullptr;
 
+    delete ultimateUI;
+    ultimateUI = nullptr;
+
     delete playerExpBar;
     playerExpBar = nullptr;
 
     delete levelText;
     levelText = nullptr;
+
+    delete endingSprite;
+    endingSprite = nullptr;
 }
 
 bool InGameScene::CheckGameOver()
@@ -248,6 +337,161 @@ void InGameScene::HandleGameOverEvent(const sf::Event& event, sf::RenderWindow& 
     }
 }
 
+void InGameScene::StartEnding()
+{
+    if (isEnding)
+    {
+        return;
+    }
+
+    isEnding = true;
+
+    endingAlpha = 0.f;
+
+    if (endingSprite != nullptr)
+    {
+        endingSprite->setColor(
+            sf::Color(
+                255,
+                255,
+                255,
+                0
+            )
+        );
+    }
+
+    // 버튼 위치및 텍스트 변경
+
+    if (restartButton != nullptr)
+    {
+        restartButton->SetPosition({
+            Constants::CENTER_X - 170.f,
+            Constants::WINDOW_HEIGHT - 80.f
+            });
+
+        restartButton->SetText("Home");
+    }
+
+    if (exitButton != nullptr)
+    {
+        exitButton->SetPosition({
+            Constants::CENTER_X + 170.f,
+            Constants::WINDOW_HEIGHT - 80.f
+            });
+    }
+}
+
+void InGameScene::UpdateEnding(float deltaTime, sf::RenderWindow& window)
+{
+    if (!isEnding || endingSprite == nullptr)
+    {
+        return;
+    }
+
+    // 0 → 255까지 endingFadeDuration 동안 증가
+    endingAlpha += (255.f / endingFadeDuration) * deltaTime;
+
+    if (endingAlpha > 255.f)
+    {
+        endingAlpha = 255.f;
+    }
+
+    endingSprite->setColor(
+        sf::Color(
+            255,
+            255,
+            255,
+            static_cast<std::uint8_t>(endingAlpha)
+        )
+    );
+
+    if (restartButton != nullptr)
+    {
+        restartButton->Update(deltaTime, window);
+    }
+
+    if (exitButton != nullptr)
+    {
+        exitButton->Update(deltaTime, window);
+    }
+}
+
+void InGameScene::HandleEndingEvent(const sf::Event& event, sf::RenderWindow& window)
+{
+    if (!isEnding)
+    {
+        return;
+    }
+
+    if (restartButton != nullptr)
+    {
+        restartButton->HandleEvent(event, window);
+    }
+
+    if (exitButton != nullptr)
+    {
+        exitButton->HandleEvent(event, window);
+    }
+
+    const bool restartClicked = restartButton != nullptr && restartButton->IsClicked();
+
+    const bool exitClicked = exitButton != nullptr && exitButton->IsClicked();
+
+    // 아무 버튼도 누르지 않았으면 아무 것도 하지 않음
+    if (!restartClicked && !exitClicked)
+    {
+        return;
+    }
+
+    Player* player = entityManager->GetPlayer();
+    SaveManager::GetInstance().SavePlayer(player);
+
+    entityManager->ClearProjectiles();
+    entityManager->ClearMonsters();
+
+    // Restart
+    if (restartClicked)
+    {
+        sceneManager->RequestSceneChange(HOME);
+        return;
+    }
+
+    // Exit
+    if (exitClicked)
+    {
+        window.close();
+        return;
+    }
+}
+
+void InGameScene::RenderEnding(sf::RenderWindow& window)
+{
+    if (!isEnding)
+    {
+        return;
+    }
+
+    if (endingSprite != nullptr)
+    {
+        window.draw(*endingSprite);
+    }
+
+    if (restartButton != nullptr && endingAlpha == 255.f)
+    {
+        restartButton->Render(window);
+    }
+
+    if (exitButton != nullptr && endingAlpha == 255.f)
+    {
+        exitButton->Render(window);
+    }
+}
+
+bool InGameScene::CheckEnding()
+{
+    return isEnding;
+}
+
 void InGameScene::UpdateUI(float deltaTime, sf::RenderWindow& window)
 {
     UpdatePlayerHpBar(deltaTime, window);
@@ -255,6 +499,8 @@ void InGameScene::UpdateUI(float deltaTime, sf::RenderWindow& window)
     UpdateSkillCooldownUI(deltaTime, window);
 
     UpdateUltimateGauge(deltaTime, window);
+
+    UpdateUltimateUI(deltaTime, window);
 
     UpdateExpBar(deltaTime, window);
 
@@ -297,6 +543,27 @@ void InGameScene::UpdateUltimateGauge(float deltaTime,sf::RenderWindow& window)
     playerUltimateBar->SetValue(static_cast<float>(player->GetUltimateGauge()));
 
     playerUltimateBar->Update(deltaTime, window);
+}
+
+void InGameScene::UpdateUltimateUI(float deltaTime, sf::RenderWindow& window)
+{
+    if (ultimateUI == nullptr)
+    {
+        return;
+    }
+
+    Player* player = entityManager->GetPlayer();
+
+    if (player == nullptr)
+    {
+        return;
+    }
+
+    ultimateUI->SetMaxGauge(static_cast<float>(player->GetMaxUltimateGauge()));
+
+    ultimateUI->SetGauge(static_cast<float>(player->GetUltimateGauge()));
+
+    ultimateUI->Update(deltaTime, window);
 }
 
 void InGameScene::UpdateExpBar(float deltaTime, sf::RenderWindow& window)
@@ -356,6 +623,8 @@ void InGameScene::UpdateSkillCooldownUI(float deltaTime, sf::RenderWindow& windo
         return;
     }
 
+    skillCooldownUI->SetMaxCooldown(player->GetMaxSkillCooldown());
+
     skillCooldownUI->SetCooldown(player->GetSkillCooldown());
 
     skillCooldownUI->Update(deltaTime, window);
@@ -389,6 +658,11 @@ void InGameScene::RenderUI(sf::RenderWindow& window)
     if (skillCooldownUI != nullptr)
     {
         skillCooldownUI->Render(window);
+    }
+
+    if (ultimateUI != nullptr)
+    {
+        ultimateUI->Render(window);
     }
 
     if (playerExpBar != nullptr)
@@ -430,12 +704,14 @@ void InGameScene::RenderGameOver(sf::RenderWindow& window)
     }
 }
 
-void InGameScene::UpdateProjectileWallCollisions()
+void InGameScene::UpdateCollisions()
 {
     if (entityManager == nullptr)
     {
         return;
     }
 
+    entityManager->CheckCreatureObjectCollisions(wallColliders);
+    entityManager->CheckCreatureObjectCollisions(objectColliders);
     entityManager->CheckProjectileWallCollisions(wallColliders);
 }

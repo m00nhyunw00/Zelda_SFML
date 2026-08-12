@@ -51,6 +51,8 @@ public:
 
     void SpawnRandomMonsters();
 
+    bool IsValidMonsterSpawnPosition(const sf::Vector2f& position);
+
     MonsterColor GetRandomMonsterColor();
 
     MonsterType GetRandomMonsterType();

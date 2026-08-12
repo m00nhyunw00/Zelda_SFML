@@ -1,6 +1,6 @@
 {
   "WARRIOR": {
-    "moveSpeed": 200.0,
+    "moveSpeed": 180.0,
 
     "skillName": "Power Strike",
     "maxSkillCooldown": 3.0,
@@ -9,7 +9,7 @@
   },
 
   "ARCHER": {
-    "moveSpeed": 250.0,
+    "moveSpeed": 200.0,
 
     "skillName": "Triple Shot",
     "maxSkillCooldown": 4.0,

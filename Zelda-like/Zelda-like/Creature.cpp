@@ -57,6 +57,7 @@ void Creature::Update(float deltaTime, sf::RenderWindow& window)
         return;
     }
 
+    UpdateSlow(deltaTime);
     UpdateLogic(deltaTime);
 }
 
@@ -73,8 +74,8 @@ void Creature::Render(sf::RenderWindow& window)
     }
 
     // 디버깅용
-    bodyCollider.Draw(window);
-    attackCollider.Draw(window);
+    //bodyCollider.Draw(window);
+    //attackCollider.Draw(window);
 }
 
 void Creature::UpdateFacingDirection(const sf::Vector2f& direction)
@@ -130,10 +131,10 @@ void Creature::Move(const sf::Vector2f& direction, float deltaTime)
     if (animationState == CreatureState::ATTACK)
     {
         if (category == CreatureType::PLAYER)
-            position += direction * (moveSpeed / 2) * deltaTime;
+            position += direction * moveSpeed * slowRate * deltaTime;
     }
     else
-        position += direction * moveSpeed * deltaTime;
+        position += direction * moveSpeed * slowRate * deltaTime;
 
     if (sprite != nullptr)
     {
@@ -180,6 +181,30 @@ int Creature::TakeDamage(int incomingDamage)
 
     return beforeHp - hp;	// 몬스터가 죽은 경우를 감안하여 실제로 적용된 논리적 데미지를 반환
 }
+
+void Creature::ApplySlow(float rate, float duration)
+{
+    slowRate = rate;
+    slowTimer = duration;
+}
+
+void Creature::UpdateSlow(float deltaTime)
+{
+    if (slowTimer <= 0.f)
+    {
+        slowRate = 1.f;
+        return;
+    }
+
+    slowTimer -= deltaTime;
+
+    if (slowTimer <= 0.f)
+    {
+        slowTimer = 0.f;
+        slowRate = 1.f;
+    }
+}
+
 
 sf::Color Creature::GetSpriteColor() const
 {

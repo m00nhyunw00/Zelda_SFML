@@ -47,7 +47,9 @@ public:
     void ResetGame();
 
     void CheckCollisions();
-    void CheckProjectileWallCollisions(const std::vector<Collider>& walls);
+    void CheckCreatureObjectCollisions(const std::vector<Collider>& objectColliders);
+    void CheckProjectileWallCollisions(const std::vector<Collider>& wallColliders);
+    void ResolveObjectCollision(Creature* creature, const std::vector<Collider>& colliders);
     void CheckPlayerMonsterCollisions();
     void CheckPlayerMeleeAttackCollisions();
     void CheckMonsterAttackCollisions();

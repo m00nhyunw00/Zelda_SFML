@@ -35,6 +35,8 @@ HomeScene::HomeScene(SceneManager* sceneManager, EntityManager* entityManager)
         }
     )
 {
+    healAmount = static_cast<int>(entityManager->GetPlayer()->GetMaxHp() * 0.005f);
+
     CreateHomeRoom();
 
     BuildRoomColliders();
@@ -101,7 +103,7 @@ void HomeScene::HandleEvent(const sf::Event& event,sf::RenderWindow& window)
     }
 
     // 실제 출입구
-    if ((input.IsFPressed() || input.IsEnterPressed()) && IsPlayerNearEntrance())
+    if (input.IsEnterPressed() && IsPlayerNearEntrance())
     {
         SaveManager::GetInstance().SavePlayer(entityManager->GetPlayer());
 
@@ -111,6 +113,20 @@ void HomeScene::HandleEvent(const sf::Event& event,sf::RenderWindow& window)
         sceneManager->ResetDungeonStage();
 
         sceneManager->RequestSceneChange(DUNGEON);
+
+        return;
+    }
+
+    if (input.IsEscPressed() && IsPlayerNearEntrance())
+    {
+        SaveManager::GetInstance().SavePlayer(entityManager->GetPlayer());
+
+        entityManager->ClearProjectiles();
+        entityManager->ClearMonsters();
+
+        sceneManager->ResetDungeonStage();
+
+        sceneManager->RequestSceneChange(TITLE);
 
         return;
     }
@@ -131,21 +147,23 @@ void HomeScene::Update(float deltaTime, sf::RenderWindow& window)
 
     camera.Follow(player->GetPosition());
 
-    const sf::Vector2f previousPosition = player->GetPosition();
-
     entityManager->Update(deltaTime,window);
 
-    UpdateProjectileWallCollisions();
+    UpdateCollisions();
 
-    for (const Collider& roomCollider : wallColliders)
+    if (player->GetHp() >= player->GetMaxHp())
     {
-        if (player->GetBodyCollider().Collision(roomCollider))
-        {
-            player->MoveForce(previousPosition
-            );
+        healTimer = 0.f;
+        return;
+    }
 
-            break;
-        }
+    healTimer += deltaTime;
+
+    if (healTimer >= healInterval)
+    {
+        player->Heal(healAmount);
+
+        healTimer = 0.f;
     }
 
     UpdateUI(deltaTime,window);
@@ -166,12 +184,17 @@ void HomeScene::Render(sf::RenderWindow& window)
 
 
     // Collider Debug
-    for (const Collider& collider : wallColliders)
-    {
-        collider.Draw(window);
-    }
+    //for (const Collider& collider : wallColliders)
+    //{
+    //    collider.Draw(window);
+    //}
 
-    entranceInteractionCollider.Draw(window);
+    //for (const Collider& collider : objectColliders)
+    //{
+    //    collider.Draw(window);
+    //}
+
+    //entranceInteractionCollider.Draw(window);
 
 
     window.setView(window.getDefaultView());
@@ -230,66 +253,341 @@ void HomeScene::BuildRoomColliders()
 {
     wallColliders.clear();
 
+    objectColliders.clear();
+
     if (roomSprite == nullptr)
     {
         return;
     }
 
-    const sf::FloatRect bounds = roomSprite->getGlobalBounds();
+    const sf::FloatRect bounds =
+        roomSprite->getGlobalBounds();
 
-    const float left = bounds.position.x;
+    const float left =
+        bounds.position.x;
 
-    const float top = bounds.position.y;
+    const float top =
+        bounds.position.y;
 
-    const float width = bounds.size.x;
+    const float width =
+        bounds.size.x;
 
-    const float height = bounds.size.y;
-
-    // 실제 걸어다니는 내부 영역
-    const float playableLeft = left + width * 0.055f;
-
-    const float playableRight = left + width * 0.945f;
-
-    const float playableTop = top + height * 0.19f;
-
-    const float playableBottom = top + height * 0.84f;
-
-    const float playableWidth =playableRight - playableLeft;
-
-    const float playableHeight =playableBottom - playableTop;
-
-    const float colliderThickness = 8.f * Constants::ROOM_SCALE;
-
-    // 위
-    Collider topCollider({ playableWidth,colliderThickness });
-
-    topCollider.UpdatePosition({ playableLeft + playableWidth / 2.f, playableTop });
-
-    wallColliders.push_back(topCollider);
+    const float height =
+        bounds.size.y;
 
 
-    // 아래
-    Collider bottomCollider({ playableWidth,colliderThickness });
+    // =========================================================
+    // 콜라이더 생성용 함수
+    // =========================================================
 
-    bottomCollider.UpdatePosition({ playableLeft + playableWidth / 2.f, playableBottom * 0.96f });
+    auto AddWallCollider =
+        [&](float xRatio,
+            float yRatio,
+            float widthRatio,
+            float heightRatio)
+        {
+            Collider collider({
+                width * widthRatio,
+                height * heightRatio
+                });
 
-    wallColliders.push_back(bottomCollider);
+            collider.UpdatePosition({
+                left + width * xRatio,
+                top + height * yRatio
+                });
+
+            wallColliders.push_back(
+                collider
+            );
+        };
 
 
-    // 왼쪽
-    Collider leftCollider({ colliderThickness,playableHeight });
+    auto AddObjectCollider =
+        [&](float xRatio,
+            float yRatio,
+            float widthRatio,
+            float heightRatio)
+        {
+            Collider collider({
+                width * widthRatio,
+                height * heightRatio
+                });
 
-    leftCollider.UpdatePosition({ playableLeft, playableTop + playableHeight / 2.f });
+            collider.UpdatePosition({
+                left + width * xRatio,
+                top + height * yRatio
+                });
 
-    wallColliders.push_back(leftCollider);
+            objectColliders.push_back(
+                collider
+            );
+        };
 
+    // =========================================================
+    // 방 벽
+    // 캐릭터/몬스터/투사체 모두 충돌
+    // =========================================================
 
-    // 오른쪽
-    Collider rightCollider({ colliderThickness, playableHeight });
+    const float playableLeft =
+        left + width * 0.055f;
 
-    rightCollider.UpdatePosition({ playableRight,playableTop + playableHeight / 2.f });
+    const float playableRight =
+        left + width * 0.945f;
 
-    wallColliders.push_back(rightCollider);
+    const float playableTop =
+        top + height * 0.19f;
+
+    const float playableBottom =
+        top + height * 0.84f;
+
+    const float playableWidth =
+        playableRight - playableLeft;
+
+    const float playableHeight =
+        playableBottom - playableTop;
+
+    const float colliderThickness =
+        8.f * Constants::ROOM_SCALE;
+
+    // 위쪽 벽
+    Collider topCollider({
+        playableWidth,
+        colliderThickness
+        });
+
+    topCollider.UpdatePosition({
+        playableLeft +
+            playableWidth / 2.f,
+
+        playableTop
+        });
+
+    wallColliders.push_back(
+        topCollider
+    );
+
+    // 아래쪽 벽
+    Collider bottomCollider({
+        playableWidth,
+        colliderThickness
+        });
+
+    bottomCollider.UpdatePosition({
+        playableLeft +
+            playableWidth / 2.f,
+
+        playableBottom * 0.96f
+        });
+
+    wallColliders.push_back(
+        bottomCollider
+    );
+
+    // 왼쪽 벽
+    Collider leftCollider({
+        colliderThickness,
+        playableHeight
+        });
+
+    leftCollider.UpdatePosition({
+        playableLeft,
+
+        playableTop +
+            playableHeight / 2.f
+        });
+
+    wallColliders.push_back(
+        leftCollider
+    );
+
+    // 오른쪽 벽
+    Collider rightCollider({
+        colliderThickness,
+        playableHeight
+        });
+
+    rightCollider.UpdatePosition({
+        playableRight,
+
+        playableTop +
+            playableHeight / 2.f
+        });
+
+    wallColliders.push_back(
+        rightCollider
+    );
+
+    // =========================================================
+    // 벽에 붙어 있는 큰 오브젝트
+    //
+    // 캐릭터/몬스터 통과 X
+    // 투사체 통과 X
+    // =========================================================
+
+    // 왼쪽 책장
+    AddWallCollider(
+        0.115f,
+        0.215f,
+        0.110f,
+        0.120f
+    );
+
+    // 벽난로
+    AddWallCollider(
+        0.240f,
+        0.205f,
+        0.145f,
+        0.120f
+    );
+
+    // =========================================================
+    // 일반 가구
+    //
+    // 캐릭터/몬스터 통과 X
+    // 투사체 통과 O
+    // =========================================================
+
+    // 위쪽 중앙 책상
+    AddObjectCollider(
+        0.495f,
+        0.245f,
+        0.130f,
+        0.100f
+    );
+
+    // 중앙 책상 오른쪽 상자
+    AddObjectCollider(
+        0.605f,
+        0.245f,
+        0.085f,
+        0.100f
+    );
+
+    // 침대
+    AddObjectCollider(
+        0.800f,
+        0.290f,
+        0.130f,
+        0.180f
+    );
+
+    // 침대 오른쪽 선반
+    AddObjectCollider(
+        0.905f,
+        0.255f,
+        0.080f,
+        0.150f
+    );
+
+    // ---------------- 식탁 ----------------
+
+    AddObjectCollider(
+        0.265f,
+        0.500f,
+        0.215f,
+        0.130f
+    );
+
+    // ---------------- 식탁 의자 ----------------
+
+    // 왼쪽 위 의자
+    AddObjectCollider(
+        0.205f,
+        0.385f,
+        0.055f,
+        0.065f
+    );
+
+    // 오른쪽 위 의자
+    AddObjectCollider(
+        0.315f,
+        0.385f,
+        0.055f,
+        0.065f
+    );
+
+    // 왼쪽 아래 의자
+    AddObjectCollider(
+        0.210f,
+        0.605f,
+        0.055f,
+        0.020f
+    );
+
+    // 오른쪽 아래 의자
+    AddObjectCollider(
+        0.315f,
+        0.605f,
+        0.055f,
+        0.020f
+    );
+
+    // =========================================================
+    // 왼쪽 아래 오브젝트
+    // =========================================================
+
+    // 위쪽 통
+    AddObjectCollider(
+        0.075f,
+        0.680f,
+        0.075f,
+        0.080f
+    );
+
+    // 아래쪽 통
+    AddObjectCollider(
+        0.085f,
+        0.770f,
+        0.075f,
+        0.085f
+    );
+
+    // 항아리
+    AddObjectCollider(
+        0.145f,
+        0.720f,
+        0.060f,
+        0.085f
+    );
+
+    // 왼쪽 아래 상자
+    AddObjectCollider(
+        0.225f,
+        0.770f,
+        0.080f,
+        0.080f
+    );
+
+    // =========================================================
+    // 아래쪽 화분
+    // =========================================================
+
+    // 왼쪽 화분
+    AddObjectCollider(
+        0.640f,
+        0.760f,
+        0.075f,
+        0.080f
+    );
+
+    // 오른쪽 화분
+    AddObjectCollider(
+        0.715f,
+        0.760f,
+        0.075f,
+        0.080f
+    );
+
+    // =========================================================
+    // 오른쪽 아래 상자
+    // =========================================================
+
+    AddObjectCollider(
+        0.900f,
+        0.730f,
+        0.080f,
+        0.180f
+    );
 }
 
 void HomeScene::SetupEntrance()

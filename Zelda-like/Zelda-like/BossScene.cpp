@@ -1,5 +1,4 @@
 #include "BossScene.h"
-#include "EndingScene.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "InputManager.h"
@@ -222,6 +221,13 @@ void BossScene::Update(float deltaTime, sf::RenderWindow& window)
 
     CheckGameOver();
 
+    if (CheckEnding())
+    {
+        UpdateEnding(deltaTime, window);
+
+        return;
+    }
+
     if (player == nullptr || isGameOver)
     {
         UpdateGameOver(deltaTime, window);
@@ -229,8 +235,6 @@ void BossScene::Update(float deltaTime, sf::RenderWindow& window)
     }
 
     camera.Follow(player->GetPosition());
-
-    const sf::Vector2f previousPosition = player->GetPosition();
 
     CheckBossPhase();
 
@@ -241,33 +245,27 @@ void BossScene::Update(float deltaTime, sf::RenderWindow& window)
     {
         SaveManager::GetInstance().SavePlayer(entityManager->GetPlayer());
 
-        entityManager->ClearProjectiles();
-        entityManager->ClearMonsters();
-
-        sceneManager->RequestSceneChange(ENDING);
+        StartEnding();
 
         return;
     }
 
     CheckBossPhase();
 
-    UpdateProjectileWallCollisions();
-
-    for (const Collider& roomCollider : wallColliders)
-    {
-        if (player->GetBodyCollider().Collision(roomCollider))
-        {
-            player->MoveForce(previousPosition);
-
-            break;
-        }
-    }
+    UpdateCollisions();
 
     UpdateUI(deltaTime, window);
 }
 
 void BossScene::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
 {
+    if (isEnding)
+    {
+        HandleEndingEvent(event, window);
+
+        return;
+    }
+
     if (isGameOver)
     {
         HandleGameOverEvent(event, window);
@@ -306,16 +304,25 @@ void BossScene::Render(sf::RenderWindow& window)
 
     // Debug Collider ----------------------------
 
-    for (const Collider& collider : wallColliders)
-    {
-        collider.Draw(window);
-    }
+    //for (const Collider& collider : wallColliders)
+    //{
+    //    collider.Draw(window);
+    //}
+
+    //for (const Collider& collider : objectColliders)
+    //{
+    //    collider.Draw(window);
+    //}
 
     window.setView(window.getDefaultView());
 
     if (isGameOver)
     {
         RenderGameOver(window);
+    }
+    else if (isEnding)
+    {
+        RenderEnding(window);
     }
     else
     {
@@ -326,72 +333,238 @@ void BossScene::Render(sf::RenderWindow& window)
 void BossScene::BuildRoomColliders()
 {
     wallColliders.clear();
+    objectColliders.clear();
 
     if (roomSprite == nullptr)
     {
         return;
     }
 
-    const sf::FloatRect bounds = roomSprite->getGlobalBounds();
+    const sf::FloatRect bounds =
+        roomSprite->getGlobalBounds();
 
     const float left = bounds.position.x;
-
     const float top = bounds.position.y;
-
     const float width = bounds.size.x;
-
     const float height = bounds.size.y;
 
 
-    // 실제 플레이 영역 ----------------------------
+    // =========================================================
+    // 외벽
+    // =========================================================
 
-    const float playableLeft = left + width * 0.07f;
+    const float playableLeft =
+        left + width * 0.06f;
 
-    const float playableRight = left + width * 0.93f;
+    const float playableRight =
+        left + width * 0.94f;
 
-    const float playableTop = top + height * 0.16f;
+    const float playableTop =
+        top + height * 0.13f;
 
-    const float playableBottom = top + height * 0.865f;
+    const float playableBottom =
+        top + height * 0.850f;
 
+    const float playableWidth =
+        playableRight - playableLeft;
 
-    const float playableWidth = playableRight - playableLeft;
+    const float playableHeight =
+        playableBottom - playableTop;
 
-    const float playableHeight = playableBottom - playableTop;
-
-
-    const float wallThickness = 8.f * Constants::ROOM_SCALE;
-
+    const float wallThickness =
+        8.f * Constants::ROOM_SCALE;
 
     // 위쪽 벽
-    Collider topCollider({ playableWidth,wallThickness });
+    Collider topCollider({
+        playableWidth,
+        wallThickness
+        });
 
-    topCollider.UpdatePosition({ playableLeft + playableWidth / 2.f,playableTop });
+    topCollider.UpdatePosition({
+        playableLeft + playableWidth / 2.f,
+        playableTop
+        });
 
     wallColliders.push_back(topCollider);
 
 
     // 아래쪽 벽
-    Collider bottomCollider({ playableWidth,wallThickness });
+    Collider bottomCollider({
+        playableWidth,
+        wallThickness
+        });
 
-    bottomCollider.UpdatePosition({ playableLeft + playableWidth / 2.f,playableBottom });
+    bottomCollider.UpdatePosition({
+        playableLeft + playableWidth / 2.f,
+        playableBottom
+        });
 
     wallColliders.push_back(bottomCollider);
 
 
     // 왼쪽 벽
-    Collider leftCollider({ wallThickness,playableHeight });
+    Collider leftCollider({
+        wallThickness,
+        playableHeight
+        });
 
-    leftCollider.UpdatePosition({ playableLeft,playableTop + playableHeight / 2.f });
+    leftCollider.UpdatePosition({
+        playableLeft,
+        playableTop + playableHeight / 2.f
+        });
 
     wallColliders.push_back(leftCollider);
 
 
     // 오른쪽 벽
-    Collider rightCollider({ wallThickness,playableHeight });
+    Collider rightCollider({
+        wallThickness,
+        playableHeight
+        });
 
-    rightCollider.UpdatePosition({ playableRight,playableTop + playableHeight / 2.f });
+    rightCollider.UpdatePosition({
+        playableRight,
+        playableTop + playableHeight / 2.f
+        });
 
     wallColliders.push_back(rightCollider);
+
+
+    // =========================================================
+    // Object Collider 생성 함수
+    //
+    // Player / Monster 통과 X
+    // Projectile 통과 O
+    // =========================================================
+
+    auto AddObjectCollider =
+        [&](float x,
+            float y,
+            float sizeX,
+            float sizeY)
+        {
+            Collider collider({
+                width * sizeX,
+                height * sizeY
+                });
+
+            collider.UpdatePosition({
+                left + width * x,
+                top + height * y
+                });
+
+            objectColliders.push_back(collider);
+        };
+
+
+    // =========================================================
+    // Phase 3 Lich 소환 영역
+    //
+    // 실제 Lich 스폰 위치와 동일한 좌표를 중심으로 설정
+    // =========================================================
+
+    // 왼쪽 위 Lich 영역
+    AddObjectCollider(
+        0.13f,
+        0.15f,
+        0.16f,
+        0.17f
+    );
+
+    // 오른쪽 위 Lich 영역
+    AddObjectCollider(
+        0.87f,
+        0.15f,
+        0.16f,
+        0.17f
+    );
+
+    // 왼쪽 아래 Lich 영역
+    AddObjectCollider(
+        0.13f,
+        0.79f,
+        0.16f,
+        0.17f
+    );
+
+    // 오른쪽 아래 Lich 영역
+    AddObjectCollider(
+        0.87f,
+        0.79f,
+        0.16f,
+        0.17f
+    );
+
+    // =========================================================
+    // 횃불
+    // =========================================================
+
+    // 위쪽 왼쪽 횃불
+    AddObjectCollider(
+        0.285f,
+        0.145f,
+        0.055f,
+        0.075f
+    );
+
+    // 위쪽 오른쪽 횃불
+    AddObjectCollider(
+        0.705f,
+        0.145f,
+        0.055f,
+        0.075f
+    );
+
+
+    // 왼쪽 위 횃불
+    AddObjectCollider(
+        0.095f,
+        0.330f,
+        0.050f,
+        0.075f
+    );
+
+    // 오른쪽 위 횃불
+    AddObjectCollider(
+        0.905f,
+        0.330f,
+        0.050f,
+        0.075f
+    );
+
+
+    // 왼쪽 아래 횃불
+    AddObjectCollider(
+        0.095f,
+        0.600f,
+        0.050f,
+        0.075f
+    );
+
+    // 오른쪽 아래 횃불
+    AddObjectCollider(
+        0.905f,
+        0.600f,
+        0.050f,
+        0.075f
+    );
+
+
+    // 아래쪽 왼쪽 횃불
+    AddObjectCollider(
+        0.285f,
+        0.795f,
+        0.055f,
+        0.075f
+    );
+
+    // 아래쪽 오른쪽 횃불
+    AddObjectCollider(
+        0.705f,
+        0.795f,
+        0.055f,
+        0.075f
+    );
 }
 
 void BossScene::MovePlayerToSpawn()

@@ -20,6 +20,10 @@ private:
     // 아래쪽 출입구 → Dungeon
     Collider entranceInteractionCollider;
 
+    float healTimer = 0.f;
+    float healInterval = 1.f;
+    int healAmount;
+
 private:
     void CreateHomeRoom();
 

@@ -80,7 +80,7 @@ void Button::Update(float deltaTime, sf::RenderWindow& window)
     if (hovered)
     {
         body.setOutlineColor(
-            sf::Color::Yellow
+            sf::Color::Magenta
         );
     }
     else

@@ -168,9 +168,6 @@
     <ClCompile Include="BossScene.cpp">
       <Filter>소스 파일\Scene\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="EndingScene.cpp">
-      <Filter>소스 파일\Scene\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="Creature.cpp">
       <Filter>소스 파일\Entity\Creature</Filter>
     </ClCompile>
@@ -252,6 +249,9 @@
     <ClCompile Include="SlimeSpike.cpp">
       <Filter>소스 파일\Entity\Projectile\ProjectileType</Filter>
     </ClCompile>
+    <ClCompile Include="UltimateUI.cpp">
+      <Filter>소스 파일\UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -312,9 +312,6 @@
       <Filter>헤더 파일\Scene\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="BossScene.h">
-      <Filter>헤더 파일\Scene\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="EndingScene.h">
       <Filter>헤더 파일\Scene\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="CreatureType.h">
@@ -406,6 +403,9 @@
     </ClInclude>
     <ClInclude Include="SlimeSpike.h">
       <Filter>헤더 파일\Entity\Projectile\ProjectileType</Filter>
+    </ClInclude>
+    <ClInclude Include="UltimateUI.h">
+      <Filter>헤더 파일\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

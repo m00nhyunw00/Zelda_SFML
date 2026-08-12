@@ -2,7 +2,7 @@
   "WARRIOR": {
     "0": {
       "maxExp": 100000,
-      "maxHp": 300000,
+      "maxHp": 30000,
       "defence": 120000,
       "damage": 1000,
       "skillDamage": 2000,

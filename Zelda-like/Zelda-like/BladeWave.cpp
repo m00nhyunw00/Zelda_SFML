@@ -75,3 +75,9 @@ void BladeWave::Update(float deltaTime, sf::RenderWindow& window)
 
     Projectile::Update(deltaTime, window);
 }
+
+void BladeWave::OnWallCollision()
+{
+    // 벽에 닿으면 파괴하지 않고 그 자리에서 정지
+    direction = { 0.f, 0.f };
+}

@@ -6,7 +6,6 @@
 #include "DungeonScene.h"
 #include "BossScene.h"
 //#include "GameOverScene.h"
-#include "EndingScene.h"
 
 SceneManager::SceneManager(EntityManager* entityManager)
     : entityManager(entityManager)
@@ -47,9 +46,6 @@ Scene* SceneManager::CreateScene(SceneType type)
 
     case BOSS:
         return new BossScene(this, entityManager);
-
-    case ENDING:
-        return new EndingScene(this, entityManager);
 
     default:
         return NULL;

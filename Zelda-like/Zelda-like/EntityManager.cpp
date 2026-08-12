@@ -259,6 +259,43 @@ void EntityManager::CheckCollisions()
     CheckProjectileCollisions();
 }
 
+void EntityManager::CheckCreatureObjectCollisions(const std::vector<Collider>& objectColliders)
+{
+    // ---------------- Player ----------------
+
+    if (player != nullptr && player->IsActive())
+    {
+        for (const Collider& collider : objectColliders)
+        {
+            if (player->GetBodyCollider().Collision(collider))
+            {
+                player->MoveForce(player->GetPreviousPosition());
+
+                break;
+            }
+        }
+    }
+
+    // ---------------- Monster ----------------
+
+    for (Monster* monster : monsters)
+    {
+        if (monster == nullptr ||
+            !monster->IsActive())
+        {
+            continue;
+        }
+
+        // 고정된 몬스터는 위치 보정을 하지 않음
+        if (!monster->CanMove())
+        {
+            continue;
+        }
+
+        ResolveObjectCollision(monster, objectColliders);
+    }
+}
+
 void EntityManager::CheckProjectileWallCollisions(const std::vector<Collider>& wallColliders)
 {
     for (Projectile* projectile : projectiles)
@@ -269,16 +306,113 @@ void EntityManager::CheckProjectileWallCollisions(const std::vector<Collider>& w
             continue;
         }
 
+        if (projectile->GetType() == ProjectileType::ARROW && projectile->IsUltimateProjectile())
+        {
+            continue;
+        }
+
         for (const Collider& wallCollider : wallColliders)
         {
             if (projectile->GetCollider().Collision(wallCollider))
             {
                 projectile->OnWallCollision();
-
                 break;
             }
         }
     }
+}
+
+void EntityManager::ResolveObjectCollision(Creature* creature, const std::vector<Collider>& colliders)
+{
+    if (creature == nullptr)
+    {
+        return;
+    }
+
+    const sf::Vector2f currentPosition =creature->GetPosition();
+
+    const sf::Vector2f previousPosition =creature->GetPreviousPosition();
+
+    // 현재 위치에서 실제로 충돌하고 있는지 확인
+    bool collided = false;
+
+    for (const Collider& collider : colliders)
+    {
+        if (creature->GetBodyCollider().Collision(collider))
+        {
+            collided = true;
+            break;
+        }
+    }
+
+    if (!collided)
+    {
+        return;
+    }
+
+    // =========================================================
+    // 1. X 이동만 취소
+    //
+    // Y 방향 이동은 유지해서 벽을 따라 미끄러질 수 있게 함
+    // =========================================================
+
+    creature->MoveForce({
+        previousPosition.x,
+        currentPosition.y
+        });
+
+    bool stillColliding = false;
+
+    for (const Collider& collider : colliders)
+    {
+        if (creature->GetBodyCollider().Collision(collider))
+        {
+            stillColliding = true;
+            break;
+        }
+    }
+
+    if (!stillColliding)
+    {
+        return;
+    }
+
+
+    // =========================================================
+    // 2. Y 이동만 취소
+    //
+    // X 방향 이동은 유지
+    // =========================================================
+
+    creature->MoveForce({
+        currentPosition.x,
+        previousPosition.y
+        });
+
+    stillColliding = false;
+
+    for (const Collider& collider : colliders)
+    {
+        if (creature->GetBodyCollider().Collision(collider))
+        {
+            stillColliding = true;
+            break;
+        }
+    }
+
+    if (!stillColliding)
+    {
+        return;
+    }
+
+
+    // =========================================================
+    // 3. X/Y 둘 다 불가능한 경우에만 완전히 이전 위치로 복귀
+    // =========================================================
+
+    creature->MoveForce(
+        previousPosition
+    );
 }
 
 void EntityManager::CheckPlayerMonsterCollisions()
@@ -547,9 +681,7 @@ void EntityManager::CheckProjectileCollisions()
         {
             for (Monster* monster : monsters)
             {
-                if (projectile == nullptr ||
-                    !projectile->IsActive() ||
-                    !projectile->IsCollisionEnabled())
+                if (projectile == nullptr || !projectile->IsActive() || !projectile->IsCollisionEnabled())
                 {
                     continue;
                 }
@@ -557,6 +689,11 @@ void EntityManager::CheckProjectileCollisions()
                 if (projectile->GetCollider().Collision(monster->GetBodyCollider()))
                 {
                     int realDamage = monster->TakeDamage(projectile->GetDamage());
+
+                    if (projectile->IsSkillProjectile())
+                    {
+                        monster->ApplySlow(Constants::TRIPE_SHOT_SLOWRATE, Constants::TRIPE_SHOT_SLOWDURATION);
+                    }
 
                     Player* ownerPlayer = dynamic_cast<Player*>(projectile->GetOwner());
 

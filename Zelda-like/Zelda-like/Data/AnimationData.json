@@ -216,7 +216,7 @@
   },
 
   "TITAN_ARROW": {
-    "textureKey": "Arrow",
+    "textureKey": "TitanArrow",
     "totalRows": 1,
     "totalColumns": 4,
     "frameCount": 4,

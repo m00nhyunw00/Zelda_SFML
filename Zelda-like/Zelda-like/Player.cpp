@@ -328,7 +328,17 @@ void Player::IncreaseStats(int maxHpAmount, int defenceAmount, int damageAmount,
 
 void Player::Heal(int amount)
 {
+    if (amount <= 0)
+    {
+        return;
+    }
 
+    SetHp(GetHp() + amount);
+
+    if (GetHp() > GetMaxHp())
+    {
+        SetHp(GetMaxHp());
+    }
 }
 
 void Player::PrintPlayerInfo()

@@ -145,7 +145,6 @@
     <ClCompile Include="AnimationState.h" />
     <ClCompile Include="DataManager.cpp" />
     <ClCompile Include="DungeonScene.cpp" />
-    <ClCompile Include="EndingScene.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -176,6 +175,7 @@
     <ClCompile Include="SpriteUtil.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UltimateUI.cpp" />
     <ClCompile Include="Warrior.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -194,7 +194,6 @@
     <ClInclude Include="CreatureType.h" />
     <ClInclude Include="DataManager.h" />
     <ClInclude Include="DungeonScene.h" />
-    <ClInclude Include="EndingScene.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="Game.h" />
@@ -229,6 +228,7 @@
     <ClInclude Include="SpriteUtil.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="UI.h" />
+    <ClInclude Include="UltimateUI.h" />
     <ClInclude Include="Warrior.h" />
   </ItemGroup>
   <ItemGroup>

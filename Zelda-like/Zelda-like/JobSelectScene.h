@@ -30,6 +30,12 @@ private:
 
     sf::Text* guideText;
 
+    sf::Text* noticeText = nullptr;
+
+    bool showNotice = false;
+    float noticeTimer = 0.f;
+    float noticeDuration = 2.5f;
+
 public:
     JobSelectScene(SceneManager* sceneManager, EntityManager* entityManager);
     ~JobSelectScene();

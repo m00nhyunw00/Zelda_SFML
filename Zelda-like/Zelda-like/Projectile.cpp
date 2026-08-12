@@ -78,7 +78,7 @@ void Projectile::Render(sf::RenderWindow& window)
     }
 
     // µð¹ö±ë¿ë
-    collider.Draw(window);
+    //collider.Draw(window);
 }
 
 void Projectile::SetColor(const sf::Color& color)

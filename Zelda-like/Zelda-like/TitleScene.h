@@ -1,23 +1,28 @@
 #pragma once
 
 #include "Scene.h"
-#include "SceneManager.h"
-#include "EntityManager.h"
+#include "SFML/Graphics.hpp"
 
 class TitleScene : public Scene
 {
 private:
-    sf::Text* titleText;                // 게임 제목
-    sf::Text* startText;                // 시작 버튼 안에 표시할 텍스트
-    sf::RectangleShape startButton;     // 게임 시작 버튼
+    sf::Sprite* backgroundSprite = nullptr;
+
+    sf::Text* titleText;
+    sf::Text* startText;
+
+    sf::RectangleShape startButton;
+
+    void CheckSaveDate();
 
 public:
     TitleScene(SceneManager* sceneManager, EntityManager* entityManager);
-    ~TitleScene() override;
+
+    ~TitleScene();
 
     void HandleEvent(const sf::Event& event, sf::RenderWindow& window) override;
-    void Update(float deltaTime, sf::RenderWindow& window) override;
-    void Render(sf::RenderWindow& window) override;
 
-    void CheckSaveDate();
+    void Update(float deltaTime, sf::RenderWindow& window) override;
+
+    void Render(sf::RenderWindow& window) override;
 };

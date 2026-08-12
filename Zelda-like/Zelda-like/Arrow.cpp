@@ -58,26 +58,74 @@ Arrow::Arrow(
     case ProjectileAttackType::ULTIMATE:
         ultimateProjectile = true;
         animation.Play("TITAN_ARROW");
-        SetColor(sf::Color::Red);
+        SetColor(sf::Color::Yellow);
         break;
     case ProjectileAttackType::SKILL:
         skillProjectile = true;
         animation.Play("ARROW");
+        SetColor(sf::Color(210, 70, 255));
         break;
     case ProjectileAttackType::NORMAL:
         animation.Play("ARROW");
         break;
     }
 
-    collider.SetSize({
-        4.f * scale,
-        4.f * scale
-        });
+    if (type == ProjectileAttackType::ULTIMATE)
+    {
+        // Titan Arrowt
+        collider.SetSize({
+            110.f * scale,
+            110.f * scale
+            });
 
-    collider.SetOrigin({
-        0.5f * scale,
-        2.f * scale
-        });
+        collider.SetOrigin({
+            -45.f * scale,
+            55.f * scale
+            });
+    }
+    else
+    {
+        // 일반 화살 / Triple Shot
+        collider.SetSize({
+            4.f * scale,
+            4.f * scale
+            });
+
+        collider.SetOrigin({
+            0.5f * scale,
+            2.f * scale
+            });
+    }
+
+    //if (type == ProjectileAttackType::ULTIMATE)
+    //{
+    //    // Titan Arrow는 일반 화살보다 훨씬 큰 충돌 범위 사용
+    //    collider.SetSize({
+    //        90.f * scale,
+    //        90.f * scale
+    //        });
+
+    //    collider.SetOrigin({
+    //        scale,
+    //        45.f * scale
+    //        });
+    //}
+    //else
+    //{
+    //    // 일반 화살 / Triple Shot
+    //    collider.SetSize({
+    //        4.f * scale,
+    //        4.f * scale
+    //        });
+
+    //    collider.SetOrigin({
+    //        0.5f * scale,
+    //        2.f * scale
+    //        });
+    //}
+
+    collider.SetRotation(angle);
+    collider.UpdatePosition(position);
 
     collider.SetRotation(angle);
     collider.UpdatePosition(position);

@@ -24,4 +24,7 @@ namespace Constants
     const float ROOM_SCALE = 0.7f;
 
     const int TOTAL_STAGE = 5;
+
+    const int TRIPE_SHOT_SLOWRATE = 0.5;
+    const int TRIPE_SHOT_SLOWDURATION = 1.0;
 }

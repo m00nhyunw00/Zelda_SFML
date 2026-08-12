@@ -85,6 +85,27 @@ JobSelectScene::JobSelectScene(SceneManager* sceneManager, EntityManager* entity
     magePanel.setFillColor(sf::Color(80, 80, 80));
     magePanel.setOutlineThickness(3.f);
 
+    noticeText = new sf::Text(*font);
+
+    noticeText->setString(
+        "Mage is coming soon. Please choose another job."
+    );
+
+    noticeText->setCharacterSize(26);
+    noticeText->setFillColor(sf::Color::White);
+
+    const sf::FloatRect bounds = noticeText->getLocalBounds();
+
+    noticeText->setOrigin({
+        bounds.position.x + bounds.size.x / 2.f,
+        bounds.position.y + bounds.size.y / 2.f
+        });
+
+    noticeText->setPosition({
+        Constants::CENTER_X,
+        140.f
+        });
+
     InitializeJobSprites();
 }
 
@@ -102,6 +123,8 @@ JobSelectScene::~JobSelectScene()
     delete mageSprite;
     delete mageStaffSprite;
 
+    delete noticeText;
+
     titleText = nullptr;
     guideText = nullptr;
 
@@ -113,6 +136,8 @@ JobSelectScene::~JobSelectScene()
     archerSprite = nullptr;
     mageSprite = nullptr;
     mageStaffSprite = nullptr;
+
+    noticeText = nullptr;
 }
 
 void JobSelectScene::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
@@ -125,14 +150,23 @@ void JobSelectScene::HandleEvent(const sf::Event& event, sf::RenderWindow& windo
     if (input.IsNum1Pressed())
     {
         selectedJob = PlayerType::WARRIOR;;
+
+        showNotice = false;
+        noticeTimer = 0.f;
     }
     else if (input.IsNum2Pressed())
     {
         selectedJob = PlayerType::ARCHER;;
+
+        showNotice = false;
+        noticeTimer = 0.f;
     }
     else if (input.IsNum3Pressed())
     {
         selectedJob = PlayerType::MAGE;;
+
+        showNotice = true;
+        noticeTimer = noticeDuration;
     }
 
     // 마우스로 직업 선택
@@ -143,18 +177,27 @@ void JobSelectScene::HandleEvent(const sf::Event& event, sf::RenderWindow& windo
         if (warriorPanel.getGlobalBounds().contains(mousePosition))
         {
             selectedJob = PlayerType::WARRIOR;
+
+            showNotice = false;
+            noticeTimer = 0.f;
         }
         else if (archerPanel.getGlobalBounds().contains(mousePosition))
         {
             selectedJob = PlayerType::ARCHER;;
+
+            showNotice = false;
+            noticeTimer = 0.f;
         }
         else if (magePanel.getGlobalBounds().contains(mousePosition))
         {
             selectedJob = PlayerType::MAGE;
+
+            showNotice = true;
+            noticeTimer = noticeDuration;
         }
     }
 
-    if (selectedJob != PlayerType::NONE_PLAYER)
+    if ((selectedJob != PlayerType::NONE_PLAYER) && (selectedJob != PlayerType::MAGE))
     {
         PlayerSaveData saveData;
 
@@ -300,6 +343,17 @@ void JobSelectScene::Update(float deltaTime, sf::RenderWindow& window)
     {
         magePanel.setOutlineColor(sf::Color::Yellow);
     }
+
+    if (showNotice)
+    {
+        noticeTimer -= deltaTime;
+
+        if (noticeTimer <= 0.f)
+        {
+            noticeTimer = 0.f;
+            showNotice = false;
+        }
+    }
 }
 
 void JobSelectScene::Render(sf::RenderWindow& window)
@@ -356,4 +410,9 @@ void JobSelectScene::Render(sf::RenderWindow& window)
     {
         window.draw(*mageText);
     }
+    if (showNotice && noticeText != nullptr)
+    {
+        window.draw(*noticeText);
+    }
+
 }
