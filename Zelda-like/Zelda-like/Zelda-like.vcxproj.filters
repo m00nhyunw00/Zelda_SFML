@@ -430,5 +430,6 @@
     <None Include="Save\SaveData.json">
       <Filter>리소스 파일</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

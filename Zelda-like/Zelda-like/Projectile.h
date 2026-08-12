@@ -4,6 +4,7 @@
 #include "Creature.h"
 #include "ProjectileType.h"
 #include "Collider.h"
+#include <unordered_set>
 
 class Projectile : public Entity
 {
@@ -34,6 +35,9 @@ protected:
     bool skillProjectile = false;
     bool ultimateProjectile = false;
 
+    std::unordered_set<Creature*> hitTargets;
+
+
 public:
     Projectile(
         ProjectileType type,
@@ -45,11 +49,16 @@ public:
         int damage
     );
 
+    virtual ~Projectile() = default;
+
     virtual void OnWallCollision() { SetActive(false); }
 
     void Update(float deltaTime, sf::RenderWindow& window) override;
 
     void Render(sf::RenderWindow& window) override;
+
+    bool HasHitTarget(Creature* target) const;
+    void AddHitTarget(Creature* target);
 
     ProjectileType GetType() const { return type; }
     Creature* GetOwner() { return owner; }

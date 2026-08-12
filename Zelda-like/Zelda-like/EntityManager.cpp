@@ -686,18 +686,21 @@ void EntityManager::CheckProjectileCollisions()
                     continue;
                 }
 
+                if (projectile->HasHitTarget(monster))
+                {
+                    continue;
+                }
+
                 if (projectile->GetCollider().Collision(monster->GetBodyCollider()))
                 {
-                    int realDamage = monster->TakeDamage(projectile->GetDamage());
+                    // 같은 투사체가 같은 몬스터를 여러 번 공격하지 않도록 기록
+                    projectile->AddHitTarget(monster);
 
-                    if (projectile->IsSkillProjectile())
-                    {
-                        monster->ApplySlow(Constants::TRIPE_SHOT_SLOWRATE, Constants::TRIPE_SHOT_SLOWDURATION);
-                    }
+                    int realDamage = monster->TakeDamage(projectile->GetDamage());
 
                     Player* ownerPlayer = dynamic_cast<Player*>(projectile->GetOwner());
 
-                    if (ownerPlayer != nullptr && !projectile->IsUltimateProjectile())  // 궁극기로 입힌 피해량은 궁극기 게이지를 충전해주지 않음
+                    if (ownerPlayer != nullptr && !projectile->IsUltimateProjectile())
                     {
                         if (projectile->IsSkillProjectile())
                         {
@@ -771,23 +774,81 @@ void EntityManager::CheckProjectileCollisions()
     }
 }
 
+//void EntityManager::RemoveInactiveEntities()
+//{
+//    // Monster 제거
+//    for (auto iterator = monsters.begin();
+//        iterator != monsters.end();)
+//    {
+//        Monster* monster = *iterator;
+//
+//        if(monster == nullptr || !monster->IsActive())
+//        {
+//            if (monster != nullptr && player != nullptr && player->IsActive())
+//            {
+//                player->AddExp(monster->GetExp());
+//            }
+//
+//            delete monster;
+//
+//            iterator = monsters.erase(iterator);
+//        }
+//        else
+//        {
+//            ++iterator;
+//        }
+//    }
+//
+//    // Projectile 제거
+//    for (auto iterator = projectiles.begin();
+//        iterator != projectiles.end();)
+//    {
+//        Projectile* projectile =
+//            *iterator;
+//
+//        if (projectile == nullptr ||
+//            !projectile->IsActive())
+//        {
+//            delete projectile;
+//
+//            iterator =
+//                projectiles.erase(iterator);
+//        }
+//        else
+//        {
+//            ++iterator;
+//        }
+//    }
+//}
+
 void EntityManager::RemoveInactiveEntities()
 {
     // Monster 제거
-    for (auto iterator = monsters.begin();
-        iterator != monsters.end();)
+    for (auto iterator = monsters.begin(); iterator != monsters.end();)
     {
         Monster* monster = *iterator;
 
-        if(monster == nullptr || !monster->IsActive())
+        if (monster == nullptr || !monster->IsActive())
         {
-            if (monster != nullptr && player != nullptr && player->IsActive())
+            if (monster != nullptr)
             {
-                player->AddExp(monster->GetExp());
+                // 삭제될 몬스터가 발사한 투사체 먼저 비활성화
+                for (Projectile* projectile : projectiles)
+                {
+                    if (projectile != nullptr &&
+                        projectile->GetOwner() == monster)
+                    {
+                        projectile->SetActive(false);
+                    }
+                }
+
+                if (player != nullptr && player->IsActive())
+                {
+                    player->AddExp(monster->GetExp());
+                }
             }
 
             delete monster;
-
             iterator = monsters.erase(iterator);
         }
         else
@@ -797,19 +858,14 @@ void EntityManager::RemoveInactiveEntities()
     }
 
     // Projectile 제거
-    for (auto iterator = projectiles.begin();
-        iterator != projectiles.end();)
+    for (auto iterator = projectiles.begin(); iterator != projectiles.end();)
     {
-        Projectile* projectile =
-            *iterator;
+        Projectile* projectile = *iterator;
 
-        if (projectile == nullptr ||
-            !projectile->IsActive())
+        if (projectile == nullptr || !projectile->IsActive())
         {
             delete projectile;
-
-            iterator =
-                projectiles.erase(iterator);
+            iterator = projectiles.erase(iterator);
         }
         else
         {

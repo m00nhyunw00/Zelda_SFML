@@ -88,3 +88,18 @@ void Projectile::SetColor(const sf::Color& color)
         sprite->setColor(color);
     }
 }
+
+bool Projectile::HasHitTarget(Creature* target) const
+{
+    return hitTargets.find(target) != hitTargets.end();
+}
+
+void Projectile::AddHitTarget(Creature* target)
+{
+    if (target == nullptr)
+    {
+        return;
+    }
+
+    hitTargets.insert(target);
+}

@@ -103,41 +103,34 @@ void BossScene::SpawnPhase1Monsters()
         return;
     }
 
-    const sf::FloatRect bounds =
-        roomSprite->getGlobalBounds();
+    const sf::FloatRect bounds = roomSprite->getGlobalBounds();
 
     const float left = bounds.position.x;
     const float top = bounds.position.y;
     const float width = bounds.size.x;
     const float height = bounds.size.y;
 
-    // 가운데를 제외한 8방향 위치
-    const sf::Vector2f positions[8] =
+    // 보스 주변 4방향에 한 마리씩 배치
+    const sf::Vector2f positions[4] =
     {
-        { left + width * 0.25f, top + height * 0.30f }, // 좌상
-        { left + width * 0.50f, top + height * 0.30f }, // 상
-        { left + width * 0.75f, top + height * 0.30f }, // 우상
-
-        { left + width * 0.25f, top + height * 0.50f }, // 좌
-        { left + width * 0.75f, top + height * 0.50f }, // 우
-
-        { left + width * 0.25f, top + height * 0.70f }, // 좌하
-        { left + width * 0.50f, top + height * 0.70f }, // 하
-        { left + width * 0.75f, top + height * 0.70f }  // 우하
+        { left + width * 0.25f, top + height * 0.35f },
+        { left + width * 0.75f, top + height * 0.35f },
+        { left + width * 0.25f, top + height * 0.65f },
+        { left + width * 0.75f, top + height * 0.65f }
     };
 
     const MonsterType types[4] =
     {
         MonsterType::SLIME,
-        MonsterType::SKELETON,
         MonsterType::CACTO,
+        MonsterType::SKELETON,
         MonsterType::LICH
     };
 
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < 4; i++)
     {
         entityManager->SpawnMonster(
-            types[i % 4],
+            types[i],
             MonsterColor::NONE_COLOR,
             positions[i]
         );

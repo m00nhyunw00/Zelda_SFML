@@ -34,8 +34,6 @@ Archer::Archer(
 
     tripleShotInterval = 0.12f;
 
-    tripleShotTarget = nullptr;
-
     sf::Texture* idleTexture = ResourceManager::GetInstance().GetTexture("Player_Idle");
 
     animation.SetOwnerType("ARCHER");
@@ -80,7 +78,14 @@ void Archer::UpdateJobLogic(float deltaTime)
 
     tripleShotTimer = 0.f;
 
-    AddPendingProjectile(CreateArrow(tripleShotTarget,GetSkillDamage(), Constants::DEFAULT_SCALE, ProjectileAttackType::SKILL));
+    AddPendingProjectile(
+        CreateArrowByDirection(
+            tripleShotDirection,
+            GetSkillDamage(),
+            Constants::DEFAULT_SCALE,
+            ProjectileAttackType::SKILL
+        )
+    );
 
     tripleShotCount++;
 
@@ -89,8 +94,6 @@ void Archer::UpdateJobLogic(float deltaTime)
         isTripleShot = false;
 
         tripleShotCount = 0;
-
-        tripleShotTarget = nullptr;
     }
 
     animationState = CreatureState::IDLE;
@@ -191,6 +194,22 @@ Projectile* Archer::CreateArrow(Creature* target, int damage, float scale, Proje
     );
 }
 
+Projectile* Archer::CreateArrowByDirection(
+    const sf::Vector2f& direction,
+    int damage,
+    float scale,
+    ProjectileAttackType type)
+{
+    return new Arrow(
+        this,
+        GetPosition(),
+        direction,
+        damage,
+        scale,
+        type
+    );
+}
+
 void Archer::Attack(
     Creature* target)
 {
@@ -212,17 +231,51 @@ void Archer::UseSkill(Creature* target)
     }
 
     isTripleShot = true;
-
     tripleShotCount = 1;
     tripleShotTimer = 0.f;
 
-    tripleShotTarget = target;
+    if (target != nullptr)
+    {
+        tripleShotDirection = target->GetPosition() - GetPosition();
+
+        const float length = std::sqrt(
+            tripleShotDirection.x * tripleShotDirection.x +
+            tripleShotDirection.y * tripleShotDirection.y
+        );
+
+        if (length > 0.f)
+        {
+            tripleShotDirection.x /= length;
+            tripleShotDirection.y /= length;
+        }
+    }
+    else
+    {
+        switch (facingDirection)
+        {
+        case Direction::UP:
+            tripleShotDirection = { 0.f, -1.f };
+            break;
+
+        case Direction::DOWN:
+            tripleShotDirection = { 0.f, 1.f };
+            break;
+
+        case Direction::LEFT:
+            tripleShotDirection = { -1.f, 0.f };
+            break;
+
+        case Direction::RIGHT:
+            tripleShotDirection = { 1.f, 0.f };
+            break;
+        }
+    }
 
     AddPendingProjectile(
-        CreateArrow(
-            tripleShotTarget,
+        CreateArrowByDirection(
+            tripleShotDirection,
             GetSkillDamage(),
-            Constants::DEFAULT_SCALE, 
+            Constants::DEFAULT_SCALE,
             ProjectileAttackType::SKILL
         )
     );

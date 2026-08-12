@@ -232,6 +232,7 @@
     <ClInclude Include="Warrior.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="Data\MonsterData.json" />
     <None Include="Data\MonsterLevelData.json" />
     <None Include="Data\MonsterSpawnData.json" />

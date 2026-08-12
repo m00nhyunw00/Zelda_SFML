@@ -40,13 +40,13 @@
     "exp": 50
   },
   "GIANT_SLIME": {
-    "maxHp": 7000,
-    "defence": 40,
-    "damage": 150,
-    "moveSpeed": 65.0,
+    "maxHp": 5500,
+    "defence": 30,
+    "damage": 100,
+    "moveSpeed": 60.0,
     "detectionRange": 1000.0,
     "attackRange": 145.0,
-    "attackCooldown": 1.5,
+    "attackCooldown": 1.8,
     "exp": 5000
   }
 }

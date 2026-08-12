@@ -6,6 +6,7 @@
 #include "PlayerType.h"
 #include "SpriteUtil.h"
 #include "Constants.h"
+#include "SaveManager.h"    
 
 #include <iostream>
 
@@ -219,6 +220,8 @@ void JobSelectScene::HandleEvent(const sf::Event& event, sf::RenderWindow& windo
         entityManager->CreatePlayer("Player", saveData, { Constants::CENTER_X, Constants::CENTER_Y });
 
         entityManager->PrintPlayerInfo();
+
+        SaveManager::GetInstance().SavePlayer(entityManager->GetPlayer());
 
         sceneManager->RequestSceneChange(HOME);
         return;

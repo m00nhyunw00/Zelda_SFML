@@ -13,7 +13,9 @@ private:
     float tripleShotTimer;
     float tripleShotInterval;
 
-    Creature* tripleShotTarget;
+    //Creature* tripleShotTarget;
+
+    sf::Vector2f tripleShotDirection;
 
 public:
     Archer(
@@ -25,6 +27,13 @@ public:
     );
 
     Projectile* CreateArrow(Creature* target, int damage, float scale, ProjectileAttackType type);
+
+    Projectile* CreateArrowByDirection(
+        const sf::Vector2f& direction,
+        int damage,
+        float scale,
+        ProjectileAttackType type
+    );
 
     void UpdateJobLogic(float deltaTime) override;
     bool HandleJobAnimation(float deltaTime) override;
