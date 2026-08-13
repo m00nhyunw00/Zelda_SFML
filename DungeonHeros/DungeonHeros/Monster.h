@@ -32,6 +32,9 @@ private:
     float maxAttackCooldown;
     float attackCooldown;
 
+    float slowTimer = 0.f;
+    float slowRatio = 1.f;
+
 protected:
     GaugeBar* hpBar;
     bool showHpBar = true;
@@ -76,4 +79,6 @@ public:
     void SetTarget(Player* target) { this->target = target; }
     void SetShowHpBar(bool show) { showHpBar = show; }
     virtual void SetAttakRange(float range);
+    void ApplySlow(float ratio, float duration);
+
 };

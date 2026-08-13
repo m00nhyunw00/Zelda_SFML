@@ -75,6 +75,7 @@ void SceneManager::ApplySceneChange()
 
 void SceneManager::HandleEvent(const sf::Event& event, sf::RenderWindow& window)
 {
+
     if (currentScene != NULL)
     {
         currentScene->HandleEvent(event, window);

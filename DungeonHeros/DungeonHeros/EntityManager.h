@@ -36,9 +36,9 @@ public:
     void SetPlayer(Player* player) { this->player = player; }
     Player* GetPlayer() const { return player; }
 
+    void AddMonster(Monster* monster);
     const std::vector<Monster*>& GetMonsters() const { return monsters; }
 
-    void AddMonster(Monster* monster);
     void AddProjectile(Projectile* projectile);
 
     void ClearMonsters();

@@ -115,7 +115,7 @@ sf::Vector2f Monster::AIMovement(float deltaTime)
         return { 0.f, 0.f };
     }
 
-    Move(direction, deltaTime);
+    Move(direction, deltaTime * slowRatio);
 
     return direction;
 }
@@ -159,6 +159,17 @@ void Monster::UpdateLogic(float deltaTime)
 {
     attackTriggered = false;
 
+    if (slowTimer > 0.f)
+    {
+        slowTimer -= deltaTime;
+
+        if (slowTimer <= 0.f)
+        {
+            slowTimer = 0.f;
+            slowRatio = 1.f;
+        }
+    }
+
     if (attackCooldown > 0.f)
     {
         attackCooldown -= deltaTime;
@@ -177,7 +188,7 @@ void Monster::UpdateLogic(float deltaTime)
 
     hpBar->SetValue(GetHp());
 
-    hpBar->SetPosition({ position.x,position.y - 45.f });
+    hpBar->SetPosition({ position.x, position.y - 45.f });
 }
 
 void Monster::Render(sf::RenderWindow& window)
@@ -212,4 +223,10 @@ std::vector<Projectile*> Monster::TakePendingProjectiles()
 void Monster::SetAttakRange(float range)
 {
     attackRange = range;
+}
+
+void Monster::ApplySlow(float ratio, float duration)
+{
+    slowRatio = ratio;
+    slowTimer = duration;
 }

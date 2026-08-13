@@ -35,6 +35,8 @@ public:
     void Update(float deltaTime, sf::RenderWindow& window);                               // 현재 Scene의 게임 로직 업데이트
     void Render(sf::RenderWindow& window);                                                // 현재 Scene 화면 출력
 
+    bool IsSceneChangeRequested() const { return sceneChangeRequested; }
+
     int GetDungeonStage() { return dungeonStage; }
 
     void NextDungeonStage() { dungeonStage++; }

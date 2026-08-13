@@ -696,6 +696,24 @@ void EntityManager::CheckProjectileCollisions()
                     // 같은 투사체가 같은 몬스터를 여러 번 공격하지 않도록 기록
                     projectile->AddHitTarget(monster);
 
+                    /*int realDamage = monster->TakeDamage(projectile->GetDamage());
+
+                    Player* ownerPlayer = dynamic_cast<Player*>(projectile->GetOwner());
+
+                    if (ownerPlayer != nullptr && !projectile->IsUltimateProjectile())
+                    {
+                        if (projectile->IsSkillProjectile())
+                        {
+                            ownerPlayer->AddUltimateGauge(realDamage * 2);
+                            std::cout << realDamage * 2 << " Guage Charged (X2 Buff)" << endl;
+                        }
+                        else
+                        {
+                            ownerPlayer->AddUltimateGauge(realDamage);
+                            std::cout << realDamage << " Guage Charged" << endl;
+                        }
+                    }*/
+
                     int realDamage = monster->TakeDamage(projectile->GetDamage());
 
                     Player* ownerPlayer = dynamic_cast<Player*>(projectile->GetOwner());
@@ -704,6 +722,12 @@ void EntityManager::CheckProjectileCollisions()
                     {
                         if (projectile->IsSkillProjectile())
                         {
+                            // Triple Shot 적중 시 2초 동안 이동속도 50%
+                            if (ownerPlayer->GetJob() == PlayerType::ARCHER)
+                            {
+                                monster->ApplySlow(0.5f, 2.f);
+                            }
+
                             ownerPlayer->AddUltimateGauge(realDamage * 2);
                             std::cout << realDamage * 2 << " Guage Charged (X2 Buff)" << endl;
                         }

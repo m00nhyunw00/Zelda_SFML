@@ -95,6 +95,11 @@ void DungeonScene::Update(float deltaTime, sf::RenderWindow& window)
 
 void DungeonScene::HandleEvent(const sf::Event& event,sf::RenderWindow& window)
 {
+    if (sceneManager->IsSceneChangeRequested())
+    {
+        return;
+    }
+
     if (isGameOver)
     {
         HandleGameOverEvent(event,window);

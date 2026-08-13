@@ -11,7 +11,7 @@ Game::Game()
             Constants::WINDOW_WIDTH,
             Constants::WINDOW_HEIGHT
             }),
-        "Zelda-like RPG"
+        "DungeonHeros"
     ),
     entityManager(),
     sceneManager(&entityManager)
