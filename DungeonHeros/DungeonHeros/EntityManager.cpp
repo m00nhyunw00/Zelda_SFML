@@ -774,53 +774,6 @@ void EntityManager::CheckProjectileCollisions()
     }
 }
 
-//void EntityManager::RemoveInactiveEntities()
-//{
-//    // Monster 제거
-//    for (auto iterator = monsters.begin();
-//        iterator != monsters.end();)
-//    {
-//        Monster* monster = *iterator;
-//
-//        if(monster == nullptr || !monster->IsActive())
-//        {
-//            if (monster != nullptr && player != nullptr && player->IsActive())
-//            {
-//                player->AddExp(monster->GetExp());
-//            }
-//
-//            delete monster;
-//
-//            iterator = monsters.erase(iterator);
-//        }
-//        else
-//        {
-//            ++iterator;
-//        }
-//    }
-//
-//    // Projectile 제거
-//    for (auto iterator = projectiles.begin();
-//        iterator != projectiles.end();)
-//    {
-//        Projectile* projectile =
-//            *iterator;
-//
-//        if (projectile == nullptr ||
-//            !projectile->IsActive())
-//        {
-//            delete projectile;
-//
-//            iterator =
-//                projectiles.erase(iterator);
-//        }
-//        else
-//        {
-//            ++iterator;
-//        }
-//    }
-//}
-
 void EntityManager::RemoveInactiveEntities()
 {
     // Monster 제거
@@ -828,8 +781,39 @@ void EntityManager::RemoveInactiveEntities()
     {
         Monster* monster = *iterator;
 
+        //if (monster == nullptr || !monster->IsActive())
+        //{
+        //    if (monster != nullptr)
+        //    {
+        //        // 삭제될 몬스터가 발사한 투사체 먼저 비활성화
+        //        for (Projectile* projectile : projectiles)
+        //        {
+        //            if (projectile != nullptr &&
+        //                projectile->GetOwner() == monster)
+        //            {
+        //                projectile->SetActive(false);
+        //            }
+        //        }
+
+        //        if (player != nullptr && player->IsActive())
+        //        {
+        //            player->AddExp(monster->GetExp());
+        //        }
+        //    }
+
+        //    delete monster;
+        //    iterator = monsters.erase(iterator);
+        //}
         if (monster == nullptr || !monster->IsActive())
         {
+            // Giant Slime은 BossScene에서 사망 처리를 할 때까지 유지
+            if (monster != nullptr &&
+                dynamic_cast<GiantSlime*>(monster) != nullptr)
+            {
+                ++iterator;
+                continue;
+            }
+
             if (monster != nullptr)
             {
                 // 삭제될 몬스터가 발사한 투사체 먼저 비활성화

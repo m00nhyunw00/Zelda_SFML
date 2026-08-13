@@ -119,18 +119,10 @@ void BossScene::SpawnPhase1Monsters()
         { left + width * 0.75f, top + height * 0.65f }
     };
 
-    const MonsterType types[4] =
-    {
-        MonsterType::SLIME,
-        MonsterType::CACTO,
-        MonsterType::SKELETON,
-        MonsterType::LICH
-    };
-
     for (int i = 0; i < 4; i++)
     {
         entityManager->SpawnMonster(
-            types[i],
+            MonsterType::SKELETON,
             MonsterColor::NONE_COLOR,
             positions[i]
         );
@@ -233,10 +225,19 @@ void BossScene::Update(float deltaTime, sf::RenderWindow& window)
 
     entityManager->Update(deltaTime, window);
 
-    // 보스 사망 시 엔딩씬으로 전환
+    // 보스 사망 시 전투 종료 및 엔딩 처리
     if (boss != nullptr && !boss->IsActive())
     {
         SaveManager::GetInstance().SavePlayer(entityManager->GetPlayer());
+
+        // 남아있는 모든 투사체 제거
+        entityManager->ClearProjectiles();
+
+        // Giant Slime을 포함한 모든 몬스터 제거
+        // 무적 상태인 Phase 3 Lich도 강제로 제거됨
+        entityManager->ClearMonsters();
+
+        boss = nullptr;
 
         StartEnding();
 
@@ -341,7 +342,6 @@ void BossScene::BuildRoomColliders()
     const float width = bounds.size.x;
     const float height = bounds.size.y;
 
-
     // =========================================================
     // 외벽
     // =========================================================
@@ -379,7 +379,6 @@ void BossScene::BuildRoomColliders()
         });
 
     wallColliders.push_back(topCollider);
-
 
     // 아래쪽 벽
     Collider bottomCollider({
@@ -486,77 +485,6 @@ void BossScene::BuildRoomColliders()
         0.79f,
         0.16f,
         0.17f
-    );
-
-    // =========================================================
-    // 횃불
-    // =========================================================
-
-    // 위쪽 왼쪽 횃불
-    AddObjectCollider(
-        0.285f,
-        0.145f,
-        0.055f,
-        0.075f
-    );
-
-    // 위쪽 오른쪽 횃불
-    AddObjectCollider(
-        0.705f,
-        0.145f,
-        0.055f,
-        0.075f
-    );
-
-
-    // 왼쪽 위 횃불
-    AddObjectCollider(
-        0.095f,
-        0.330f,
-        0.050f,
-        0.075f
-    );
-
-    // 오른쪽 위 횃불
-    AddObjectCollider(
-        0.905f,
-        0.330f,
-        0.050f,
-        0.075f
-    );
-
-
-    // 왼쪽 아래 횃불
-    AddObjectCollider(
-        0.095f,
-        0.600f,
-        0.050f,
-        0.075f
-    );
-
-    // 오른쪽 아래 횃불
-    AddObjectCollider(
-        0.905f,
-        0.600f,
-        0.050f,
-        0.075f
-    );
-
-
-    // 아래쪽 왼쪽 횃불
-    AddObjectCollider(
-        0.285f,
-        0.795f,
-        0.055f,
-        0.075f
-    );
-
-    // 아래쪽 오른쪽 횃불
-    AddObjectCollider(
-        0.705f,
-        0.795f,
-        0.055f,
-        0.075f
     );
 }
 

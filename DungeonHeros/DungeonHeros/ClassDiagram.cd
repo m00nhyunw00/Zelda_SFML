@@ -1,410 +1,665 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Game" Collapsed="true">
-    <Position X="30.5" Y="1.5" Width="1.5" />
+  <Class Name="Game">
+    <Position X="38" Y="7" Width="1.5" />
+    <Members>
+      <Method Name="CreatePlayerFromSave" Hidden="true" />
+      <Method Name="InitializeGame" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>gAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAIABIABAAAAAI=</HashCode>
       <FileName>Game.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="InGameScene" Collapsed="true">
-    <Position X="5" Y="8.75" Width="1.5" />
+  <Class Name="InGameScene">
+    <Position X="32" Y="3.25" Width="2" />
+    <Members>
+      <Method Name="~InGameScene" Hidden="true" />
+      <Field Name="endingAlpha" Hidden="true" />
+      <Field Name="endingFadeDuration" Hidden="true" />
+      <Field Name="endingSprite" Hidden="true" />
+      <Field Name="exitButton" Hidden="true" />
+      <Field Name="gameOverOverlay" Hidden="true" />
+      <Field Name="gameOverText" Hidden="true" />
+      <Method Name="InGameScene" Hidden="true" />
+      <Field Name="levelText" Hidden="true" />
+      <Field Name="restartButton" Hidden="true" />
+      <Method Name="StartEnding" Hidden="true" />
+      <Method Name="UpdateLevelText" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>BAAwAAABIACAAlgApQQYAAXCIAAAYQEADIEgAAAQgIA=</HashCode>
       <FileName>InGameScene.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Scene" Collapsed="true">
-    <Position X="5" Y="7.5" Width="1.5" />
+  <Class Name="Scene">
+    <Position X="30" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="~Scene" Hidden="true" />
+      <Method Name="Scene" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAgAAQAAAAQAAAAAAAABAABAAAAAA=</HashCode>
       <FileName>Scene.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SceneManager" Collapsed="true">
-    <Position X="30.5" Y="2.5" Width="1.5" />
+  <Class Name="SceneManager">
+    <Position X="42.5" Y="7.75" Width="2" />
+    <Members>
+      <Method Name="~SceneManager" Hidden="true" />
+      <Method Name="ApplySceneChange" Hidden="true" />
+      <Method Name="CreateScene" Hidden="true" />
+      <Field Name="entityManager" Hidden="true" />
+      <Method Name="GetDungeonStage" Hidden="true" />
+      <Method Name="NextDungeonStage" Hidden="true" />
+      <Field Name="nextSceneType" Hidden="true" />
+      <Method Name="RequestSceneChange" Hidden="true" />
+      <Method Name="ResetDungeonStage" Hidden="true" />
+      <Method Name="SceneManager" Hidden="true" />
+      <Method Name="Start" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AIQAAAAAACAGAEgAAAIQQAAAAAAAAAgAAFwAAAAAAAQ=</HashCode>
       <FileName>SceneManager.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="BossScene" Collapsed="true">
-    <Position X="2.75" Y="10.25" Width="1.5" />
+  <Class Name="BossScene">
+    <Position X="34.5" Y="10" Width="1.5" />
+    <Members>
+      <Method Name="~BossScene" Hidden="true" />
+      <Method Name="BossScene" Hidden="true" />
+      <Method Name="BuildRoomColliders" Hidden="true" />
+      <Method Name="CanUseEntrance" Hidden="true" />
+      <Method Name="CreateDungeonRoom" Hidden="true" />
+      <Method Name="MovePlayerToSpawn" Hidden="true" />
+      <Method Name="SpawnPhase1Monsters" Hidden="true" />
+      <Method Name="SpawnPhase3Liches" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAQAgAAAAgGIBAAgEAAQAEAAAAAAAAAQghAAAAgAAAA=</HashCode>
       <FileName>BossScene.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="DungeonScene" Collapsed="true">
-    <Position X="5" Y="10.25" Width="1.5" />
+  <Class Name="DungeonScene">
+    <Position X="32" Y="10" Width="2" />
+    <Members>
+      <Method Name="~DungeonScene" Hidden="true" />
+      <Method Name="BuildRoomColliders" Hidden="true" />
+      <Method Name="CanUseEntrance" Hidden="true" />
+      <Method Name="CreateDungeonRoom" Hidden="true" />
+      <Method Name="DungeonScene" Hidden="true" />
+      <Field Name="exitInteractionCollider" Hidden="true" />
+      <Method Name="GetRandomMonsterColor" Hidden="true" />
+      <Method Name="GetRandomMonsterType" Hidden="true" />
+      <Method Name="IsPlayerNearExit" Hidden="true" />
+      <Method Name="IsPlayerNearNextStage" Hidden="true" />
+      <Method Name="IsValidMonsterSpawnPosition" Hidden="true" />
+      <Method Name="MovePlayerToSpawn" Hidden="true" />
+      <Field Name="nextStageInteractionCollider" Hidden="true" />
+      <Method Name="SetupEntrances" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAQAgAAAAgGAAAAkAIAQEBgIEAAAAAIEgBAgAAAAAAA=</HashCode>
       <FileName>DungeonScene.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="HomeScene" Collapsed="true">
-    <Position X="7.25" Y="10.25" Width="1.5" />
+  <Class Name="HomeScene">
+    <Position X="30" Y="10" Width="1.5" />
+    <Members>
+      <Method Name="~HomeScene" Hidden="true" />
+      <Method Name="BuildRoomColliders" Hidden="true" />
+      <Method Name="CreateHomeRoom" Hidden="true" />
+      <Field Name="entranceInteractionCollider" Hidden="true" />
+      <Method Name="HomeScene" Hidden="true" />
+      <Method Name="IsPlayerNearEntrance" Hidden="true" />
+      <Method Name="MovePlayerToSpawn" Hidden="true" />
+      <Method Name="SetupEntrance" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>IAQAEAAAAgCQAAAwQAAQAAAAAAABAAAAgBAAAAaAAAA=</HashCode>
       <FileName>HomeScene.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="JobSelectScene" Collapsed="true">
-    <Position X="0.5" Y="8.75" Width="1.5" />
+  <Class Name="JobSelectScene">
+    <Position X="30" Y="3.25" Width="1.5" />
+    <Members>
+      <Method Name="~JobSelectScene" Hidden="true" />
+      <Field Name="archerSprite" Hidden="true" />
+      <Field Name="archerText" Hidden="true" />
+      <Field Name="guideText" Hidden="true" />
+      <Method Name="InitializeJobSprites" Hidden="true" />
+      <Method Name="JobSelectScene" Hidden="true" />
+      <Field Name="mageSprite" Hidden="true" />
+      <Field Name="mageStaffSprite" Hidden="true" />
+      <Field Name="mageText" Hidden="true" />
+      <Field Name="noticeDuration" Hidden="true" />
+      <Field Name="noticeText" Hidden="true" />
+      <Field Name="noticeTimer" Hidden="true" />
+      <Field Name="selectedJob" Hidden="true" />
+      <Field Name="showNotice" Hidden="true" />
+      <Field Name="titleText" Hidden="true" />
+      <Field Name="warriorSprite" Hidden="true" />
+      <Field Name="warriorText" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>ABRABBAAAQEAAIgAABAQgAIwAAAAAAAABFAAAAAAIFE=</HashCode>
       <FileName>JobSelectScene.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="TitleScene" Collapsed="true">
-    <Position X="9.5" Y="8.75" Width="1.5" />
+  <Class Name="TitleScene">
+    <Position X="28" Y="3.25" Width="1.5" />
+    <Members>
+      <Method Name="~TitleScene" Hidden="true" />
+      <Field Name="backgroundSprite" Hidden="true" />
+      <Field Name="startText" Hidden="true" />
+      <Method Name="TitleScene" Hidden="true" />
+      <Field Name="titleText" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAEAgAgAAQAIAAAAAAAIQAABAAAEAAAAA=</HashCode>
       <FileName>TitleScene.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="InputManager" Collapsed="true">
-    <Position X="32.25" Y="1.5" Width="1.5" />
+    <Position X="44.25" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAEIAAAAQABACAgAQQAAEAHAAABMFIAQAoaCQgggA=</HashCode>
       <FileName>InputManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DataManager" Collapsed="true">
-    <Position X="34" Y="0.5" Width="1.5" />
+    <Position X="42.5" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>URAgAAMAAAAAAAFAACBAAAAgBAIABAAAEAQgAiQAAAE=</HashCode>
       <FileName>DataManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SaveManager" Collapsed="true">
-    <Position X="28.75" Y="2.5" Width="1.5" />
+    <Position X="44.25" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>QAACAAAAAAAABAAAAgAABABABCAAAAAAAAAgIAAAAAA=</HashCode>
       <FileName>SaveManager.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Entity" Collapsed="true">
-    <Position X="13.75" Y="0.5" Width="1.5" />
+  <Class Name="Entity">
+    <Position X="11.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="~Entity" Hidden="true" />
+      <Field Name="active" Hidden="true" />
+      <Method Name="Entity" Hidden="true" />
+      <Method Name="IsActive" Hidden="true" />
+      <Method Name="SetActive" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>EAQAAAAAAAAAAAAAEAAAAAAAADAAAAAAABAAIIAAAAA=</HashCode>
       <FileName>Entity.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="EntityManager" Collapsed="true">
-    <Position X="28.75" Y="1.5" Width="1.5" />
+  <Class Name="EntityManager">
+    <Position X="39.75" Y="7.75" Width="2.5" />
+    <Members>
+      <Method Name="~EntityManager" Hidden="true" />
+      <Method Name="AddMonster" Hidden="true" />
+      <Method Name="AddProjectile" Hidden="true" />
+      <Method Name="AreAllMonstersDead" Hidden="true" />
+      <Method Name="CheckCollisions" Hidden="true" />
+      <Method Name="EntityManager" Hidden="true" />
+      <Method Name="PrintPlayerHp" Hidden="true" />
+      <Method Name="PrintPlayerInfo" Hidden="true" />
+      <Method Name="ResetGame" Hidden="true" />
+      <Method Name="ResolveObjectCollision" Hidden="true" />
+      <Method Name="SetPlayer" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAQBAAMEQgIAAFNAABUEAEAEAgAAAECBABBAAABEIEA=</HashCode>
       <FileName>EntityManager.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Creature" Collapsed="true">
-    <Position X="18.25" Y="1.75" Width="1.5" />
+  <Class Name="Creature">
+    <Position X="17" Y="3" Width="1.5" />
+    <Members>
+      <Method Name="~Creature" Hidden="true" />
+      <Method Name="ApplySlow" Hidden="true" />
+      <Field Name="attackTriggered" Hidden="true" />
+      <Field Name="canAttack" Hidden="true" />
+      <Field Name="canMove" Hidden="true" />
+      <Method Name="CanMove" Hidden="true" />
+      <Field Name="category" Hidden="true" />
+      <Method Name="Creature" Hidden="true" />
+      <Field Name="evasionRate" Hidden="true" />
+      <Method Name="GetAnimation" Hidden="true" />
+      <Method Name="GetAttackCollider" Hidden="true" />
+      <Method Name="GetBodyCollider" Hidden="true" />
+      <Method Name="GetCategory" Hidden="true" />
+      <Method Name="GetDamage" Hidden="true" />
+      <Method Name="GetDefence" Hidden="true" />
+      <Method Name="GetEvasionRate" Hidden="true" />
+      <Method Name="GetFacingDirection" Hidden="true" />
+      <Method Name="GetHp" Hidden="true" />
+      <Method Name="GetMaxHp" Hidden="true" />
+      <Method Name="GetMoveSpeed" Hidden="true" />
+      <Method Name="GetPosition" Hidden="true" />
+      <Method Name="GetPreviousPosition" Hidden="true" />
+      <Method Name="GetSpriteColor" Hidden="true" />
+      <Field Name="invincible" Hidden="true" />
+      <Method Name="IsAttackTriggered" Hidden="true" />
+      <Method Name="IsInvincible" Hidden="true" />
+      <Method Name="MoveForce" Hidden="true" />
+      <Field Name="previousPosition" Hidden="true" />
+      <Method Name="SetCanAttack" Hidden="true" />
+      <Method Name="SetCanMove" Hidden="true" />
+      <Method Name="SetDamage" Hidden="true" />
+      <Method Name="SetDefence" Hidden="true" />
+      <Method Name="SetHp" Hidden="true" />
+      <Method Name="SetInvincible" Hidden="true" />
+      <Method Name="SetMaxHp" Hidden="true" />
+      <Method Name="SetMoveSpeed" Hidden="true" />
+      <Method Name="SetPosition" Hidden="true" />
+      <Field Name="slowRate" Hidden="true" />
+      <Field Name="slowTimer" Hidden="true" />
+      <Method Name="UpdateFacingDirection" Hidden="true" />
+      <Method Name="UpdateSlow" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>ECQAATCoUKo4oABACEwQMqAwBIAAhsMAABBIhAAkoAI=</HashCode>
       <FileName>Creature.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Monster" Collapsed="true">
-    <Position X="21.75" Y="3.25" Width="1.5" />
+  <Class Name="Monster">
+    <Position X="21.75" Y="8.5" Width="1.5" />
+    <Members>
+      <Method Name="~Monster" Hidden="true" />
+      <Method Name="AddPendingProjectile" Hidden="true" />
+      <Field Name="attackCooldown" Hidden="true" />
+      <Field Name="color" Hidden="true" />
+      <Method Name="GetAttakRange" Hidden="true" />
+      <Method Name="GetColor" Hidden="true" />
+      <Method Name="GetExp" Hidden="true" />
+      <Method Name="GetTarget" Hidden="true" />
+      <Method Name="GetType" Hidden="true" />
+      <Field Name="maxAttackCooldown" Hidden="true" />
+      <Method Name="Monster" Hidden="true" />
+      <Field Name="pendingProjectiles" Hidden="true" />
+      <Method Name="SetAttakRange" Hidden="true" />
+      <Method Name="SetColor" Hidden="true" />
+      <Method Name="SetShowHpBar" Hidden="true" />
+      <Method Name="SetTarget" Hidden="true" />
+      <Method Name="SetType" Hidden="true" />
+      <Field Name="showHpBar" Hidden="true" />
+      <Method Name="TakePendingProjectiles" Hidden="true" />
+      <Field Name="target" Hidden="true" />
+      <Field Name="type" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>JAAAAAAAAwABACAILAAAAiAwAAABAQGQAhgAAAAAooI=</HashCode>
       <FileName>Monster.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Cacto" Collapsed="true">
-    <Position X="17.25" Y="4.75" Width="1.5" />
+  <Class Name="Cacto">
+    <Position X="17.25" Y="14" Width="1.5" />
+    <Members>
+      <Method Name="Cacto" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAQAAAAIAAAAAAAA=</HashCode>
       <FileName>Cacto.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="GiantSlime" Collapsed="true">
-    <Position X="19.5" Y="4.75" Width="1.5" />
+  <Class Name="GiantSlime">
+    <Position X="19.5" Y="14" Width="1.5" />
+    <Members>
+      <Method Name="~GiantSlime" Hidden="true" />
+      <Method Name="ConsumePhase2Entered" Hidden="true" />
+      <Method Name="ConsumePhase3Entered" Hidden="true" />
+      <Method Name="FireRangedAttack" Hidden="true" />
+      <Method Name="GetPhase" Hidden="true" />
+      <Method Name="GiantSlime" Hidden="true" />
+      <Method Name="IsPreparingRangedAttack" Hidden="true" />
+      <Method Name="IsRangedAttackTriggered" Hidden="true" />
+      <Method Name="SpawnSpikeStep" Hidden="true" />
+      <Method Name="StartRangedAttack" Hidden="true" />
+      <Method Name="UpdateRangedAttack" Hidden="true" />
+      <Method Name="UpdateSpikeAttack" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>BAAAgABAAgBACAEIhACgAAIIA4AEgQAhiAAABMQAYAI=</HashCode>
       <FileName>GiantSlime.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Lich" Collapsed="true">
-    <Position X="21.75" Y="4.75" Width="1.5" />
+  <Class Name="Lich">
+    <Position X="21.75" Y="14" Width="1.5" />
+    <Members>
+      <Method Name="Lich" Hidden="true" />
+      <Method Name="SetAttakRange" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAIAAAQAAAAAAIAAAAAA=</HashCode>
       <FileName>Lich.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Skeleton" Collapsed="true">
-    <Position X="24" Y="4.75" Width="1.5" />
+  <Class Name="Skeleton">
+    <Position X="24" Y="14" Width="1.5" />
+    <Members>
+      <Method Name="Skeleton" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAIAAAQAAAAAAAAAAAAA=</HashCode>
       <FileName>Skeleton.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Slime" Collapsed="true">
-    <Position X="26.25" Y="4.75" Width="1.5" />
+  <Class Name="Slime">
+    <Position X="26.25" Y="14" Width="1.5" />
+    <Members>
+      <Method Name="Slime" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIAAAQAAAAAAAAACAAA=</HashCode>
       <FileName>Slime.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Player" Collapsed="true">
-    <Position X="12.75" Y="3.25" Width="1.5" />
+  <Class Name="Player">
+    <Position X="12.25" Y="8.5" Width="1.5" />
+    <Members>
+      <Method Name="~Player" Hidden="true" />
+      <Method Name="AddExp" Hidden="true" />
+      <Method Name="AddPendingProjectile" Hidden="true" />
+      <Method Name="AddUltimateGauge" Hidden="true" />
+      <Method Name="ApplyDeathPenalty" Hidden="true" />
+      <Method Name="ApplyLevelData" Hidden="true" />
+      <Method Name="GetCurrentExp" Hidden="true" />
+      <Method Name="GetJob" Hidden="true" />
+      <Method Name="GetLevel" Hidden="true" />
+      <Method Name="GetMaxExp" Hidden="true" />
+      <Method Name="GetMaxSkillCooldown" Hidden="true" />
+      <Method Name="GetMaxUltimateGauge" Hidden="true" />
+      <Method Name="GetSkillCooldown" Hidden="true" />
+      <Method Name="GetSkillDamage" Hidden="true" />
+      <Method Name="GetSkillName" Hidden="true" />
+      <Method Name="GetUltimateDamage" Hidden="true" />
+      <Method Name="GetUltimateGauge" Hidden="true" />
+      <Method Name="GetUltimateName" Hidden="true" />
+      <Method Name="GetUserName" Hidden="true" />
+      <Method Name="IncreaseDamage" Hidden="true" />
+      <Method Name="IncreaseDefence" Hidden="true" />
+      <Method Name="IncreaseMaxExp" Hidden="true" />
+      <Method Name="IncreaseMaxHp" Hidden="true" />
+      <Method Name="IncreaseSkillDamage" Hidden="true" />
+      <Method Name="IncreaseStats" Hidden="true" />
+      <Method Name="IncreaseUltimateDamage" Hidden="true" />
+      <Method Name="IsSkillTriggered" Hidden="true" />
+      <Method Name="IsUltimateTriggered" Hidden="true" />
+      <Field Name="job" Hidden="true" />
+      <Field Name="maxSkillCooldown" Hidden="true" />
+      <Field Name="maxUltimateGauge" Hidden="true" />
+      <Field Name="pendingProjectiles" Hidden="true" />
+      <Method Name="Player" Hidden="true" />
+      <Method Name="PrintPlayerHp" Hidden="true" />
+      <Method Name="PrintPlayerInfo" Hidden="true" />
+      <Method Name="ResetUltimateGauge" Hidden="true" />
+      <Method Name="SetCurrentExp" Hidden="true" />
+      <Method Name="SetJob" Hidden="true" />
+      <Method Name="SetSkillCooldown" Hidden="true" />
+      <Field Name="skillTriggered" Hidden="true" />
+      <Method Name="TakePendingProjectiles" Hidden="true" />
+      <Field Name="ultimateTriggered" Hidden="true" />
+      <Field Name="userName" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>QCQIAAAmABMQAQCJAQEVEG4xEAMBAAABAVAIASmHJJc=</HashCode>
       <FileName>Player.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Archer" Collapsed="true">
-    <Position X="10.5" Y="4.75" Width="1.5" />
+  <Class Name="Archer">
+    <Position X="10" Y="14" Width="1.5" />
+    <Members>
+      <Method Name="Archer" Hidden="true" />
+      <Method Name="CreateArrow" Hidden="true" />
+      <Method Name="CreateArrowByDirection" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAAABAAAgAEAAAAAAQAAEAgAAIAACAAAAEAABgACAAA=</HashCode>
+      <HashCode>AAAgBAAAgAEAAABAAAAAEAgAAIAACAAAAEAABgACAAA=</HashCode>
       <FileName>Archer.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Mage" Collapsed="true">
-    <Position X="12.75" Y="4.75" Width="1.5" />
+    <Position X="14.25" Y="14" Width="1.5" />
+    <Members>
+      <Method Name="Mage" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAEAAAAAAAAAEAAAAIAAAAAAAEAAAAIAAAA=</HashCode>
       <FileName>Mage.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Warrior" Collapsed="true">
-    <Position X="15" Y="4.75" Width="1.5" />
+  <Class Name="Warrior">
+    <Position X="12.25" Y="14" Width="1.5" />
+    <Members>
+      <Method Name="CreateFlameBlade" Hidden="true" />
+      <Method Name="HitPowerStrike" Hidden="true" />
+      <Method Name="IsPowerStrike" Hidden="true" />
+      <Method Name="Warrior" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>ACAAAAAAAAEAAAAAAAAAEIAgAJAAIAAAAGAAAAACAAg=</HashCode>
       <FileName>Warrior.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Projectile" Collapsed="true">
-    <Position X="4.75" Y="1.75" Width="1.5" />
+  <Class Name="Projectile">
+    <Position X="6" Y="3" Width="1.5" />
+    <Members>
+      <Method Name="~Projectile" Hidden="true" />
+      <Method Name="AddHitTarget" Hidden="true" />
+      <Field Name="animationPaused" Hidden="true" />
+      <Field Name="colliderOffset" Hidden="true" />
+      <Field Name="collisionEnabled" Hidden="true" />
+      <Field Name="destroyOnHit" Hidden="true" />
+      <Method Name="GetCollider" Hidden="true" />
+      <Method Name="GetDamage" Hidden="true" />
+      <Method Name="GetOwner" Hidden="true" />
+      <Method Name="GetPreviousPosition" Hidden="true" />
+      <Method Name="GetType" Hidden="true" />
+      <Method Name="HasHitTarget" Hidden="true" />
+      <Field Name="hitTargets" Hidden="true" />
+      <Method Name="IsCollisionEnabled" Hidden="true" />
+      <Method Name="IsDestroyOnHit" Hidden="true" />
+      <Method Name="IsPiercing" Hidden="true" />
+      <Method Name="IsSkillProjectile" Hidden="true" />
+      <Method Name="IsUltimateProjectile" Hidden="true" />
+      <Field Name="piercing" Hidden="true" />
+      <Field Name="previousPosition" Hidden="true" />
+      <Method Name="Projectile" Hidden="true" />
+      <Method Name="SetAnimationPaused" Hidden="true" />
+      <Method Name="SetCollisionEnabled" Hidden="true" />
+      <Method Name="SetColor" Hidden="true" />
+      <Method Name="SetDestroyOnHit" Hidden="true" />
+      <Method Name="SetPiercing" Hidden="true" />
+      <Method Name="SetUltimateProjectile" Hidden="true" />
+      <Field Name="skillProjectile" Hidden="true" />
+      <Field Name="type" Hidden="true" />
+      <Field Name="ultimateProjectile" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>QAUAEAAAEKkAoAFAABAKIIAQCgkBgEEBABwQGAAAJAA=</HashCode>
+      <HashCode>QAUAEAAIEKkAoAFAAhAKIIAQCgkBgEEBIBwQGAAAJCA=</HashCode>
       <FileName>Projectile.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Arrow" Collapsed="true">
-    <Position X="1.5" Y="3.25" Width="1.5" />
+  <Class Name="Arrow">
+    <Position X="2.75" Y="7.25" Width="1.5" />
+    <Members>
+      <Method Name="Arrow" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>AAAAABAAAAAAAAAAAAAAAAAACAAAAAAAAAgAAAAAAAA=</HashCode>
       <FileName>Arrow.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="BladeWave" Collapsed="true">
-    <Position X="3.75" Y="3.25" Width="1.5" />
+  <Class Name="BladeWave">
+    <Position X="5" Y="7.25" Width="1.5" />
+    <Members>
+      <Method Name="BladeWave" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAAAAAEAAACAAAAgAAAAAAAAAAAAA=</HashCode>
       <FileName>BladeWave.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LichFireball" Collapsed="true">
-    <Position X="6" Y="3.25" Width="1.5" />
+  <Class Name="LichFireball">
+    <Position X="7.25" Y="7.25" Width="1.5" />
+    <Members>
+      <Method Name="LichFireball" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAACAAAAACAAAAAAAAAAAA=</HashCode>
       <FileName>LichFireball.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SlimeSpike" Collapsed="true">
-    <Position X="8.25" Y="3.25" Width="1.5" />
+  <Class Name="SlimeSpike">
+    <Position X="9.5" Y="7.25" Width="1.5" />
+    <Members>
+      <Method Name="CanDamage" Hidden="true" />
+      <Method Name="IsDamageActive" Hidden="true" />
+      <Method Name="MarkDamaged" Hidden="true" />
+      <Method Name="SlimeSpike" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>AARAAAAgAAAABAAAAAAAABAAAACAAAAAAAAAAAAAQAA=</HashCode>
       <FileName>SlimeSpike.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Animation" Collapsed="true">
-    <Position X="28.75" Y="0.5" Width="1.5" />
+    <Position X="39.75" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAgQAAAAAAoAAABgCAAAAAAAAAgAAEAAAAAAg=</HashCode>
       <FileName>Animation.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Camera" Collapsed="true">
-    <Position X="30.5" Y="0.5" Width="1.5" />
+    <Position X="41.5" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQABAAAAAAE=</HashCode>
       <FileName>Camera.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SpriteUtil" Collapsed="true">
-    <Position X="32.25" Y="2.5" Width="1.5" />
+    <Position X="45" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAEAAAAAAAAQAAABAAAAAAAAAAAAAAA=</HashCode>
       <FileName>SpriteUtil.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="ResourceManager" Collapsed="true">
-    <Position X="34" Y="1.5" Width="1.5" />
+    <Position X="42.5" Y="10.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAEAAACAEAABAAAAAAAEAAIBAgEAAAAAAAgAAAYAAg=</HashCode>
       <FileName>ResourceManager.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Collider" Collapsed="true">
-    <Position X="32.25" Y="0.5" Width="1.5" />
+    <Position X="43.25" Y="7" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACAAAAAAIgAAiAIgAAIAAAAAQAAAggQAAAAAAAAAAA=</HashCode>
       <FileName>Collider.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Button" Collapsed="true">
-    <Position X="2.75" Y="5.75" Width="1.5" />
+  <Class Name="Button">
+    <Position X="40.25" Y="3.25" Width="1.5" />
+    <Members>
+      <Method Name="Button" Hidden="true" />
+      <Method Name="SetFillColor" Hidden="true" />
+      <Method Name="SetOutlineColor" Hidden="true" />
+      <Method Name="SetOutlineThickness" Hidden="true" />
+      <Method Name="SetPosition" Hidden="true" />
+      <Method Name="SetSize" Hidden="true" />
+      <Method Name="SetText" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>AEQAAAAACBAABAAAAIDYAAAQAQAAAgAIABAgAAAAAAA=</HashCode>
       <FileName>Button.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="GaugeBar" Collapsed="true">
-    <Position X="5" Y="5.75" Width="1.5" />
+  <Class Name="GaugeBar">
+    <Position X="42.5" Y="3.25" Width="1.5" />
+    <Members>
+      <Method Name="GaugeBar" Hidden="true" />
+      <Method Name="SetBackgroundColor" Hidden="true" />
+      <Method Name="SetGaugeColor" Hidden="true" />
+      <Method Name="SetMaxValue" Hidden="true" />
+      <Method Name="SetPosition" Hidden="true" />
+      <Method Name="SetValue" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAgAgAKAYAAAAQAAAAiAAABAAEEAAIAA=</HashCode>
       <FileName>GaugeBar.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="SkillCooldownUI" Collapsed="true">
-    <Position X="7.25" Y="5.75" Width="1.5" />
+  <Class Name="SkillCooldownUI">
+    <Position X="44.75" Y="3.25" Width="1.5" />
+    <Members>
+      <Method Name="~SkillCooldownUI" Hidden="true" />
+      <Method Name="SetCooldown" Hidden="true" />
+      <Method Name="SetMaxCooldown" Hidden="true" />
+      <Method Name="SkillCooldownUI" Hidden="true" />
+      <Method Name="UpdateIconState" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>AAQAAAAAAIgAAgFAAEgQgAAAAAAAAAEAABAAAAAAIAI=</HashCode>
       <FileName>SkillCooldownUI.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="UI" Collapsed="true">
-    <Position X="3.75" Y="4.5" Width="1.5" />
+  <Class Name="UI">
+    <Position X="41.25" Y="0.5" Width="1.5" />
+    <Members>
+      <Method Name="IsActive" Hidden="true" />
+      <Method Name="SetActive" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAEAAQAAAIAAAAAAAAABAAIIAAAAA=</HashCode>
       <FileName>UI.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="UltimateUI" Collapsed="true">
-    <Position X="0.5" Y="5.75" Width="1.5" />
+  <Class Name="UltimateUI">
+    <Position X="38" Y="3.25" Width="1.5" />
+    <Members>
+      <Method Name="~UltimateUI" Hidden="true" />
+      <Method Name="SetGauge" Hidden="true" />
+      <Method Name="SetMaxGauge" Hidden="true" />
+      <Method Name="UltimateUI" Hidden="true" />
+      <Method Name="UpdateIconState" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
       <HashCode>AAQAAAAEAAAAEAEAAAISgAAAAAAEAAAAABAAAQAAIAA=</HashCode>
       <FileName>UltimateUI.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Struct Name="MonsterData" Collapsed="true">
-    <Position X="30.5" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>EAAAAAAAEQABgAAABAAAAAAAAAAAAACAAAAAAAAAAgI=</HashCode>
-      <FileName>MonsterData.h</FileName>
-    </TypeIdentifier>
-  </Struct>
-  <Struct Name="MonsterLevelData" Collapsed="true">
-    <Position X="32.25" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAEAAEAAAACAAAACAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>MonsterLevelData.h</FileName>
-    </TypeIdentifier>
-  </Struct>
-  <Struct Name="MonsterSpawnData" Collapsed="true">
-    <Position X="34" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAEAAAAAAAAAAAAAEAAAAAAgBAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>MonsterSpawnData.h</FileName>
-    </TypeIdentifier>
-  </Struct>
-  <Struct Name="PlayerSaveData" Collapsed="true">
-    <Position X="32.25" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAKAAAEAAAACAQAAAAAAAAA=</HashCode>
-      <FileName>PlayerSaveData.h</FileName>
-    </TypeIdentifier>
-  </Struct>
-  <Struct Name="PlayerData" Collapsed="true">
-    <Position X="28.75" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAEAAAAAAAAAAAAEAAAAAAAAABAAAAAAAAAIA=</HashCode>
-      <FileName>PlayerData.h</FileName>
-    </TypeIdentifier>
-  </Struct>
-  <Struct Name="PlayerLevelData" Collapsed="true">
-    <Position X="30.5" Y="4.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>EAAAAAAgAAIAgAABAAAAAAAAAAAAAAAAAAAAAAAABAI=</HashCode>
-      <FileName>PlayerLevelData.h</FileName>
-    </TypeIdentifier>
-  </Struct>
-  <Struct Name="AnimationData" Collapsed="true">
-    <Position X="28.75" Y="3.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAEAEEAAAAAAAAAAAAAAAAAAAAAEgA=</HashCode>
-      <FileName>AnimationData.h</FileName>
-    </TypeIdentifier>
-  </Struct>
-  <Enum Name="SceneType" Collapsed="true">
-    <Position X="32.25" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAABAAQAAAAAAACAAAAAAAEAAAEAAIAAAAAAEAAAAA=</HashCode>
-      <FileName>SceneType.h</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="CreatureType" Collapsed="true">
-    <Position X="32.25" Y="6" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIQ=</HashCode>
-      <FileName>CreatureType.h</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="MonsterColor" Collapsed="true">
-    <Position X="28.75" Y="6.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AIAAAAAAAAAAAIAAAAAAAABAAgAAAAAAAAAAAAAAAQA=</HashCode>
-      <FileName>MonsterColor.h</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="BossPhase" Collapsed="true">
-    <Position X="28.75" Y="6" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAALAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>BossPhase.h</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="MonsterType" Collapsed="true">
-    <Position X="32.25" Y="6.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAKAAAAIAAAAAAAAAEAAAAAAAACIAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>MonsterType.h</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="PlayerType" Collapsed="true">
-    <Position X="34" Y="6.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAQAAACAIAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
-      <FileName>PlayerType.h</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="ProjectileType" Collapsed="true">
-    <Position X="30.5" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIBCAAAAAAAAABAAAQ=</HashCode>
-      <FileName>ProjectileType.h</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="ProjectileAttackType" Collapsed="true">
-    <Position X="28.75" Y="7.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAACAAAAAAAAAAAABAAAAAAAAAAAAAEAAAAAA=</HashCode>
-      <FileName>ProjectileType.h</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="CreatureState" Collapsed="true">
-    <Position X="30.5" Y="6" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAEAAAAAAAAAAAAAAAAgAACAACgAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>AnimationState.h</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="MonsterState" Collapsed="true">
-    <Position X="30.5" Y="6.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
-      <FileName>AnimationState.h</FileName>
-    </TypeIdentifier>
-  </Enum>
-  <Enum Name="Direction" Collapsed="true">
-    <Position X="34" Y="6" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAICAAAgAAAAAAAAAAA=</HashCode>
-      <FileName>AnimationState.h</FileName>
-    </TypeIdentifier>
-  </Enum>
   <Font Name="맑은 고딕" Size="9" />
 </ClassDiagram>

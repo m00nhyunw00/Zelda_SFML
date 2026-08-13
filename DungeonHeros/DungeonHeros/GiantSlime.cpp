@@ -352,7 +352,7 @@ void GiantSlime::SpawnSpikeStep(int step)
             new SlimeSpike(
                 this,
                 spikePosition,
-                GetDamage()
+                GetDamage() * 2
             );
 
         AddPendingProjectile(spike);
