@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Animation.cpp">
+      <Filter>Graphics\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Archer.cpp">
+      <Filter>Entity\Creature\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Arrow.cpp">
+      <Filter>Entity\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="BladeWave.cpp">
+      <Filter>Entity\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationState.h">
+      <Filter>Data\Enum</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Cacto.cpp">
+      <Filter>Entity\Creature\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Graphics\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Collider.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationData.h">
+      <Filter>Data\DataStructure</Filter>
+    </ClCompile>
+    <ClCompile Include="Creature.cpp">
+      <Filter>Entity\Creature</Filter>
+    </ClCompile>
+    <ClCompile Include="DataManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GaugeBar.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GiantSlime.cpp">
+      <Filter>Entity\Creature\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameScene.cpp">
+      <Filter>Scene\InGameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="DungeonScene.cpp">
+      <Filter>Scene\InGameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="BossScene.cpp">
+      <Filter>Scene\InGameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="JobSelectScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="LichFireball.cpp">
+      <Filter>Entity\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="Lich.cpp">
+      <Filter>Entity\Creature\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="Mage.cpp">
+      <Filter>Entity\Creature\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Entity\Creature\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterColor.h">
+      <Filter>Data\Enum</Filter>
+    </ClCompile>
+    <ClCompile Include="MonsterData.h">
+      <Filter>Data\DataStructure</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Entity\Creature\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerSaveData.h">
+      <Filter>Data\DataStructure</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Entity\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>Entity\Creature\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="SkillCooldownUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UltimateUI.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Slime.cpp">
+      <Filter>Entity\Creature\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="SlimeSpike.cpp">
+      <Filter>Entity\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteUtil.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="HomeScene.cpp">
+      <Filter>Scene\InGameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Warrior.cpp">
+      <Filter>Entity\Creature\Player</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Animation.h">
+      <Filter>Graphics\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Archer.h">
+      <Filter>Entity\Creature\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Arrow.h">
+      <Filter>Entity\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="BladeWave.h">
+      <Filter>Entity\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="BossPhase.h">
+      <Filter>Data\Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Cacto.h">
+      <Filter>Entity\Creature\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Graphics\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Collider.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Data</Filter>
+    </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>Entity\Creature</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatureType.h">
+      <Filter>Data\Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="DataManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GaugeBar.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GiantSlime.h">
+      <Filter>Entity\Creature\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameScene.h">
+      <Filter>Scene\InGameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonScene.h">
+      <Filter>Scene\InGameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="BossScene.h">
+      <Filter>Scene\InGameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="JobSelectScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="LichFireball.h">
+      <Filter>Entity\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="Lich.h">
+      <Filter>Entity\Creature\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Mage.h">
+      <Filter>Entity\Creature\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Entity\Creature\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterLevelData.h">
+      <Filter>Data\DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterSpawnData.h">
+      <Filter>Data\DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="MonsterType.h">
+      <Filter>Data\Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Entity\Creature\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerData.h">
+      <Filter>Data\DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerLevelData.h">
+      <Filter>Data\DataStructure</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerType.h">
+      <Filter>Data\Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileType.h">
+      <Filter>Data\Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Entity\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneType.h">
+      <Filter>Data\Enum</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton.h">
+      <Filter>Entity\Creature\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="SkillCooldownUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UltimateUI.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Slime.h">
+      <Filter>Entity\Creature\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="SlimeSpike.h">
+      <Filter>Entity\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteUtil.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="HomeScene.h">
+      <Filter>Scene\InGameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Warrior.h">
+      <Filter>Entity\Creature\Player</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+    <None Include="Data\AnimationData.json">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="Data\MonsterData.json">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="Data\MonsterLevelData.json">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="Data\MonsterSpawnData.json">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="Data\PlayerData.json">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="Data\PlayerLevelData.json">
+      <Filter>Data</Filter>
+    </None>
+    <None Include="Save\SaveData.json">
+      <Filter>Data</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="UI">
+      <UniqueIdentifier>{7645d988-3a5b-4f6d-b8cc-470319547b23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity">
+      <UniqueIdentifier>{67dbcf3d-f6e4-46af-80c2-3e3419bf92ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Creature">
+      <UniqueIdentifier>{4f280396-a497-48d4-b8c0-10f5feb592cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Projectile">
+      <UniqueIdentifier>{af451ee5-aff2-435b-8d14-906b58e627d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Creature\Player">
+      <UniqueIdentifier>{e5b6a0fa-af95-43a8-9f96-7c914ac4f13c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entity\Creature\Monster">
+      <UniqueIdentifier>{8927ceec-6f7b-4846-bd50-223cebe41b12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{5f6f4cfc-096b-4850-a421-2a676ba4050e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Animation">
+      <UniqueIdentifier>{d18880d2-63ee-4a1d-a113-370e8c4999cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data">
+      <UniqueIdentifier>{80055c11-0cab-4526-9def-292771260a7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{59ceea39-1083-42e0-91a5-eff676d93090}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Camera">
+      <UniqueIdentifier>{93b0d678-4869-4114-acd1-8d4110669d0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{a029f47e-ae2d-4270-b3e5-4b88d924566b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\DataStructure">
+      <UniqueIdentifier>{479df6e5-8a70-446c-9470-67f2cce4f500}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Data\Enum">
+      <UniqueIdentifier>{c35cfc09-86f5-446c-b4ce-cea295961cd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Manager">
+      <UniqueIdentifier>{f967d41b-628c-4439-8af6-ea1f8343c4dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\InGameScene">
+      <UniqueIdentifier>{4a1ab275-3d66-46ab-938f-5b29c0896c82}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
